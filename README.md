@@ -29,6 +29,20 @@ Por el momento, todas las dependencias están en dependencies.txt.
 pip3 install -r requirements.txt
 ```
 
+### Crear el environment
+El archivo env tiene todos los datos que no deberían estar en el repo porque son privadas. Debe tener el nombre .env
+y el contenido de ejemplo es algo como:
+```bash
+DEBUGGING=True
+SECRET_KEY=secret-django-key
+USE_POSTGRESQL=False
+DATABASE_NAME=ISW
+DATABASE_USERNAME=postgres
+DATABASE_PASSWORD=postgres
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+```
+
 ### Migrate
 Migrar nos permite mover todos nuestros modelos de Django a tablas de nuestro motor de base de datos.
 ```bash

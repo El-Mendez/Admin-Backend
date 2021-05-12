@@ -1,4 +1,4 @@
-"""backend URL Configuration
+"""meeting URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
     https://docs.djangoproject.com/en/3.2/topics/http/urls/
@@ -14,12 +14,12 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
-from api.views import get_all_social_platforms
+from django.urls import path
+from rest_framework.authtoken import views
+from api.views import Logout
 
 urlpatterns = [
-    path('', get_all_social_platforms),
     path('admin/', admin.site.urls),
-    path('', include('users.urls')),
-    path('accounts/', include('django.contrib.auth.urls')),
+    path('login/', views.obtain_auth_token),
+    path('logout/', Logout.as_view()),
 ]

@@ -1,19 +1,11 @@
-from rest_framework import serializers, status
+from rest_framework import status
 from rest_framework.response import Response
-from django.http import JsonResponse
-from rest_framework.decorators import api_view
-from .models import SocialMediaPlatform
+from rest_framework.views import APIView
+from django.contrib.auth import logout
 
 
-@api_view(['GET'])
-def get_all_social_platforms(request):
-    platforms = SocialMediaPlatform.nodes.all()
-    response = []
-    for platform in platforms:
-        response.append({
-            "name": platform.name,
-            "url": platform.url,
-        })
-    # serializer = SocialMediaPlatformSerializer(platforms)
-    return JsonResponse(response, safe=False)
-
+class Logout(APIView):
+    def get(self, request, format=None):
+        request.user.auth_token.delete()
+        logout(request)
+        return Response(status=status.HTTP_200_OK)

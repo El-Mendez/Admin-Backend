@@ -9,8 +9,9 @@ development, pero ya fue probado con Postgresql y es funcional con ella.
 4. Crear un python venv
 5. Instalar requirements.txt
 6. Crear el environment
-7. Migrate
-8. Correr el api
+7. Crear los archivos estáticos
+8. Migrate
+9. Correr el api
 
 ### Detalles
 En la instalación se usará `python3` y `pip3` asumiendo que esto será deployado en una máquina Linux. Para el resto 
@@ -41,6 +42,13 @@ DATABASE_USERNAME=postgres
 DATABASE_PASSWORD=postgres
 DATABASE_HOST=localhost
 DATABASE_PORT=5432
+```
+
+### Crear archivos estáticos
+Ahora, si queremos correrlo probablemente no nos dará ningún error. Pero si vamos a la página del admin la veremos }
+fea sin CSS. Para ello, es necesario correr el siguiente comando:
+```bash
+python3 manage.py collectstatic
 ```
 
 ### Migrate

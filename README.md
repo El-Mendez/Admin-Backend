@@ -9,8 +9,9 @@ development, pero ya fue probado con Postgresql y es funcional con ella.
 4. Crear un python venv
 5. Instalar requirements.txt
 6. Crear el environment
-7. Migrate
-8. Correr el api
+7. Crear los archivos estáticos
+8. Migrate
+9. Correr el api
 
 ### Detalles
 En la instalación se usará `python3` y `pip3` asumiendo que esto será deployado en una máquina Linux. Para el resto 
@@ -19,14 +20,35 @@ de sistemas operativos solo es necesario usar `python` y `pip`.
 ### Virtual Environment
 El virtual environment de Python nos permite asegurarnos de que no hay una tercera dependencia que afecte cómo funciona el proyecto.
 ```bash
-python3 -m venv env
-source env/bin/activate  # On Windows use `env\Scripts\activate`
+python3 -m venv venv
+source venv/bin/activate  # On Windows use `env\Scripts\activate`
 ```
 
 ### Dependencias
 Por el momento, todas las dependencias están en dependencies.txt.
 ```bash
 pip3 install -r requirements.txt
+```
+
+### Crear el environment
+El archivo env tiene todos los datos que no deberían estar en el repo porque son privadas. Debe tener el nombre .env
+y el contenido de ejemplo es algo como:
+```bash
+DEBUGGING=True
+SECRET_KEY=secret-django-key
+USE_POSTGRESQL=False
+DATABASE_NAME=ISW
+DATABASE_USERNAME=postgres
+DATABASE_PASSWORD=postgres
+DATABASE_HOST=localhost
+DATABASE_PORT=5432
+```
+
+### Crear archivos estáticos
+Ahora, si queremos correrlo probablemente no nos dará ningún error. Pero si vamos a la página del admin la veremos }
+fea sin CSS. Para ello, es necesario correr el siguiente comando:
+```bash
+python3 manage.py collectstatic
 ```
 
 ### Migrate

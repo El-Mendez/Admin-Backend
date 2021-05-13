@@ -20,7 +20,7 @@ de sistemas operativos solo es necesario usar `python` y `pip`.
 El virtual environment de Python nos permite asegurarnos de que no hay una tercera dependencia que afecte cómo funciona el proyecto.
 ```bash
 python3 -m venv venv
-source env/bin/activate  # On Windows use `env\Scripts\activate`
+source venv/bin/activate  # On Windows use `env\Scripts\activate`
 ```
 
 ### Dependencias

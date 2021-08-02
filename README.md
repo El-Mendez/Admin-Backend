@@ -24,6 +24,7 @@ DATABASE_USERNAME=postgres
 DATABASE_PASSWORD=postgres
 DATABASE_HOST=localhost
 DATABASE_PORT=5432
+TOKEN_KEY=tu-clave-para-tokens
 ```
 
 ### 4. Correr el api
@@ -44,24 +45,24 @@ npm run start
 - nombre
 
 ### Sección
+- *id*
+- sección
 - curso_id: FK a Curso
-- usuario_id: FK a Usuario
-- número de sección
 
 ### Carrera
 - *id*
 - nombre
 
 ### Usuario
-- *id*
+- *carne*
 - nombre
 - apellido
 - carrera_id 
+- password
 
 ### Amistad
-- *id*
-- amigo1_id: FK a Usuario
-- amigo2_id: FK a Usuario
+- amigo1_carne: FK a Usuario
+- amigo2_carne: FK a Usuario
 
 ### Hobby
 - *id*
@@ -71,10 +72,7 @@ npm run start
 ### Plataforma Social
 - *id*
 - nombre
-- base_link: i.e. facebook.com
-- profile_link: i.e. facebook.com/{username}
 
 ### Red Social
-- *id*
 - plataforma_id: FK a plataforma social
-- usuario_id: FK al usuario que pertenece
+- usuario_carne: FK al usuario que pertenece

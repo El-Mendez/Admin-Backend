@@ -1,25 +1,21 @@
+require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const Security = require('./controllers/Security');
+const { freeRouter } = require('./routes/no-auth-needed');
+const { authRouter } = require('./routes/auth-needed');
 
 // Middlewares
 const app = express();
 app.use(express.json());
 app.use(cors());
+app.use(Security.antiSQLInjection);
 
-// Basic SQL injection security
-app.use((req, res, next) => {
-	const regex = /^((?!('"\$\\—)).)*$/;
-	if (regex.test(Object.values(req.body).join())) {
-	  next();
-	} else {
-		res.status(400).json({ error: 'Bad Request.' });
-	}
-});
+// Las rutas principales de la aplicación
+app.use('/free', freeRouter);
+app.use('/auth', authRouter);
 
-app.use((req, res) => {
-	res.status(404);
-	res.json({ error: 'Not found' });
-})
+// El error 404 por si elige algo que no se existe.
+app.use(Security.NotFound);
 
 app.listen(3000);
-console.log('Server on port 3000');

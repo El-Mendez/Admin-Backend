@@ -2,8 +2,8 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const Security = require('./controllers/Security');
-const { freeRouter } = require('./routes/no-auth-needed');
-const { authRouter } = require('./routes/auth-needed');
+const { freeRouter } = require('./routes/free');
+const { authRouter } = require('./routes/auth');
 
 // Middlewares
 const app = express();

@@ -1,24 +1,27 @@
 # Backend
-El proyecto utiliza un backend de Node y postgresql.
+El proyecto utiliza un backend de Node y postgresql. Si quieres leer la **[documentación](doc/README.md)**, puedes verlo 
+**[aquí](doc/README.md)**.
 
 ## Setup
-1. Instalar Postgresql (o SQLite) y Node
-2. npm install
-3. Conseguir el .env
-4. Correr el api
+1. Instalar Postgresql y Node
+2. Peparar la base de datos
+3. npm install
+4. Conseguir el .env
+5. Correr el api
 
+### 2. Preparar la base de datos
+Hasta el momento, solo es necesario correr setup.sql
 
-### 2. Dependencias
+### 3. Dependencias
 Al estar hecho en Node, podemos aprovecharnos de npm para usar todas las dependencias.
 ```bash
 npm install
 ```
 
-### 3. Conseguir el .env
+### 4. Conseguir el .env
 El archivo .env contiene las claves de la base de datos y todo. **No debe estar en el repositorio.**
 Puse el env oficial en el Discord, pero si quieren probar en su máquina local, la estructura es así:
 ```bash
-USE_POSTGRESQL=False
 DATABASE_NAME=ISW
 DATABASE_USERNAME=postgres
 DATABASE_PASSWORD=postgres
@@ -27,7 +30,7 @@ DATABASE_PORT=5432
 TOKEN_KEY=tu-clave-para-tokens
 ```
 
-### 4. Correr el api
+### 5. Correr el api
 Dependiendo del entorno donde lo estemos corriendo se utiliza:
 ```bash
 # En testing, una máquina local.

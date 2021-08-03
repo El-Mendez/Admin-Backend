@@ -1,5 +1,6 @@
 exports.antiSQLInjection = (req, res, next) => {
-  const regex = /^((?!('"\$\\—)).)*$/;
+  // FIXME esto no sirve
+  const regex = /^((?!('"\$\\—%;)).)*$/;
   if (regex.test(Object.values(req.body).join())) {
     next();
   } else {

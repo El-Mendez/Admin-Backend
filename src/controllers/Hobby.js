@@ -4,6 +4,6 @@ exports.findByName = async (req, res) => {
   const { nombre } = req.params;
 
   pool
-    .query('select * from carrera where nombre ilike $1;', [`%${nombre}%`])
+    .query('select * from hobby where nombre ilike $1;', [`%${nombre}%`])
     .then((response) => { res.json(response.rows); });
 };

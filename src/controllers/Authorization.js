@@ -33,29 +33,23 @@ exports.signUp = (req, res) => {
 
   pool
     .query('insert into usuario values ($1, $2, $3, $4, crypt($5, gen_salt(\'bf\')))', newUserData)
-    .catch(() => { res.sendStatus(403); })
     .then(() => {
       const token = jwt.sign({ carne: newUserData[0] }, CONSTANTS.tokenKey, { expiresIn: '1 day' });
       res.json({ token });
-    });
+    })
+    .catch(() => { res.sendStatus(403); });
 };
 
 exports.verifyAuth = (req, res, next) => {
   const authHeader = req.headers.authorization;
   const token = authHeader && authHeader.split(' ')[1];
 
-  if (token === null || token === undefined) {
-    // No mandó el token
-    res.sendStatus(401);
-    return;
-  }
+  if (token === null || token === undefined) { res.sendStatus(401); return; }
 
   jwt.verify(token, CONSTANTS.tokenKey, (error, values) => {
-    if (error) {
-      res.sendStatus(403);
-    } else {
-      req.carne = values.carne;
-      next();
-    }
+    if (error) { res.sendStatus(401); return; }
+
+    req.carne = values.carne;
+    next();
   });
 };

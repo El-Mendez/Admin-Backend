@@ -1,5 +1,6 @@
 const pool = require('../connection');
 const Parser = require('../parsers');
+const contains = require('../utils/contains');
 
 exports.findByName = async (req, res) => {
   const { nombre } = req.params;
@@ -10,4 +11,12 @@ exports.findByName = async (req, res) => {
             where c.nombre ilike $1 or c.id ilike $1
             order by c.id;`, [`%${nombre}%`])
     .then((response) => { res.json(Parser.CoursesAndSections(response.rows)); });
+};
+
+exports.assignSection = async (req, res) => {
+  const newAssignationData = [req.carne, req.body.seccionId];
+
+  if (contains(newAssignationData, undefined)) { res.sendStatus(400); return; }
+
+  res.json({ newAssignationData });
 };

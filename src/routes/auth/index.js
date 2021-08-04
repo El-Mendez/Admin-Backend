@@ -2,6 +2,7 @@ const { Router } = require('express');
 const Authorization = require('../../controllers/Authorization');
 const Testing = require('../../controllers/Testing');
 const CoursesAndSections = require('../../controllers/CoursesAndSections');
+const Hobby = require('../../controllers/Hobby');
 
 const authRouter = Router();
 
@@ -10,6 +11,9 @@ authRouter.use(Authorization.verifyAuth);
 
 // Rutas principales
 authRouter.get('/ping', Testing.ping);
-authRouter.get('/seccion', CoursesAndSections.assignSection);
+
+// Rutas para asignaciones de cosas
+authRouter.post('/seccion', CoursesAndSections.assignSection);
+authRouter.post('/hobby', Hobby.assignHobby);
 
 module.exports = { authRouter };

@@ -10,6 +10,8 @@ const freeRouter = Router();
 
 freeRouter.post('/login', Authorization.logIn);
 freeRouter.post('/signup', Authorization.signUp);
+
+// Búsqueda según el nombre
 freeRouter.get('/carrera/:nombre', Careers.findByName);
 freeRouter.get('/hobby/:nombre', Hobby.findByName);
 freeRouter.get('/curso/:nombre', CoursesAndSections.findByName);

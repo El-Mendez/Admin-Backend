@@ -63,3 +63,32 @@ curso o el código del curso. No tiene que estar completo e ignora mayúsculas.
 # Auth: Necesita estar loggeado.
 Para cualquier de estos request se necesita estar poner un JWT válido en el header `authorization` del request en 
 formato 'Bearer *token*'.
+
+### Ping
+Únicamente para intenciones de testing. Únicamente devuelve el mensaje pong.
+
+|    Ruta    | /auth/ping/    | Código de error | Significado                         |
+|:----------:|----------------|----------------:|-------------------------------------|
+|   Método   | GET            |             401 | Token vencido o no mandó token.     |
+| Parámetros |                |                 |                                     |
+| Devuelve   | `response`     |                 |                                     |
+
+### Asignarse a una sección
+Dado que una persona ya está loggeada, se puede colocar en el backend a que asiste una sección de un curso en 
+específico.
+
+|    Ruta    | /auth/seccion/ | Código de error | Significado                                              |
+|:----------:|----------------|----------------:|----------------------------------------------------------|
+|   Método   | POST           |             400 | No se pasaron todos los parámetros.                      |
+| Parámetros | `seccionId`    |             401 | Token vencido o no mandó token.                          |
+| Devuelve   |                |             403 | Ya estaba asignado a esa sección o no existe la sección. |
+
+### Asignarse a un Hobby
+Si una persona ya está loggeada, se puede asignar un hobby si conoce el código del hobby.
+
+|    Ruta    | /auth/hobby/ | Código de error | Significado                                          |
+|:----------:|--------------|----------------:|------------------------------------------------------|
+|   Método   | POST         |             400 | No se pasaron todos los parámetros.                  |
+| Parámetros | `hobbyId`    |             401 | Token vencido o no mandó token.                      |
+| Devuelve   |              |             403 | Ya estaba asignado a ese hobby o no existe el hobby. |
+

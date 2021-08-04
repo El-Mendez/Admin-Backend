@@ -8,6 +8,4 @@ exports.antiSQLInjection = (req, res, next) => {
   }
 };
 
-exports.NotFound = (req, res) => {
-  res.sendStatus(404);
-};
+exports.NotFound = (req, res) => { res.sendStatus(404); };

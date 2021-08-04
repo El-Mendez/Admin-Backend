@@ -39,6 +39,26 @@ del nombre. **El atributo *nombre* va en la ruta del query, no en el body.** De 
 | Parámetros | `nombre*`                |
 | Devuelve   | [`id`, `nombre`]         |
 
+### Buscar un Hobby por el nombre
+Al igual que el anterior, el parámetro nombre tiene que ir en la URL de búsqueda. Esto es para garantizar un método 
+GET que tiene parámetros.
+
+|    Ruta    | /free/hobby/:nombre             |
+|:----------:|---------------------------------|
+|   Método   | GET                             |
+| Parámetros | `nombre*`                       |
+| Devuelve   | [`id`, `nombre`, `description`] |
+
+### Buscar un curso por el nombre
+Este query te devuelve la lista de cursos con sus secciones respectivas. Como parámetro de nombre acepta el nombre del 
+curso o el código del curso. No tiene que estar completo e ignora mayúsculas.
+
+|    Ruta    | /free/curso/:nombre                                               |
+|:----------:|-------------------------------------------------------------------|
+|   Método   | GET                                                               |
+| Parámetros | `nombre`*                                                         |
+| Devuelve   | [`cursoId`, `cursoNombre`, `secciones: [seccion, seccionId]`]     |
+
 
 # Auth: Necesita estar loggeado.
 Para cualquier de estos request se necesita estar poner un JWT válido en el header `authorization` del request en 

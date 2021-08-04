@@ -70,7 +70,7 @@ formato 'Bearer *token*'.
 |    Ruta    | /auth/ping/    | Código de error | Significado                         |
 |:----------:|----------------|----------------:|-------------------------------------|
 |   Método   | GET            |             401 | Token vencido o no mandó token.     |
-| Parámetros |                |                 | Token vencido o no mandó token.     |
+| Parámetros |                |                 |                                     |
 | Devuelve   | `response`     |                 |                                     |
 
 ### Asignarse a una sección

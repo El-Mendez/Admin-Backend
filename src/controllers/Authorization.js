@@ -35,7 +35,7 @@ exports.signUp = (req, res) => {
     .query('insert into usuario values ($1, $2, $3, $4, crypt($5, gen_salt(\'bf\')))', newUserData)
     .then(() => {
       const token = jwt.sign({ carne: newUserData[0] }, CONSTANTS.tokenKey, { expiresIn: '1 day' });
-      res.json({ token });
+      res.status(201).json({ token });
     })
     .catch(() => { res.sendStatus(403); });
 };

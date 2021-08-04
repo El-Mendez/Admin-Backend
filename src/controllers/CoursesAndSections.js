@@ -14,9 +14,12 @@ exports.findByName = async (req, res) => {
 };
 
 exports.assignSection = async (req, res) => {
-  const newAssignationData = [req.carne, req.body.seccionId];
+  const newAssignationData = [req.body.seccionId, req.carne];
 
   if (contains(newAssignationData, undefined)) { res.sendStatus(400); return; }
 
-  res.json({ newAssignationData });
+  pool
+    .query('insert into asiste_seccion values ($1, $2)', newAssignationData)
+    .then(() => { res.sendStatus(201); })
+    .catch(() => { res.sendStatus(403); });
 };

@@ -3,10 +3,15 @@ const contains = require('../utils/contains');
 
 exports.findByName = async (req, res) => {
   const { nombre } = req.params;
-
-  pool
-    .query('select * from hobby where nombre ilike $1;', [`%${nombre}%`])
-    .then((response) => { res.json(response.rows); });
+  if (nombre) {
+    pool
+      .query('select * from hobby where nombre ilike $1;', [`%${nombre}%`])
+      .then((response) => { res.json(response.rows); });
+  } else {
+    pool
+      .query('select * from hobby;')
+      .then((response) => { res.json(response.rows); });
+  }
 };
 
 exports.assignHobby = async (req, res) => {

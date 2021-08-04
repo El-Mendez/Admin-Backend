@@ -36,7 +36,7 @@ del nombre. **El atributo *nombre* va en la ruta del query, no en el body.** De 
 |    Ruta    | /free/carrera/:nombre    |
 |:----------:|--------------------------|
 |   Método   | GET                      |
-| Parámetros | `nombre*`                |
+| Parámetros | `nombre*` (opcional)     |
 | Devuelve   | [`id`, `nombre`]         |
 
 ### Buscar un Hobby por el nombre
@@ -46,7 +46,7 @@ GET que tiene parámetros.
 |    Ruta    | /free/hobby/:nombre             |
 |:----------:|---------------------------------|
 |   Método   | GET                             |
-| Parámetros | `nombre*`                       |
+| Parámetros | `nombre*` (opcional)            |
 | Devuelve   | [`id`, `nombre`, `description`] |
 
 ### Buscar un curso por el nombre
@@ -56,7 +56,7 @@ curso o el código del curso. No tiene que estar completo e ignora mayúsculas.
 |    Ruta    | /free/curso/:nombre                                               |
 |:----------:|-------------------------------------------------------------------|
 |   Método   | GET                                                               |
-| Parámetros | `nombre`*                                                         |
+| Parámetros | `nombre*` (opcional)                                              |
 | Devuelve   | [`cursoId`, `cursoNombre`, `secciones: [seccion, seccionId]`]     |
 
 

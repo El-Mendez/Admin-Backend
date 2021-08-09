@@ -14,6 +14,7 @@ authRouter.get('/ping', Testing.ping);
 
 // Rutas para asignaciones de cosas
 authRouter.post('/seccion', CoursesAndSections.assignSection);
+authRouter.get('/seccion', CoursesAndSections.checkAssigned);
 authRouter.post('/hobby', Hobby.assignHobby);
 
 module.exports = { authRouter };

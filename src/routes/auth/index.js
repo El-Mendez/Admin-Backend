@@ -21,4 +21,7 @@ authRouter.post('/hobby', Hobby.assignHobby);
 // Rutas para las recomendaciones
 authRouter.get('/suggestions/courses', Suggestions.bySections);
 
+// Para el resto
+authRouter.post('/password', Authorization.changePassword);
+
 module.exports = { authRouter };

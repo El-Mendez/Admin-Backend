@@ -41,7 +41,7 @@ npm run start
 ```
 
 ## Schema de la base de datos
-![Schema](Schema.png)
+![Schema](doc/Schema.png)
 ---
 ### Curso
 - *id*

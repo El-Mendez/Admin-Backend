@@ -22,12 +22,31 @@ exports.findByName = async (req, res) => {
 };
 
 exports.assignSection = async (req, res) => {
-  const newAssignationData = [req.body.seccionId, req.carne];
+  const { carne } = req;
+  const { seccionesId } = req.body;
 
-  if (contains(newAssignationData, undefined)) { res.sendStatus(400); return; }
+  if (contains([...seccionesId, carne], undefined) || seccionesId.length < 1) {
+    res.sendStatus(400);
+    return;
+  }
 
+  try {
+    for (let i = 0; i < seccionesId.length; i++) {
+      await pool.query('insert into asiste_seccion values ($1, $2)', [seccionesId[i], carne]);
+    }
+    res.sendStatus(201);
+  } catch (e) {
+    res.sendStatus(403);
+  }
+};
+
+exports.checkAssigned = async (req, res) => {
   pool
-    .query('insert into asiste_seccion values ($1, $2)', newAssignationData)
-    .then(() => { res.sendStatus(201); })
-    .catch(() => { res.sendStatus(403); });
+    .query(`select c.id as curso_id, c.nombre as curso_nombre, s.id as seccion_id, s.seccion as seccion
+        from curso c inner join seccion s on c.id = s.curso_id
+        inner join asiste_seccion a on a.seccion_id = s.id
+        where a.usuario_carne = $1;`, [req.carne])
+    .then((response) => {
+      res.json(Parser.CoursesAndSections(response.rows));
+    });
 };

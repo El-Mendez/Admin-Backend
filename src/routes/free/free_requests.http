@@ -1,0 +1,33 @@
+#### PONG
+GET {{host}}/auth/ping
+Authorization: Bearer {{token}}
+
+#### LOGIN
+POST {{host}}/free/login
+Content-Type: application/json
+
+{
+  "carne": "{{carne}}",
+  "password": "{{password}}"
+}
+
+#### SIGN UP
+POST {{host}}/free/signup
+Content-Type: application/json
+
+{
+  "carne": "{{carne}}",
+  "nombre": "Pepe",
+  "apellido": "Mario",
+  "carreraId": "1",
+  "password": "{{password}}"
+}
+
+#### GET HOBBIES BY NAME
+GET {{host}}/free/hobby/leer
+
+#### GET CURSOS BY NAME
+GET {{host}}/free/curso/compu
+
+#### GET CARRERA BY NOMBRE
+GET {{host}}/free/carrera/compu

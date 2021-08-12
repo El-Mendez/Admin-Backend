@@ -1,0 +1,25 @@
+#### PONG
+GET {{host}}/auth/ping
+Authorization: Bearer {{token}}
+
+#### ASIGNARSE SECCIÓN
+POST {{host}}/auth/seccion
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "seccionesId": ["1", "2"]
+}
+
+#### SECCIONES ASIGNADAS
+GET {{host}}/auth/seccion
+Authorization: Bearer {{token}}
+
+#### ASIGNARSE HOBBIES
+POST {{host}}/auth/hobby
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "hobbyId": "1"
+}

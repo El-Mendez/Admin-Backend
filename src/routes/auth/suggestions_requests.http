@@ -1,0 +1,6 @@
+#### BY COMMON SECTIONS
+GET {{host}}/auth/suggestions/courses
+Authorization: Bearer {{token}}
+Accept: application/json
+
+###

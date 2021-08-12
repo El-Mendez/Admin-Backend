@@ -13,6 +13,9 @@ media
 .env
 env
 
+# Para el testing
+*.private.env.json
+
 # If you are using Webstorm #
 .idea
 .idea/

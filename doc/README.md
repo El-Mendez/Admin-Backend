@@ -25,7 +25,7 @@ Permite crear una cuenta.
 |    Ruta    | /free/signup                                            | Código de error | Significado                         |
 |:----------:|---------------------------------------------------------|----------------:|-------------------------------------|
 |   Método   | POST                                                    |             400 | No se pasaron todos los parámetros. |
-| Parámetros | `carne`, `nombre`, `apellido`, `carreraId`, `password`  |             403 | Correo ya utilizado.                |
+| Parámetros | `carne`, `nombre`, `apellido`, `carreraId`, `password`  |             403 | Carné ya utilizado.                 |
 | Devuelve   | `token`                                                 |                 |                                     |
 
 ### Buscar una Carrera por el nombre
@@ -73,7 +73,7 @@ formato 'Bearer *token*'.
 | Parámetros |                |                 |                                     |
 | Devuelve   | `response`     |                 |                                     |
 
-### Asignarse a una sección
+### Asignarse a una sección o más
 Dado que una persona ya está loggeada, se puede colocar en el backend a que asiste una sección de un curso en 
 específico.
 
@@ -101,3 +101,18 @@ Devuelve todos los cursos asignados por el estudiante.
 |   Método   | GET                                                               |             401 | Token vencido o no mandó token.                      |
 | Parámetros |                                                                   |             403 | Ya estaba asignado a ese hobby o no existe el hobby. |
 | Devuelve   | [`cursoId`, `cursoNombre`, `secciones: [seccion, seccionId]`]     |                 |                                                      |
+
+
+## Recomendaciones
+Realmente son exactamente idénticas al auth, pero lo puse separado porque realmente nuestro proyecto está basado en 
+esto.
+
+### Según secciones en común
+Cuenta la cantidad de cursos que se tienen en común y devuelve un máximo de las 10 personas que tienen más secciones en 
+común.
+
+|    Ruta    | /auth/suggestions/courses                | Código de error | Significado                     |
+|:----------:|------------------------------------------|----------------:|---------------------------------|
+|   Método   | GET                                      |             401 | Token Vencido o no mandó token. |
+| Parámetros |                                          |                 |                                 |
+| Devuelve   | [`carne`, `nombre`, `apellido`, `count`] |                 |                                 |

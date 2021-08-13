@@ -15,7 +15,7 @@ module.exports = {
   company: process.env.COMPANY_NAME,
   companyLogo: process.env.COMPANY_LOGO,
   companyLink: process.env.COMPANY_LINK,
-  changePasswordLink: process.env.CHANGE_PASSWORD_LINK,
+  recoverPasswordLink: process.env.RECOVER_PASSWORD_LINK,
   confirmAccountLink: process.env.CONFIRM_ACCOUNT_LINK,
 
   // tokens para los jwt

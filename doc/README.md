@@ -10,6 +10,15 @@ es una lista.**
 ## Free: Cualquiera puede ver
 Todos los request de esta sección deben de estar precedidos por un /free.
 
+### Ping
+Únicamente para intenciones de testing. Únicamente devuelve el mensaje pong.
+
+|    Ruta    | /auth/ping/    |
+|:----------:|----------------|
+|   Método   | GET            |
+| Parámetros |                |
+| Devuelve   | `response`     |
+
 ### Login
 Es la clásica función para el login. Devuelve un JSON Web Token (JWT) que expira en un día. 
 El token es necesario para poder usar todas las funciones de auth.

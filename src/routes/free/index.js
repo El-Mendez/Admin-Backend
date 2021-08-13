@@ -1,13 +1,13 @@
-// Aquí van todas las rutas necesitan estar loggeados para verlas.
-
 const { Router } = require('express');
 const Authorization = require('../../controllers/Authorization');
 const Careers = require('../../controllers/Career');
 const Hobby = require('../../controllers/Hobby');
 const CoursesAndSections = require('../../controllers/CoursesAndSections');
+const Testing = require('../../controllers/Testing');
 
 const freeRouter = Router();
 
+freeRouter.get('/ping', Testing.ping);
 freeRouter.post('/login', Authorization.logIn);
 freeRouter.post('/signup', Authorization.signUp);
 

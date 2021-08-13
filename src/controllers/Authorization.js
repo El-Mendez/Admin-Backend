@@ -2,6 +2,7 @@ const jwt = require('jsonwebtoken');
 const CONSTANTS = require('../CONSTANTS');
 const pool = require('../connection');
 const contains = require('../utils/contains');
+const verifyTokenHeader = require('../utils/verifyTokenHeader');
 
 exports.logIn = async (req, res) => {
   const userData = [req.body.carne, req.body.password];
@@ -15,7 +16,7 @@ exports.logIn = async (req, res) => {
       if (!response.rows[0].logged) { res.sendStatus(403); return; }
 
       // Si logró iniciar sesión
-      const token = jwt.sign({ carne: userData[0] }, CONSTANTS.tokenKey, { expiresIn: '1 day' });
+      const token = jwt.sign({ carne: userData[0] }, CONSTANTS.authTokenKey, { expiresIn: '1 day' });
       res.json({ token });
     });
 };
@@ -34,24 +35,17 @@ exports.signUp = (req, res) => {
   pool
     .query('insert into usuario values ($1, $2, $3, $4, crypt($5, gen_salt(\'bf\')))', newUserData)
     .then(() => {
-      const token = jwt.sign({ carne: newUserData[0] }, CONSTANTS.tokenKey, { expiresIn: '1 day' });
+      const token = jwt.sign({ carne: newUserData[0] }, CONSTANTS.authTokenKey, { expiresIn: '1 day' });
       res.status(201).json({ token });
     })
     .catch(() => { res.sendStatus(403); });
 };
 
 exports.verifyAuth = (req, res, next) => {
-  const authHeader = req.headers.authorization;
-  const token = authHeader && authHeader.split(' ')[1];
-
-  if (token === null || token === undefined) { res.sendStatus(401); return; }
-
-  jwt.verify(token, CONSTANTS.tokenKey, (error, values) => {
-    if (error) { res.sendStatus(401); return; }
-
-    req.carne = values.carne;
-    next();
-  });
+  const values = verifyTokenHeader(req.headers.authorization, CONSTANTS.authTokenKey);
+  if (values === null) { res.sendStatus(401); return; }
+  req.carne = values.carne;
+  next();
 };
 
 exports.changePassword = async (req, res) => {

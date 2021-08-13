@@ -1,3 +1,1 @@
-module.exports = (lista, elementContained) => {
-  return lista.includes(elementContained);
-};
+module.exports = (lista, elementContained) => lista.includes(elementContained);

@@ -20,14 +20,31 @@ npm install
 
 ### 4. Conseguir el .env
 El archivo .env contiene las claves de la base de datos y todo. **No debe estar en el repositorio.**
-Puse el env oficial en el Discord, pero si quieren probar en su máquina local, la estructura es así:
+Puedes sustituir los datos con los que desees, no necesariamente los del servidor. Su estructura es así:
 ```bash
-DATABASE_NAME=ISW
+# Para la base de datos
+DATABASE_HOST=localhost
 DATABASE_USERNAME=postgres
 DATABASE_PASSWORD=postgres
-DATABASE_HOST=localhost
-DATABASE_PORT=5432
-TOKEN_KEY=tu-clave-para-tokens
+DATABASE_NAME=postgres
+
+# Para enviar correos
+EMAIL=ejemplo@gmail.com
+EMAIL_PASSWORD=password
+EMAIL_SERVICE=gmail
+RECEIVER_EMAIL_DOMAIN=@gmail.com
+
+# Links y otros
+COMPANY_NAME=Meeting
+COMPANY_LOGO=link
+COMPANY_LINK=link
+RECOVER_PASSWORD_LINK=link
+CONFIRM_ACCOUNT_LINK=link
+
+# Tokens para jwt
+AUTH_TOKEN_KEY=token
+RESET_PASSWORD_TOKEN_KEY=token
+VERIFY_ACCOUNT_TOKEN_KEY=token
 ```
 
 ### 5. Correr el api

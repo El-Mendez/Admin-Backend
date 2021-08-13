@@ -92,7 +92,6 @@ Si una persona ya está loggeada, se puede asignar un hobby si conoce el código
 | Parámetros | `hobbyId`    |             401 | Token vencido o no mandó token.                      |
 | Devuelve   |              |             403 | Ya estaba asignado a ese hobby o no existe el hobby. |
 
-
 ### Ver cursos asignados
 Devuelve todos los cursos asignados por el estudiante.
 
@@ -102,6 +101,14 @@ Devuelve todos los cursos asignados por el estudiante.
 | Parámetros |                                                                   |             403 | Ya estaba asignado a ese hobby o no existe el hobby. |
 | Devuelve   | [`cursoId`, `cursoNombre`, `secciones: [seccion, seccionId]`]     |                 |                                                      |
 
+### Cambiar Contraseña
+Para cambiar la contraseña, se necesita tener un token de autorización y también la contraseña anterior.
+
+|    Ruta    | /auth/password               | Código de error | Significado                     |
+|:----------:|------------------------------|----------------:|---------------------------------|
+|   Método   | POST                         |             400 | No mandó todos los parámetros.  |
+| Parámetros | `newPassword`, `oldPassword` |             401 | Token Vencido o no mandó token. |
+| Devuelve   |                              |             403 | Contraseña antigua incorrecta.  |
 
 ## Recomendaciones
 Realmente son exactamente idénticas al auth, pero lo puse separado porque realmente nuestro proyecto está basado en 

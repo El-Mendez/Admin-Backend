@@ -53,3 +53,18 @@ exports.verifyAuth = (req, res, next) => {
     next();
   });
 };
+
+exports.changePassword = async (req, res) => {
+  const parameters = [req.carne, req.body.newPassword, req.body.oldPassword];
+
+  if (contains(parameters, undefined)) { res.sendStatus(400); return; }
+
+  pool
+    .query(`
+        update usuario set password = crypt($2, gen_salt('bf')) 
+        where carne = $1 and password = crypt($3, password);`, parameters)
+    .then((rows) => {
+      if (rows.rowCount === 0) { res.sendStatus(403); return; }
+      res.sendStatus(201);
+    });
+};

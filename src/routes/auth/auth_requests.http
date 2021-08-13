@@ -2,6 +2,16 @@
 GET {{host}}/auth/ping
 Authorization: Bearer {{token}}
 
+#### CAMBIAR CONTRASEÑA
+POST {{host}}/auth/password
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "newPassword": "{{password}}",
+  "oldPassword": "{{password}}"
+}
+
 #### ASIGNARSE SECCIÓN
 POST {{host}}/auth/seccion
 Authorization: Bearer {{token}}

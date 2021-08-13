@@ -1,0 +1,16 @@
+#### PETICIÓN DE RESETEAR LA CONTRASEÑA
+POST {{host}}/request/passwordReset
+Content-Type: application/json
+
+{
+  "carne": "{{carne}}"
+}
+
+#### ACEPTAR PETICIÓN PARA RESETEAR LA CONTRASEÑA
+POST {{host}}/request/acceptPasswordReset
+Content-Type: application/json
+Authorization: Bearer 'ingresa tu token aquí'
+
+{
+  "newPassword": "{{password}}"
+}

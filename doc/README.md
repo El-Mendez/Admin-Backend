@@ -2,6 +2,7 @@
 El API cuenta con dos rutas principales.
 - **Free**: No necesita estar loggeado.
 - **Auth**: Debe de estar loggeado para funcionar
+- **Request:** Son para cosas especiales. Necesitan de tokens que serán enviados por correo.
 
 **Algo importante de mencionar, es la diferencia entre Devuelve `algo` y [`algo`]. Una es solo un valor y la segunda 
 es una lista.**
@@ -123,3 +124,28 @@ común.
 |   Método   | GET                                      |             401 | Token Vencido o no mandó token. |
 | Parámetros |                                          |                 |                                 |
 | Devuelve   | [`carne`, `nombre`, `apellido`, `count`] |                 |                                 |
+
+
+
+
+
+
+# Request: Especiales por correo
+Aquí van las request que realmente necesitan o generan tokens no regulares.
+
+### Generar un request de resetear contraseña
+Este request no devuelve nada en sí, pero enviará un correo donde se enviará un link con el código para
+aceptar el cambio de contraseña. El link se vence en 15 minutos. La cuenta será enviada al correo de la persona con 
+el carné y si no existe no hará nada.
+
+|    Ruta    | /request/passwordReset | Código de error | Significado                    |
+|:----------:|------------------------|----------------:|--------------------------------|
+|   Método   | POST                   |             400 | No mandó todos los parámetros. |
+| Parámetros | `carne`                |                 |                                |
+| Devuelve   |                        |                 |                                |
+
+
+### Aceptar un request de resetear contraseña
+Este request reinicia la contraseña del usuario. Necesita de un Header Authorization con un token que se vence en 15 
+minutos.
+

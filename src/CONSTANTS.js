@@ -7,8 +7,9 @@ module.exports = {
 
   // Para los correos
   email: process.env.EMAIL,
-  emailPassword: process.env.EMAIL_PASSWORD,
-  emailService: process.env.EMAIL_SERVICE,
+  emailClientId: process.env.EMAIL_CLIENT_ID,
+  emailClientSecret: process.env.EMAIL_CLIENT_SECRET,
+  emailRefreshToken: process.env.EMAIL_REFRESH_TOKEN,
   receiverDomain: process.env.RECEIVER_EMAIL_DOMAIN,
 
   // Links y otros

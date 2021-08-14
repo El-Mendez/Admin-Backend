@@ -30,8 +30,9 @@ DATABASE_NAME=postgres
 
 # Para enviar correos
 EMAIL=ejemplo@gmail.com
-EMAIL_PASSWORD=password
-EMAIL_SERVICE=gmail
+EMAIL_CLIENT_ID=token
+EMAIL_CLIENT_SECRET=token
+EMAIL_REFRESH_TOKEN=token
 RECEIVER_EMAIL_DOMAIN=@gmail.com
 
 # Links y otros

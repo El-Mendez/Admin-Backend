@@ -9,8 +9,15 @@ const mailGenerator = new Mailgen({
 });
 
 const transporter = nodemailer.createTransport({
-  service: CONSTANTS.emailService,
-  auth: { user: CONSTANTS.email, pass: CONSTANTS.emailPassword },
+  service: 'gmail',
+  // logger: true,
+  auth: {
+    type: 'oauth2',
+    user: CONSTANTS.email,
+    clientId: CONSTANTS.emailClientId,
+    clientSecret: CONSTANTS.emailClientSecret,
+    refreshToken: CONSTANTS.emailRefreshToken,
+  },
 });
 
 const recoveryPasswordHTML = (receiverName, token) => {

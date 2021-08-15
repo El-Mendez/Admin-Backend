@@ -1,9 +1,9 @@
-const { Router } = require('express');
-const Authorization = require('../../controllers/Authorization');
-const Testing = require('../../controllers/Testing');
-const CoursesAndSections = require('../../controllers/CoursesAndSections');
-const Hobby = require('../../controllers/Hobby');
-const Suggestions = require('../../controllers/Suggestions');
+import { Router } from "express";
+import * as Authorization from '../../controllers/Authorization';
+import * as Testing from '../../controllers/Testing';
+import * as CoursesAndSections from '../../controllers/CoursesAndSections';
+import * as Hobby from '../../controllers/Hobby';
+import * as Suggestions from '../../controllers/Suggestions';
 
 const authRouter = Router();
 

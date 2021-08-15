@@ -1,7 +1,13 @@
-const pool = require('../connection');
+import connection from "../connection";
+import { Request, Response } from "express";
+import toInt from "../utils/toInt";
+import { isValid } from "../utils/areValid";
 
-exports.bySections = async (req, res) => {
-  pool
+export const bySections = (req: Request, res: Response): void => {
+  const carne = toInt(req.carne);
+  if (!isValid(carne)) { res.sendStatus(500); return; }
+
+  connection
     .query(`
       select u.carne, u.apellido, u.nombre, count(*) as count
       from asiste_seccion pool
@@ -10,6 +16,6 @@ exports.bySections = async (req, res) => {
       where pool.usuario_carne = $1
       group by u.carne
       order by count(*) desc
-      limit 10;`, [req.carne])
+      limit 10;`, [carne])
     .then((response) => { res.json(response.rows); });
 };

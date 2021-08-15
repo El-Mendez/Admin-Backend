@@ -1,10 +1,10 @@
-const { Router } = require('express');
-const Requests = require('../../controllers/Requests');
+import { Router } from 'express';
+import * as Requests from '../../controllers/Requests';
 
-const requestRouter = Router();
+export const requestRouter = Router();
 
 // Para resetear la contraseña
 requestRouter.post('/passwordReset', Requests.resetPasswordRequest);
 requestRouter.post('/acceptPasswordReset', Requests.acceptPasswordReset);
 
-module.exports = { requestRouter };
+export default requestRouter;

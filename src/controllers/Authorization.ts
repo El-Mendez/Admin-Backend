@@ -1,12 +1,12 @@
-import jwt from 'jsonwebtoken'
-import { Request, Response, NextFunction } from "express";
-import { AUTH_TOKEN_KEY } from "../constants";
-import connection from "../connection";
-import verifyTokenHeader from "../utils/verifyTokenHeader";
-import areValid, {isValid} from "../utils/areValid";
-import toInt from "../utils/toInt";
-import toNonEmptyString from "../utils/toNonEmptyString";
-import toString from "../utils/toString";
+import jwt from 'jsonwebtoken';
+import { Request, Response, NextFunction } from 'express';
+import { AUTH_TOKEN_KEY } from '../constants';
+import connection from '../connection';
+import verifyTokenHeader from '../utils/verifyTokenHeader';
+import areValid from "../utils/areValid";
+import toInt from '../utils/toInt';
+import toNonEmptyString from '../utils/toNonEmptyString';
+import toString from '../utils/toString';
 
 export const logIn = (req: Request, res: Response): void => {
   const userData: [number, string | null] = [toInt(req.body.carne), toString(req.body.password)];

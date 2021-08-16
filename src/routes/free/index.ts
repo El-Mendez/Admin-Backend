@@ -3,6 +3,7 @@ import * as Testing from '../../controllers/Testing';
 import * as Authorization from '../../controllers/Authorization';
 import * as Hobby from '../../controllers/Hobby';
 import * as Careers from '../../controllers/Career';
+import * as CoursesAndSections from '../../controllers/CoursesAndSections'
 
 export const freeRouter = Router();
 
@@ -16,6 +17,6 @@ freeRouter.post('/signup', Authorization.signUp);
 // Búsqueda según el nombre
 freeRouter.get('/carrera/:nombre?', Careers.findByName);
 freeRouter.get('/hobby/:nombre?', Hobby.findByName);
-// freeRouter.get('/curso/:nombre?', CoursesAndSections.findByName);
+freeRouter.get('/curso/:nombre?', CoursesAndSections.findByName);
 
 export default freeRouter;

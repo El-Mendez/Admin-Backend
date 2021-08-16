@@ -9,7 +9,7 @@ Content-Type: application/json
 #### ACEPTAR PETICIÓN PARA RESETEAR LA CONTRASEÑA
 POST {{host}}/request/acceptPasswordReset
 Content-Type: application/json
-Authorization: Bearer 'ingresa tu token aquí'
+Authorization: Bearer {{token}}
 
 {
   "newPassword": "{{password}}"

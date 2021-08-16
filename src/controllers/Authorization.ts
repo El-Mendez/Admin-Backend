@@ -55,7 +55,7 @@ export const verifyAuth = (req: Request, res: Response, next: NextFunction): voi
 export const changePassword = (req: Request, res: Response): void => {
   const parameters = [toInt(req.carne), toNonEmptyString(req.body.newPassword), toString(req.body.oldPassword)];
 
-  if (areValid(parameters)) { res.sendStatus(400); return; }
+  if (!areValid(parameters)) { res.sendStatus(400); return; }
 
   connection
     .query(`

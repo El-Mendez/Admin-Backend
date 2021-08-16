@@ -1,8 +1,8 @@
 import { Request, Response } from "express";
 import connection from "../connection";
-import areValid, {isValid} from "../utils/areValid";
 import toNonEmptyString from "../utils/toNonEmptyString";
 import toInt from "../utils/toInt";
+import { isValid } from "../utils/areValid";
 
 export const findByName = (req: Request, res: Response): void => {
   const nombre = toNonEmptyString(req.params.nombre);
@@ -21,7 +21,7 @@ export const assignHobby = (req: Request, res: Response): void => {
   const carne = toInt(req.carne);
   if (!isValid(carne)) { res.sendStatus(500); return; }
 
-  const hobbyId = toInt(req.carne)
+  const hobbyId = toInt(req.body.hobbyId)
   if (!isValid(hobbyId)) { res.sendStatus(400); return; }
 
   connection

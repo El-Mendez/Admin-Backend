@@ -5,7 +5,7 @@ import * as CoursesAndSections from '../../controllers/CoursesAndSections';
 import * as Hobby from '../../controllers/Hobby';
 import * as Suggestions from '../../controllers/Suggestions';
 
-const authRouter = Router();
+export const authRouter = Router();
 
 // Middleware para asegurarme que estoy loggeado y conseguir el carnet.
 authRouter.use(Authorization.verifyAuth);
@@ -24,4 +24,4 @@ authRouter.get('/suggestions/courses', Suggestions.bySections);
 // Para el resto
 authRouter.post('/password', Authorization.changePassword);
 
-module.exports = { authRouter };
+export default authRouter;

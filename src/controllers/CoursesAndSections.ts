@@ -1,10 +1,9 @@
 import { Request, Response } from "express";
 import connection from "../connection";
-import toString from "../utils/toString";
 import areValid, {isValid} from "../utils/areValid";
 import toInt from "../utils/toInt";
 import toNonEmptyString from "../utils/toNonEmptyString";
-// const Parser = require('../parsers');
+import * as Parser from '../parsers'
 
 
 export const findByName = (req: Request, res: Response): void => {
@@ -15,18 +14,14 @@ export const findByName = (req: Request, res: Response): void => {
       .query(`select c.id as curso_id, c.nombre as curso_nombre, s.id as seccion_id, s.seccion as seccion
             from curso c inner join seccion s on c.id = s.curso_id
             where c.nombre ilike $1 or c.id ilike $1
-            order by c.id;`, ['%' + nombre +' %'])
-      .then((response) => { res.json(response.rows); });
-      // TODO parser
-      // .then((response) => { res.json(Parser.CoursesAndSections(response.rows)); });
+            order by c.id;`, ['%' + nombre +'%'])
+      .then((response) => { console.log(nombre); res.json(Parser.CoursesAndSections(response.rows)); })
   } else {
     connection
       .query(`select c.id as curso_id, c.nombre as curso_nombre, s.id as seccion_id, s.seccion as seccion
             from curso c inner join seccion s on c.id = s.curso_id
             order by c.id;`)
-      .then((response) => { res.json(response.rows); });
-      // TODO parser
-      // .then((response) => { res.json(Parser.CoursesAndSections(response.rows)); });
+      .then((response) => { res.json(Parser.CoursesAndSections(response.rows)); });
   }
 };
 
@@ -59,8 +54,6 @@ export const checkAssigned = async (req: Request, res: Response) => {
         inner join asiste_seccion a on a.seccion_id = s.id
         where a.usuario_carne = $1;`, [req.carne])
     .then((response) => {
-      res.json(response.rows);
-      // TODO PARSER
-      // res.json(Parser.CoursesAndSections(response.rows));
+      res.json(Parser.CoursesAndSections(response.rows));
     });
 };

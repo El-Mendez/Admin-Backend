@@ -31,7 +31,7 @@ export const resetPasswordRequest = (req: Request, res: Response): void => {
 
 export const acceptPasswordReset = (req: Request, res: Response): void => {
   const carne = verifyTokenHeader(RESET_PASSWORD_TOKEN_KEY, req.headers.authorization);
-  if (carne == null) { res.sendStatus(500); return; }
+  if (carne == null) { res.sendStatus(401); return; }
 
   const newPassword = toNonEmptyString(req.body.newPassword);
   if (!isValid(newPassword)) { res.sendStatus(400); return; }

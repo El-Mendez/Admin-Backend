@@ -3,7 +3,7 @@ import { Request, Response } from "express";
 import toNonEmptyString from "../utils/toNonEmptyString";
 
 export const findByName = (req: Request, res: Response): void => {
-  const nombre = toNonEmptyString(req.params);
+  const nombre = toNonEmptyString(req.params.nombre);
   if (nombre) {
     connection
       .query('select * from carrera where nombre ilike $1;', ['%' + nombre + '%'])

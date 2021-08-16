@@ -9,11 +9,9 @@ export default function verifyTokenHeader(tokenKey: string, tokenHeader: string 
 
   try {
     const value = jwt.verify(token, tokenKey);
-    if (typeof value === 'string') {
-      return null
+    if (typeof value !== 'string' && Number.isFinite(value.carne)) {
+       return value.carne
     }
-    return value.carne? value.carne: null
-  } catch (e) {
-    return null;
-  }
+  } catch (e) { }
+  return null;
 }

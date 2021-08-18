@@ -1,19 +1,22 @@
-const pool = require('../connection');
-const Parser = require('../parsers');
-const contains = require('../utils/contains');
+import { Request, Response } from "express";
+import connection from "../services/connection";
+import toNonEmptyString from "../utils/toNonEmptyString";
+import * as Parser from '../parsers'
+import * as Schema from '../validators/CoursesAndSections'
 
-exports.findByName = async (req, res) => {
-  const { nombre } = req.params;
+
+export const findByName = (req: Request, res: Response): void => {
+  const nombre = toNonEmptyString(req.params.nombre);
 
   if (nombre) {
-    pool
+    connection
       .query(`select c.id as curso_id, c.nombre as curso_nombre, s.id as seccion_id, s.seccion as seccion
             from curso c inner join seccion s on c.id = s.curso_id
             where c.nombre ilike $1 or c.id ilike $1
-            order by c.id;`, [`%${nombre}%`])
-      .then((response) => { res.json(Parser.CoursesAndSections(response.rows)); });
+            order by c.id;`, ['%' + nombre +'%'])
+      .then((response) => { console.log(nombre); res.json(Parser.CoursesAndSections(response.rows)); })
   } else {
-    pool
+    connection
       .query(`select c.id as curso_id, c.nombre as curso_nombre, s.id as seccion_id, s.seccion as seccion
             from curso c inner join seccion s on c.id = s.curso_id
             order by c.id;`)
@@ -21,18 +24,12 @@ exports.findByName = async (req, res) => {
   }
 };
 
-exports.assignSection = async (req, res) => {
-  const { carne } = req;
-  const { seccionesId } = req.body;
-
-  if (contains([...seccionesId, carne], undefined) || seccionesId.length < 1) {
-    res.sendStatus(400);
-    return;
-  }
+export const assignSection = async (req: Request<{}, {}, Schema.AssignSectionSchema>, res: Response) => {
+  const seccionesId: number[] = req.body.seccionesId;
 
   try {
     for (let i = 0; i < seccionesId.length; i++) {
-      await pool.query('insert into asiste_seccion values ($1, $2)', [seccionesId[i], carne]);
+      await connection.query('insert into asiste_seccion values ($1, $2)', [seccionesId[i], req.carne]);
     }
     res.sendStatus(201);
   } catch (e) {
@@ -40,8 +37,9 @@ exports.assignSection = async (req, res) => {
   }
 };
 
-exports.checkAssigned = async (req, res) => {
-  pool
+export const checkAssigned = async (req: Request, res: Response) => {
+
+  connection
     .query(`select c.id as curso_id, c.nombre as curso_nombre, s.id as seccion_id, s.seccion as seccion
         from curso c inner join seccion s on c.id = s.curso_id
         inner join asiste_seccion a on a.seccion_id = s.id

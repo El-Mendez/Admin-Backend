@@ -1,13 +1,13 @@
-require('dotenv').config();
-const express = require('express');
-const cors = require('cors');
-const Security = require('./controllers/Security');
-const { freeRouter } = require('./routes/free');
-const { authRouter } = require('./routes/auth');
-const { requestRouter } = require('./routes/request');
+import express, { Express } from 'express';
+import cors from 'cors';
+import * as Security from './controllers/Security';
+
+import freeRouter from "./routes/free";
+import authRouter from "./routes/auth";
+import requestRouter from "./routes/request";
 
 // Middlewares
-const app = express();
+const app: Express = express();
 app.use(express.json());
 app.use(cors());
 app.use(Security.antiSQLInjection);

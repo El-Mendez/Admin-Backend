@@ -1,7 +1,10 @@
-const pool = require('../connection');
+import connection from "../services/connection";
+import { Request, Response } from "express";
+import toInt from "../utils/toInt";
+import { isValid } from "../utils/areValid";
 
-exports.bySections = async (req, res) => {
-  pool
+export const bySections = (req: Request, res: Response): void => {
+  connection
     .query(`
       select u.carne, u.apellido, u.nombre, count(*) as count
       from asiste_seccion pool

@@ -1,8 +1,8 @@
-exports.CoursesAndSections = (rows) => {
-  const parsedResults = [];
-  let currentCourse = { secciones: [] };
+export const CoursesAndSections = (rows: any) => {
+  const parsedResults: any[] = [];
+  let currentCourse: any = { secciones: [] };
 
-  rows.forEach((row) => {
+  rows.forEach((row: any) => {
     if (currentCourse.cursoId !== row.curso_id) {
       currentCourse = { cursoId: row.curso_id, cursoNombre: row.curso_nombre, secciones: [] };
       parsedResults.push(currentCourse);

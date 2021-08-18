@@ -93,13 +93,13 @@ específico.
 | Parámetros | `seccionesId`  |             401 | Token vencido o no mandó token.                          |
 | Devuelve   |                |             403 | Ya estaba asignado a esa sección o no existe la sección. |
 
-### Asignarse a un Hobby
-Si una persona ya está loggeada, se puede asignar un hobby si conoce el código del hobby.
+### Asignarse a Hobbies
+Si una persona ya está loggeada, se puede asignar a algunos hobbies si conoce el código del hobby.
 
 |    Ruta    | /auth/hobby/ | Código de error | Significado                                          |
 |:----------:|--------------|----------------:|------------------------------------------------------|
 |   Método   | POST         |             400 | No se pasaron todos los parámetros.                  |
-| Parámetros | `hobbyId`    |             401 | Token vencido o no mandó token.                      |
+| Parámetros | `hobbiesId`  |             401 | Token vencido o no mandó token.                      |
 | Devuelve   |              |             403 | Ya estaba asignado a ese hobby o no existe el hobby. |
 
 ### Ver cursos asignados
@@ -108,7 +108,7 @@ Devuelve todos los cursos asignados por el estudiante.
 |    Ruta    | /auth/curso/                                                      | Código de error | Significado                                          |
 |:----------:|-------------------------------------------------------------------|----------------:|------------------------------------------------------|
 |   Método   | GET                                                               |             401 | Token vencido o no mandó token.                      |
-| Parámetros |                                                                   |             403 | Ya estaba asignado a ese hobby o no existe el hobby. |
+| Parámetros |                                                                   |                 |                                                      |
 | Devuelve   | [`cursoId`, `cursoNombre`, `secciones: [seccion, seccionId]`]     |                 |                                                      |
 
 ### Cambiar Contraseña
@@ -150,11 +150,16 @@ el carné y si no existe no hará nada.
 |    Ruta    | /request/passwordReset | Código de error | Significado                    |
 |:----------:|------------------------|----------------:|--------------------------------|
 |   Método   | POST                   |             400 | No mandó todos los parámetros. |
-| Parámetros | `carne`                |                 |                                |
+| Parámetros | `carne`                |             401 | Token vencido o no mandó token |
 | Devuelve   |                        |                 |                                |
 
 
 ### Aceptar un request de resetear contraseña
-Este request reinicia la contraseña del usuario. Necesita de un Header Authorization con un token que se vence en 15 
-minutos.
+Este request reinicia la contraseña del usuario. Necesita de un Header Authorization de formato Bearer con un token 
+que se vence en 15 minutos desde que se generó el request de generar la contraseña.
 
+|    Ruta    | /request/acceptPasswordReset | Código de error | Significado                    |
+|:----------:|------------------------------|----------------:|--------------------------------|
+|   Método   | POST                         |             400 | No mandó todos los parámetros. |
+| Parámetros | `carne`, `newPassword`       |             401 | Token vencido o no mandó token |
+| Devuelve   |                              |                 |                                |

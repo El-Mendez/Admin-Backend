@@ -1,4 +1,4 @@
-import connection from "../connection";
+import connection from "../services/connection";
 import { Request, Response } from "express";
 import toNonEmptyString from "../utils/toNonEmptyString";
 

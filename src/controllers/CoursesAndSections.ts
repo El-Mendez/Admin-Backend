@@ -1,9 +1,10 @@
 import { Request, Response } from "express";
-import connection from "../connection";
+import connection from "../services/connection";
 import areValid, {isValid} from "../utils/areValid";
 import toInt from "../utils/toInt";
 import toNonEmptyString from "../utils/toNonEmptyString";
 import * as Parser from '../parsers'
+import * as Schema from '../validators/CoursesAndSections'
 
 
 export const findByName = (req: Request, res: Response): void => {
@@ -25,18 +26,12 @@ export const findByName = (req: Request, res: Response): void => {
   }
 };
 
-export const assignSection = async (req: Request, res: Response) => {
-  const carne = toInt(req.carne);
-  if (!isValid(carne)) { res.sendStatus(500); return; }
-
-  if (!Array.isArray(req.body.seccionesId)) { res.sendStatus(400); return; }
-  const seccionesId: number[] = req.body.seccionesId.map((element: any) => toInt(element));
-
-  if(!areValid(seccionesId) || seccionesId.length < 1) { res.sendStatus(400); return; }
+export const assignSection = async (req: Request<{}, {}, Schema.AssignSectionSchema>, res: Response) => {
+  const seccionesId: number[] = req.body.seccionesId;
 
   try {
     for (let i = 0; i < seccionesId.length; i++) {
-      await connection.query('insert into asiste_seccion values ($1, $2)', [seccionesId[i], carne]);
+      await connection.query('insert into asiste_seccion values ($1, $2)', [seccionesId[i], req.carne]);
     }
     res.sendStatus(201);
   } catch (e) {

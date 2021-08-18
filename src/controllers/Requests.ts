@@ -1,20 +1,16 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { RESET_PASSWORD_TOKEN_KEY, EMAIL_RECEIVER_DOMAIN } from '../constants';
-import connection from '../connection';
+import connection from '../services/connection';
 import verifyTokenHeader from '../utils/verifyTokenHeader';
-import { isValid } from "../utils/areValid";
-import * as Email from './Email';
-import toInt from "../utils/toInt";
-import toNonEmptyString from "../utils/toNonEmptyString";
+import * as Email from '../utils/Email';
+import * as Schema from '../validators/Request';
 
-export const resetPasswordRequest = (req: Request, res: Response): void => {
-  const usuario = toInt(req.body.carne);
-  if (!isValid(usuario)) { res.sendStatus(400); return; }
+export const resetPasswordRequest = (req: Request<{}, {}, Schema.ResetPasswordSchema>, res: Response): void => {
   res.sendStatus(202);
 
   connection
-    .query('select carne, nombre, apellido from usuario where carne = $1', [usuario])
+    .query('select carne, nombre, apellido from usuario where carne = $1', [req.body.carne])
     .then((response) => {
       if (response.rows.length === 0) { return; }
       const { carne, nombre, apellido } = response.rows[0];
@@ -29,17 +25,14 @@ export const resetPasswordRequest = (req: Request, res: Response): void => {
     });
 };
 
-export const acceptPasswordReset = (req: Request, res: Response): void => {
+export const acceptPasswordReset = (req: Request<{}, {}, Schema.AcceptPasswordResetSchema>, res: Response): void => {
   const carne = verifyTokenHeader(RESET_PASSWORD_TOKEN_KEY, req.headers.authorization);
   if (carne == null) { res.sendStatus(401); return; }
-
-  const newPassword = toNonEmptyString(req.body.newPassword);
-  if (!isValid(newPassword)) { res.sendStatus(400); return; }
 
   connection
     .query(`
       update usuario set password = crypt($2, gen_salt('bf'))
-       where carne = $1;`, [carne, newPassword])
+       where carne = $1;`, [carne, req.body.newPassword])
      .then(() => { res.sendStatus(201); })
      .catch(() => { res.sendStatus(500); });
 };

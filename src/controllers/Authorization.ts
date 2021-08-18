@@ -1,17 +1,12 @@
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 import { AUTH_TOKEN_KEY } from '../constants';
-import connection from '../connection';
+import connection from '../services/connection';
 import verifyTokenHeader from '../utils/verifyTokenHeader';
-import areValid from "../utils/areValid";
-import toInt from '../utils/toInt';
-import toNonEmptyString from '../utils/toNonEmptyString';
-import toString from '../utils/toString';
+import * as Schema from '../validators/Authorization';
 
-export const logIn = (req: Request, res: Response): void => {
-  const userData: [number, string | null] = [toInt(req.body.carne), toString(req.body.password)];
-
-  if (!areValid(userData)) { res.sendStatus(400); return; }
+export const logIn = (req: Request<{}, {}, Schema.LogInSchema>, res: Response): void => {
+  const userData: [number, string] = [req.body.carne, req.body.password];
 
   connection
     .query('select count(*) = 1 as logged from usuario where carne = $1 and password = crypt($2, password) limit 1;', userData)
@@ -25,16 +20,14 @@ export const logIn = (req: Request, res: Response): void => {
     });
 };
 
-export const signUp = (req: Request, res: Response) => {
+export const signUp = (req: Request<{}, {}, Schema.SignUpSchema>, res: Response) => {
   const newUserData = [
-    toInt(req.body.carne), // $1
-    toNonEmptyString(req.body.nombre), // $2
-    toNonEmptyString(req.body.apellido), // $3
-    toInt(req.body.carreraId), // $4
-    toNonEmptyString(req.body.password), // $5
+    req.body.carne, // $1
+    req.body.nombre, // $2
+    req.body.apellido, // $3
+    req.body.carreraId, // $4
+    req.body.password, // $5
   ];
-
-  if (!areValid(newUserData)) { res.sendStatus(400); return; }
 
   connection
     .query('insert into usuario values ($1, $2, $3, $4, crypt($5, gen_salt(\'bf\')))', newUserData)
@@ -52,10 +45,8 @@ export const verifyAuth = (req: Request, res: Response, next: NextFunction): voi
   next();
 };
 
-export const changePassword = (req: Request, res: Response): void => {
-  const parameters = [toInt(req.carne), toNonEmptyString(req.body.newPassword), toString(req.body.oldPassword)];
-
-  if (!areValid(parameters)) { res.sendStatus(400); return; }
+export const changePassword = (req: Request<{}, {}, Schema.ChangePasswordSchema>, res: Response): void => {
+  const parameters = [req.carne, req.body.newPassword, req.body.oldPassword];
 
   connection
     .query(`

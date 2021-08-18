@@ -16,6 +16,9 @@ env
 # Para el testing
 *.private.env.json
 
+# para el deployment
+deployment.http
+
 # If you are using Webstorm #
 .idea
 .idea/

@@ -1,7 +1,5 @@
 import { Request, Response } from "express";
 import connection from "../services/connection";
-import areValid, {isValid} from "../utils/areValid";
-import toInt from "../utils/toInt";
 import toNonEmptyString from "../utils/toNonEmptyString";
 import * as Parser from '../parsers'
 import * as Schema from '../validators/CoursesAndSections'
@@ -40,8 +38,6 @@ export const assignSection = async (req: Request<{}, {}, Schema.AssignSectionSch
 };
 
 export const checkAssigned = async (req: Request, res: Response) => {
-  const carne = toInt(req.carne);
-  if (!isValid(carne)) { res.sendStatus(500); return; }
 
   connection
     .query(`select c.id as curso_id, c.nombre as curso_nombre, s.id as seccion_id, s.seccion as seccion

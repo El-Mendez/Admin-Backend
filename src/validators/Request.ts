@@ -4,7 +4,7 @@ import {carne} from "./general";
 export interface ResetPasswordSchema {
     carne: number
 }
-export const ResetPasswordValidator = [
+export const resetPasswordRequest = [
     carne
 ]
 
@@ -12,6 +12,6 @@ export const ResetPasswordValidator = [
 export interface AcceptPasswordResetSchema {
     newPassword: string
 }
-export const AcceptPasswordResetValidator = [
+export const acceptPasswordRequest = [
     body('newPassword').isString().trim().isLength({ min: 8 }).withMessage('newPassword debe tener al menos 8 caracteres.')
 ]

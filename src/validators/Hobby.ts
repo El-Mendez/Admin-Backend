@@ -1,8 +1,9 @@
 import { body } from "express-validator";
 
 export interface AssignHobbySchema {
-    hobbyId: number
+    hobbiesId: number[]
 }
-export const AssignHobbyValidator = [
-    body('hobbyId').isInt({ min: 0}).withMessage('hobbyId debe ser un int no negativo.').toInt(10)
+export const assignHobby = [
+    body('hobbiesId').isArray({ min: 1 }).withMessage('hobbiesId debe ser un array.'),
+    body('hobbiesId.*').isInt({ min: 0 }).withMessage('Cada id en hobbiesId debe ser un int no negativo.').toInt(10)
 ]

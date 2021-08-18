@@ -4,9 +4,6 @@ import toInt from "../utils/toInt";
 import { isValid } from "../utils/areValid";
 
 export const bySections = (req: Request, res: Response): void => {
-  const carne = toInt(req.carne);
-  if (!isValid(carne)) { res.sendStatus(500); return; }
-
   connection
     .query(`
       select u.carne, u.apellido, u.nombre, count(*) as count
@@ -16,6 +13,6 @@ export const bySections = (req: Request, res: Response): void => {
       where pool.usuario_carne = $1
       group by u.carne
       order by count(*) desc
-      limit 10;`, [carne])
+      limit 10;`, [req.carne])
     .then((response) => { res.json(response.rows); });
 };

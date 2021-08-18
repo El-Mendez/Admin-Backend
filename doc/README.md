@@ -93,13 +93,13 @@ específico.
 | Parámetros | `seccionesId`  |             401 | Token vencido o no mandó token.                          |
 | Devuelve   |                |             403 | Ya estaba asignado a esa sección o no existe la sección. |
 
-### Asignarse a un Hobby
-Si una persona ya está loggeada, se puede asignar un hobby si conoce el código del hobby.
+### Asignarse a Hobbies
+Si una persona ya está loggeada, se puede asignar a algunos hobbies si conoce el código del hobby.
 
 |    Ruta    | /auth/hobby/ | Código de error | Significado                                          |
 |:----------:|--------------|----------------:|------------------------------------------------------|
 |   Método   | POST         |             400 | No se pasaron todos los parámetros.                  |
-| Parámetros | `hobbyId`    |             401 | Token vencido o no mandó token.                      |
+| Parámetros | `hobbiesId`  |             401 | Token vencido o no mandó token.                      |
 | Devuelve   |              |             403 | Ya estaba asignado a ese hobby o no existe el hobby. |
 
 ### Ver cursos asignados

@@ -6,7 +6,7 @@ import validate from "../../validators/validate";
 export const requestRouter = Router();
 
 // Para resetear la contraseña
-requestRouter.post('/passwordReset', RequestsSchema.ResetPasswordValidator, validate, Requests.resetPasswordRequest);
-requestRouter.post('/acceptPasswordReset', RequestsSchema.AcceptPasswordResetValidator, validate, Requests.acceptPasswordReset);
+requestRouter.post('/passwordReset', RequestsSchema.resetPasswordRequest, validate, Requests.resetPasswordRequest);
+requestRouter.post('/acceptPasswordReset', RequestsSchema.acceptPasswordRequest, validate, Requests.acceptPasswordReset);
 
 export default requestRouter;

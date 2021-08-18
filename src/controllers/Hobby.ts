@@ -3,7 +3,7 @@ import connection from "../services/connection";
 import toNonEmptyString from "../utils/toNonEmptyString";
 import * as Schema from '../validators/Hobby';
 
-export const findByName = (req: Request, res: Response): void => {
+export const findByName = (req: Request, res: Response) => {
   const nombre = toNonEmptyString(req.params.nombre);
   if (nombre) {
     connection
@@ -16,9 +16,15 @@ export const findByName = (req: Request, res: Response): void => {
   }
 };
 
-export const assignHobby = (req: Request<{}, {}, Schema.AssignHobbySchema>, res: Response): void => {
-  connection
-    .query('insert into has_hobby values ($1, $2)', [req.body.hobbyId, req.carne])
-    .then(() => { res.sendStatus(201); })
-    .catch(() => { res.sendStatus(403); });
+export const assignHobby = async (req: Request<{}, {}, Schema.AssignHobbySchema>, res: Response): Promise<void> => {
+  const hobbiesId: number[] = req.body.hobbiesId;
+
+  try {
+    for (let i = 0; i < hobbiesId.length; i++) {
+      await connection.query('insert into has_hobby values ($1, $2)', [hobbiesId[i], req.carne])
+    }
+    res.sendStatus(201);
+  } catch (e) {
+    res.sendStatus(403);
+  }
 };

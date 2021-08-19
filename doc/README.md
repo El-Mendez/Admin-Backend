@@ -150,7 +150,7 @@ el carné y si no existe no hará nada.
 |    Ruta    | /request/passwordReset | Código de error | Significado                    |
 |:----------:|------------------------|----------------:|--------------------------------|
 |   Método   | POST                   |             400 | No mandó todos los parámetros. |
-| Parámetros | `carne`                |             401 | Token vencido o no mandó token |
+| Parámetros | `carne`                |                 |                                |
 | Devuelve   |                        |                 |                                |
 
 

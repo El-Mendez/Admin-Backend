@@ -13,5 +13,5 @@ export interface AcceptPasswordResetSchema {
     newPassword: string
 }
 export const acceptPasswordRequest = [
-    body('newPassword').isString().trim().isLength({ min: 8 }).withMessage('newPassword debe tener al menos 8 caracteres.')
+    body('newPassword').isString().isLength({ min: 8 }).withMessage('newPassword debe tener al menos 8 caracteres.')
 ]

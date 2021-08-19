@@ -1,5 +1,6 @@
 import { body } from 'express-validator';
 import { carne } from './general';
+import { EMAIL_RECEIVER_DOMAIN } from '../constants';
 
 export interface LogInSchema {
     carne: number,
@@ -16,6 +17,7 @@ export interface SignUpSchema {
     apellido: string,
     carreraId: number,
     password: string,
+    correo: string,
 }
 export const signUp = [
   carne,
@@ -27,6 +29,7 @@ export const signUp = [
     .escape(),
   body('carreraId').isInt({ min: 0 }).withMessage('carreraId debe ser un int no negativo.').toInt(10),
   body('password').isString().isLength({ min: 8 }).withMessage('password debe tener al menos 8 caracteres.'),
+  body('correo').isEmail().matches(/uvg\.edu\.gt$/).withMessage(`Debe tener un correo terminando en ${EMAIL_RECEIVER_DOMAIN}.`),
 ];
 
 export interface ChangePasswordSchema {

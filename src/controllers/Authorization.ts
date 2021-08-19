@@ -27,10 +27,11 @@ export const signUp = (req: Request<{}, {}, Schema.SignUpSchema>, res: Response)
     req.body.apellido, // $3
     req.body.carreraId, // $4
     req.body.password, // $5
+    req.body.correo, // $6
   ];
 
   connection
-    .query('insert into usuario values ($1, $2, $3, $4, crypt($5, gen_salt(\'bf\')))', newUserData)
+    .query('insert into usuario values ($1, $2, $3, $4, crypt($5, gen_salt(\'bf\')), $6)', newUserData)
     .then(() => {
       const token = jwt.sign({ carne: newUserData[0] }, AUTH_TOKEN_KEY, { expiresIn: '1 day' });
       res.status(201).json({ token });

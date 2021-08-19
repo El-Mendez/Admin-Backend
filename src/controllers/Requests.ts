@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
-import { RESET_PASSWORD_TOKEN_KEY, EMAIL_RECEIVER_DOMAIN } from '../constants';
+import { RESET_PASSWORD_TOKEN_KEY } from '../constants';
 import { connection } from '../services/connection';
 import verifyTokenHeader from '../utils/verifyTokenHeader';
 import * as Email from '../utils/Email';
@@ -13,16 +13,17 @@ export const resetPasswordRequest = (
   res.sendStatus(202);
 
   connection
-    .query('select carne, nombre, apellido from usuario where carne = $1', [req.body.carne])
+    .query('select carne, nombre, apellido, correo from usuario where carne = $1', [req.body.carne])
     .then((response) => {
       if (response.rows.length === 0) { return; }
-      const { carne, nombre, apellido } = response.rows[0];
+      const {
+        carne, nombre, apellido, correo,
+      } = response.rows[0];
       const token = jwt.sign({ carne }, RESET_PASSWORD_TOKEN_KEY, { expiresIn: '10min' });
 
-      // TODO agregar el correo al esquema para evitar este desastre
       Email.sendRecoveryPasswordEmail(
         `${nombre} ${apellido}`,
-        `${apellido.substring(0, 3).toLowerCase()}${carne}${EMAIL_RECEIVER_DOMAIN}`,
+        correo,
         token,
       );
     });

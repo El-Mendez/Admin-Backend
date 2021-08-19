@@ -10,7 +10,6 @@ import { requestRouter } from './routes/request';
 const app: Express = express();
 app.use(express.json());
 app.use(cors());
-app.use(Security.antiSQLInjection);
 
 // Las rutas principales de la aplicación
 app.use('/free', freeRouter);

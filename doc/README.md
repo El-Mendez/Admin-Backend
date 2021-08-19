@@ -32,11 +32,11 @@ El token es necesario para poder usar todas las funciones de auth.
 ### Sign Up
 Permite crear una cuenta.
 
-|    Ruta    | /free/signup                                            | Código de error | Significado                         |
-|:----------:|---------------------------------------------------------|----------------:|-------------------------------------|
-|   Método   | POST                                                    |             400 | No se pasaron todos los parámetros. |
-| Parámetros | `carne`, `nombre`, `apellido`, `carreraId`, `password`  |             403 | Carné ya utilizado.                 |
-| Devuelve   | `token`                                                 |                 |                                     |
+|    Ruta    | /free/signup                                                      | Código de error | Significado                         |
+|:----------:|-------------------------------------------------------------------|----------------:|-------------------------------------|
+|   Método   | POST                                                              |             400 | No se pasaron todos los parámetros. |
+| Parámetros | `carne`, `nombre`, `apellido`, `carreraId`, `password`, `correo`  |             403 | Carné ya utilizado.                 |
+| Devuelve   | `token`                                                           |                 |                                     |
 
 ### Buscar una Carrera por el nombre
 Este método busca una carrera de acuerdo al nombre que se ingrese. Ignora mayúsculas y funciona aún si es solo parte 

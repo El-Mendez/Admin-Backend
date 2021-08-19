@@ -2,9 +2,9 @@ import express, { Express } from 'express';
 import cors from 'cors';
 import * as Security from './controllers/Security';
 
-import freeRouter from "./routes/free";
-import authRouter from "./routes/auth";
-import requestRouter from "./routes/request";
+import { freeRouter } from './routes/free';
+import { authRouter } from './routes/auth';
+import { requestRouter } from './routes/request';
 
 // Middlewares
 const app: Express = express();

@@ -1,12 +1,15 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { RESET_PASSWORD_TOKEN_KEY, EMAIL_RECEIVER_DOMAIN } from '../constants';
-import connection from '../services/connection';
+import { connection } from '../services/connection';
 import verifyTokenHeader from '../utils/verifyTokenHeader';
 import * as Email from '../utils/Email';
 import * as Schema from '../validators/Request';
 
-export const resetPasswordRequest = (req: Request<{}, {}, Schema.ResetPasswordSchema>, res: Response): void => {
+export const resetPasswordRequest = (
+  req: Request<{}, {}, Schema.ResetPasswordSchema>,
+  res: Response,
+): void => {
   res.sendStatus(202);
 
   connection
@@ -25,7 +28,10 @@ export const resetPasswordRequest = (req: Request<{}, {}, Schema.ResetPasswordSc
     });
 };
 
-export const acceptPasswordReset = (req: Request<{}, {}, Schema.AcceptPasswordResetSchema>, res: Response): void => {
+export const acceptPasswordReset = (
+  req: Request<{}, {}, Schema.AcceptPasswordResetSchema>,
+  res: Response,
+): void => {
   const carne = verifyTokenHeader(RESET_PASSWORD_TOKEN_KEY, req.headers.authorization);
   if (carne == null) { res.sendStatus(401); return; }
 
@@ -33,6 +39,6 @@ export const acceptPasswordReset = (req: Request<{}, {}, Schema.AcceptPasswordRe
     .query(`
       update usuario set password = crypt($2, gen_salt('bf'))
        where carne = $1;`, [carne, req.body.newPassword])
-     .then(() => { res.sendStatus(201); })
-     .catch(() => { res.sendStatus(500); });
+    .then(() => { res.sendStatus(201); })
+    .catch(() => { res.sendStatus(500); });
 };

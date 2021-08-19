@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 import { Request, Response, NextFunction } from 'express';
 import { AUTH_TOKEN_KEY } from '../constants';
-import connection from '../services/connection';
+import { connection } from '../services/connection';
 import verifyTokenHeader from '../utils/verifyTokenHeader';
 import * as Schema from '../validators/Authorization';
 
@@ -45,7 +45,10 @@ export const verifyAuth = (req: Request, res: Response, next: NextFunction): voi
   next();
 };
 
-export const changePassword = (req: Request<{}, {}, Schema.ChangePasswordSchema>, res: Response): void => {
+export const changePassword = (
+  req: Request<{}, {}, Schema.ChangePasswordSchema>,
+  res: Response,
+): void => {
   const parameters = [req.carne, req.body.newPassword, req.body.oldPassword];
 
   connection

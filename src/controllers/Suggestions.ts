@@ -1,9 +1,10 @@
-import connection from "../services/connection";
-import { Request, Response } from "express";
-import toInt from "../utils/toInt";
-import { isValid } from "../utils/areValid";
+import { Request, Response } from 'express';
+import { connection } from '../services/connection';
 
-export const bySections = (req: Request, res: Response): void => {
+export const bySections = (
+  req: Request,
+  res: Response,
+): void => {
   connection
     .query(`
       select u.carne, u.apellido, u.nombre, count(*) as count

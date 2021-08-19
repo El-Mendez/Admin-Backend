@@ -73,6 +73,7 @@ npm run start
 - apellido
 - carrera_id 
 - password
+- correo
 
 ### Amistad
 - amigo1_carne: FK a Usuario

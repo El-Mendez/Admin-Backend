@@ -26,7 +26,8 @@ create table usuario
     nombre     varchar(50) not null,
     apellido   varchar(50) not null,
     carrera_id smallint    not null references carrera (id),
-    password   varchar(70) not null
+    password   varchar(70) not null,
+    correo     varchar(30) not null
 );
 
 create table amistad

@@ -21,7 +21,8 @@ Content-Type: application/json
   "nombre": "Pepe",
   "apellido": "Mario",
   "carreraId": "1",
-  "password": "{{password}}"
+  "password": "{{password}}",
+  "correo": "{{correo}}"
 }
 
 #### GET HOBBIES BY NAME

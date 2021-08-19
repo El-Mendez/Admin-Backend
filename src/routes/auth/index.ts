@@ -1,4 +1,4 @@
-import { Router } from "express";
+import { Router } from 'express';
 import * as Auth from '../../controllers/Authorization';
 import * as AuthSchema from '../../validators/Authorization';
 import * as Testing from '../../controllers/Testing';
@@ -7,7 +7,7 @@ import * as CoursesSchema from '../../validators/CoursesAndSections';
 import * as Hobby from '../../controllers/Hobby';
 import * as HobbySchema from '../../validators/Hobby';
 import * as Suggestions from '../../controllers/Suggestions';
-import validate from "../../validators/validate";
+import validate from '../../validators/validate';
 
 export const authRouter = Router();
 

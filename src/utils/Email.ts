@@ -1,7 +1,7 @@
-import Mailgen from "mailgen";
-import { createTransport } from "nodemailer";
-import { URL } from "url";
-import * as constants from "../constants";
+import Mailgen from 'mailgen';
+import { createTransport } from 'nodemailer';
+import { URL } from 'url';
+import * as constants from '../constants';
 
 const mailGenerator = new Mailgen({
   theme: 'default',

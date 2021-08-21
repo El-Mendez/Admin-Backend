@@ -1,7 +1,7 @@
-import Mailgen from "mailgen";
-import { createTransport } from "nodemailer";
-import { URL } from "url";
-import * as constants from "../constants";
+import Mailgen from 'mailgen';
+import { createTransport } from 'nodemailer';
+import { URL } from 'url';
+import * as constants from '../constants';
 
 const mailGenerator = new Mailgen({
   theme: 'default',
@@ -10,7 +10,7 @@ const mailGenerator = new Mailgen({
 
 const transporter = createTransport({
   service: 'gmail',
-  // logger: true,
+  logger: true,
   auth: {
     type: 'oauth2',
     user: constants.EMAIL_ADDRESS,
@@ -60,22 +60,32 @@ const verifyAccountEmail = (receiverName: string, token: string) => {
   return [mailGenerator.generate(email), mailGenerator.generatePlaintext(email)];
 };
 
-export const sendRecoveryPasswordEmail = async (receiverName: string, receiverEmail: string, token: string): Promise<void> => {
+export const sendRecoveryPasswordEmail = async (
+  receiverName: string,
+  receiverEmail: string,
+  token: string,
+): Promise<void> => {
   const [html, text] = recoveryPasswordEmail(receiverName, token);
   await transporter.sendMail({
     from: constants.COMPANY,
     to: receiverEmail,
     subject: 'Cambio de contraseña Meeting',
-    html, text,
+    html,
+    text,
   });
 };
 
-export const sendVerifyAccountEmail = async (receiverName: string, receiverEmail: string, token: string): Promise<void> => {
+export const sendVerifyAccountEmail = async (
+  receiverName: string,
+  receiverEmail: string,
+  token: string,
+): Promise<void> => {
   const [html, text] = verifyAccountEmail(receiverName, token);
   await transporter.sendMail({
     from: constants.COMPANY,
     to: receiverEmail,
     subject: `Saludos desde ${constants.COMPANY}`,
-    html, text,
+    html,
+    text,
   });
 };

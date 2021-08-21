@@ -161,5 +161,5 @@ que se vence en 15 minutos desde que se generó el request de generar la contras
 |    Ruta    | /request/acceptPasswordReset | Código de error | Significado                    |
 |:----------:|------------------------------|----------------:|--------------------------------|
 |   Método   | POST                         |             400 | No mandó todos los parámetros. |
-| Parámetros | `carne`, `newPassword`       |             401 | Token vencido o no mandó token |
+| Parámetros | `newPassword`                |             401 | Token vencido o no mandó token |
 | Devuelve   |                              |                 |                                |

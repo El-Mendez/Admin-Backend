@@ -9,5 +9,5 @@ export default function areValid(lista: any): boolean {
 }
 
 export function isValid(element: any): boolean {
-  return element != null && (typeof element !== "number" || Number.isFinite(element));
+  return element != null && (typeof element !== 'number' || Number.isFinite(element));
 }

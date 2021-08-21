@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 import { RESET_PASSWORD_TOKEN_KEY } from '../constants';
 import { connection } from '../services/connection';
 import verifyTokenHeader from '../utils/verifyTokenHeader';
-import * as Email from '../utils/Email';
+import * as Email from '../services/Email';
 import * as Schema from '../validators/Request';
 
 export const resetPasswordRequest = (

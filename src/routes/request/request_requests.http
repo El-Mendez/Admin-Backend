@@ -3,7 +3,7 @@ POST {{host}}/request/passwordReset
 Content-Type: application/json
 
 {
-  "carne": "19195"
+  "carne": "0"
 }
 
 #### ACEPTAR PETICIÓN PARA RESETEAR LA CONTRASEÑA

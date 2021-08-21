@@ -9,7 +9,7 @@ Content-Type: application/json
 
 {
   "newPassword": "{{password}}",
-  "oldPassword": "{{password}}"
+  "oldPassword": "123456789a@"
 }
 
 #### ASIGNARSE SECCIÓN

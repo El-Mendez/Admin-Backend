@@ -38,5 +38,5 @@ export interface ChangePasswordSchema {
 }
 export const changePassword = [
   body('newPassword').isString().isLength({ min: 8 }).withMessage('newPassword debe de tener al menos 8 caracteres.'),
-  body('oldPasssword').isString().notEmpty().withMessage('oldPassword debe ser un string no vacío.'),
+  body('oldPassword').isString().notEmpty().withMessage('oldPassword debe ser un string no vacío.'),
 ];

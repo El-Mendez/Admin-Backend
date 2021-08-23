@@ -27,10 +27,3 @@ export const RESET_PASSWORD_TOKEN_KEY: string = env.RESET_PASSWORD_TOKEN_KEY || 
 export const VERIFY_TOKEN_KEY: string = env.VERIFY_ACCOUNT_TOKEN_KEY || 'MISSING VERIFY ACCOUNT TOKEN KEY';
 
 
-// Google Clients para inios de sesion
-export const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID || '405374042535-g3sqooe9ncnj7lm394iu27u9vd99ma16.apps.googleusercontent.com';
-export const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET || '01qsI8NfolNC75LJdo06c_QT';
-export const SERVER_ROOT_URI = "http://meetinguvg.me";
-export const UI_ROOT_URI = "http://localhost:4000";
-export const JWT_SECRET = "shhhhh";
-export const COOKIE_NAME = "auth_token";

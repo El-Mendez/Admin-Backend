@@ -9,4 +9,8 @@ export const requestRouter = Router();
 requestRouter.post('/passwordReset', RequestsSchema.resetPasswordRequest, validate, Requests.resetPasswordRequest);
 requestRouter.post('/acceptPasswordReset', RequestsSchema.acceptPasswordRequest, validate, Requests.acceptPasswordReset);
 
+// Para crear una nueva cuenta
+requestRouter.post('/signup', RequestsSchema.SignUp, validate, Requests.SignUp);
+requestRouter.post('/acceptSignUp', Requests.AcceptSignUp);
+
 export default requestRouter;

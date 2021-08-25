@@ -29,15 +29,6 @@ El token es necesario para poder usar todas las funciones de auth.
 | Parámetros | `carne`, `password`  | 403             | Contraseña o usuario incorrecto.    |
 | Devuelve   | `token`              |                 |                                     |
 
-### Sign Up
-Permite crear una cuenta.
-
-|    Ruta    | /free/signup                                                      | Código de error | Significado                         |
-|:----------:|-------------------------------------------------------------------|----------------:|-------------------------------------|
-|   Método   | POST                                                              |             400 | No se pasaron todos los parámetros. |
-| Parámetros | `carne`, `nombre`, `apellido`, `carreraId`, `password`, `correo`  |             403 | Carné ya utilizado.                 |
-| Devuelve   | `token`                                                           |                 |                                     |
-
 ### Buscar una Carrera por el nombre
 Este método busca una carrera de acuerdo al nombre que se ingrese. Ignora mayúsculas y funciona aún si es solo parte 
 del nombre. **El atributo *nombre* va en la ruta del query, no en el body.** De esa manera hacemos que el método sea GET
@@ -141,6 +132,29 @@ común.
 
 # Request: Especiales por correo
 Aquí van las request que realmente necesitan o generan tokens no regulares.
+
+### Hacer un Request de Sign Up
+Permite crear una cuenta. Al igual que el resto de funciones, el token se devuelve en un correo. Vale la pena mencionar 
+el token que devuelve es masivo. Tipo, min 200 caracteres.
+
+|    Ruta    | /request/signup                                                   | Código de error | Significado                                |
+|:----------:|-------------------------------------------------------------------|----------------:|--------------------------------------------|
+|   Método   | POST                                                              |             400 | No se pasaron todos los parámetros.        |
+| Parámetros | `carne`, `nombre`, `apellido`, `carreraId`, `password`, `correo`  |             403 | Carné ya utilizado o la carrera no existe. |
+| Devuelve   | `token`                                                           |                 |                                            |
+
+
+### Aceptar un Request de Sign Up
+El token debe ser enviado usando un encabezado Authorization con formato Bearer. Asimismo, el token se vence en 20 
+minutos como máximo. Igualmente, el token que devuelve es el token regular para las rutas auth. Igualmente, siempre 
+existe la probabilidad de que usen el token dos veces o alguien más registró el correo (error 403).
+
+| Ruta      | /request/acceptSignUp | Código de Error | Significado                             |
+|-----------|-----------------------|-----------------|-----------------------------------------|
+| Método    | POST                  | 401             | El token está vencido o no mandó token. |
+| Parámetro | `token`               | 403             | Ya hay una cuenta con ese carné.        |
+| Devuelve  | `token`               |                 |                                         |
+
 
 ### Generar un request de resetear contraseña
 Este request no devuelve nada en sí, pero enviará un correo donde se enviará un link con el código para

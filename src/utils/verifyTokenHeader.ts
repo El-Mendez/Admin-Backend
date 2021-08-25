@@ -1,6 +1,8 @@
 import jwt from 'jsonwebtoken';
 
-export default function verifyTokenHeader(tokenKey: string, tokenHeader: string | undefined | null): number | null {
+export default function verifyTokenHeader(
+  tokenKey: string, tokenHeader: string | undefined | null,
+): number | null {
   const token = tokenHeader?.split(' ')[1];
 
   if (token == null) {
@@ -10,8 +12,10 @@ export default function verifyTokenHeader(tokenKey: string, tokenHeader: string 
   try {
     const value = jwt.verify(token, tokenKey);
     if (typeof value !== 'string' && Number.isFinite(value.carne)) {
-       return value.carne
+      return value.carne;
     }
-  } catch (e) { }
+  } catch (e) {
+    return null;
+  }
   return null;
 }

@@ -25,5 +25,3 @@ export const CONFIRM_ACCOUNT_LINK: string = 'http://meetinguvg.me/confirm';
 export const AUTH_TOKEN_KEY: string = env.AUTH_TOKEN_KEY || 'MISSING AUTH TOKEN KEY';
 export const RESET_PASSWORD_TOKEN_KEY: string = env.RESET_PASSWORD_TOKEN_KEY || 'MISSING RESET PASSWORD TOKEN KEY';
 export const VERIFY_TOKEN_KEY: string = env.VERIFY_ACCOUNT_TOKEN_KEY || 'MISSING VERIFY ACCOUNT TOKEN KEY';
-
-

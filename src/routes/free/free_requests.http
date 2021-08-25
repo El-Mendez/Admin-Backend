@@ -12,19 +12,6 @@ Content-Type: application/json
 
 > {% client.global.set("token", response.body.token) %}
 
-#### SIGN UP
-POST {{host}}/free/signup
-Content-Type: application/json
-
-{
-  "carne": "{{carne}}",
-  "nombre": "Pepe",
-  "apellido": "Mario",
-  "carreraId": "1",
-  "password": "{{password}}",
-  "correo": "{{correo}}"
-}
-
 #### GET HOBBIES BY NAME
 GET {{host}}/free/hobby/leer
 

@@ -14,7 +14,6 @@ freeRouter.get('/ping', Testing.ping);
 
 // Autenticación
 freeRouter.post('/login', AuthSchema.logIn, validate, Auth.logIn);
-freeRouter.post('/signup', AuthSchema.signUp, validate, Auth.signUp);
 
 // Búsqueda según el nombre
 freeRouter.get('/carrera/:nombre?', Careers.findByName);

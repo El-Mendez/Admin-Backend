@@ -14,3 +14,20 @@ Authorization: Bearer {{token}}
 {
   "newPassword": "{{password}}"
 }
+
+#### SIGN UP REQUEST
+POST {{host}}/request/signup
+Content-Type: application/json
+
+{
+  "carne": "{{carne}}",
+  "nombre": "Pepe",
+  "apellido": "Mario",
+  "carreraId": "1",
+  "password": "{{password}}",
+  "correo": "{{correo}}"
+}
+
+#### ACCEPT SIGN UP REQUEST
+POST {{host}}/request/acceptSignUp
+Authorization: Bearer token

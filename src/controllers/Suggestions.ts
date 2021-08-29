@@ -17,3 +17,20 @@ export const bySections = (
       limit 10;`, [req.carne])
     .then((response) => { res.json(response.rows); });
 };
+
+export const byHobbies= (
+  req: Request,
+  res: Response,
+): void => {
+  connection
+    .query(`
+      select u.carne, u.apellido, u.nombre, count(*) as count
+      from has_hobby pool
+          inner join has_hobby a on pool.hobby_id = a.hobby_id and a.usuario_carne != $1
+          inner join usuario u on a.usuario_carne = u.carne
+      where pool.usuario_carne = $1
+      group by u.carne
+      order by count(*) desc
+      limit 10;`, [req.carne])
+    .then((response) => { res.json(response.rows); });
+};

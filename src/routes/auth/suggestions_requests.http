@@ -3,4 +3,7 @@ GET {{host}}/auth/suggestions/courses
 Authorization: Bearer {{token}}
 Accept: application/json
 
-###
+### BY COMMON HOBBIES
+GET {{host}}/auth/suggestions/hobbies
+Authorization: Bearer {{token}}
+Accept: application/json

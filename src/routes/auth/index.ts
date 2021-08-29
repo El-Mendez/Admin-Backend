@@ -24,6 +24,7 @@ authRouter.post('/hobby', HobbySchema.assignHobby, validate, Hobby.assignHobby);
 
 // Rutas para las recomendaciones
 authRouter.get('/suggestions/courses', Suggestions.bySections);
+authRouter.get('/suggestions/hobbies', Suggestions.byHobbies);
 
 // Para el resto
 authRouter.post('/password', AuthSchema.changePassword, validate, Auth.changePassword);

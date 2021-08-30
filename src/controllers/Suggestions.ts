@@ -18,7 +18,7 @@ export const bySections = (
     .then((response) => { res.json(response.rows); });
 };
 
-export const byHobbies= (
+export const byHobbies = (
   req: Request,
   res: Response,
 ): void => {

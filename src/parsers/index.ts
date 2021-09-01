@@ -1,14 +1,18 @@
-export const CoursesAndSections = (rows: any) => {
-  const parsedResults: any[] = [];
-  let currentCourse: any = { secciones: [] };
-
-  rows.forEach((row: any) => {
-    if (currentCourse.cursoId !== row.curso_id) {
-      currentCourse = { cursoId: row.curso_id, cursoNombre: row.curso_nombre, secciones: [] };
-      parsedResults.push(currentCourse);
+export const CoursesAndSections = (rows: any[]) => {
+  const grouped = rows.reduce((result, row) => {
+    if (!result[row.curso_id]) {
+      // eslint-disable-next-line no-param-reassign
+      result[row.curso_id] = {
+        cursoId: row.curso_id,
+        cursoNombre: row.curso_nombre,
+        secciones: [],
+      };
     }
-    currentCourse.secciones.push({ seccion: row.seccion, seccionId: row.seccion_id });
-  });
 
-  return parsedResults;
+    result[row.curso_id].secciones.push({ seccion: row.seccion, seccionId: row.seccion_id });
+
+    return result;
+  }, {});
+
+  return Object.values(grouped);
 };

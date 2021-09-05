@@ -92,7 +92,8 @@ export const AcceptSignUp = (req: Request, res: Response): void => {
   ];
 
   connection
-    .query('insert into usuario values ($1, $2, $3, $4, crypt($5, gen_salt(\'bf\')), $6)', newUserData)
+    .query(`insert into usuario(carne, nombre, apellido, carrera_id, password, correo)
+        values ($1, $2, $3, $4, crypt($5, gen_salt('bf')), $6)`, newUserData)
     .then(() => {
       const token = jwt.sign({ carne: newUserData[0] }, AUTH_TOKEN_KEY, { expiresIn: '1 day' });
       res.status(201).json({ token });

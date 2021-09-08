@@ -126,8 +126,13 @@ común.
 | Devuelve   | [`carne`, `nombre`, `apellido`, `count`] |                 |                                 |
 
 
+### Según hobbies en común
 
-
+|    Ruta    | /auth/suggestions/hobbies                | Código de error | Significado                     |
+|:----------:|------------------------------------------|----------------:|---------------------------------|
+|   Método   | GET                                      |             401 | Token Vencido o no mandó token. |
+| Parámetros |                                          |                 |                                 |
+| Devuelve   | [`carne`, `nombre`, `apellido`, `count`] |                 |                                 |
 
 
 # Request: Especiales por correo

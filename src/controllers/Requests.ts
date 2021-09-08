@@ -21,11 +21,7 @@ export const resetPasswordRequest = (
       } = response.rows[0];
       const token = jwt.sign({ carne }, RESET_PASSWORD_TOKEN_KEY, { expiresIn: '10min' });
 
-      Email.sendRecoveryPasswordEmail(
-        `${nombre} ${apellido}`,
-        correo,
-        token,
-      );
+      Email.sendRecoveryPasswordEmail(`${nombre} ${apellido}`, correo, token);
     });
 };
 
@@ -34,7 +30,7 @@ export const acceptPasswordReset = (
   res: Response,
 ): void => {
   const carne = verifyTokenHeader(RESET_PASSWORD_TOKEN_KEY, req.headers.authorization);
-  if (carne == null) { res.sendStatus(401); return; }
+  if (carne == null) { res.status(401).json({ err: 'The reset password token is expired, missing or expired.' }); return; }
 
   connection
     .query(`
@@ -53,7 +49,7 @@ export const SignUp = (
        not exists(select 1 from usuario where carne = $1) and 
        exists(select 1 from carrera where id = $2) as valid;`, [req.body.carne, req.body.carreraId])
     .then((response) => {
-      if (!response.rows[0].valid) { res.sendStatus(403); return; }
+      if (!response.rows[0].valid) { res.status(403).json({ err: 'A user with that carne already exist or the career did not exist.' }); return; }
       res.sendStatus(202);
 
       const token = jwt.sign({
@@ -71,14 +67,14 @@ export const SignUp = (
 
 export const AcceptSignUp = (req: Request, res: Response): void => {
   const authToken = req.headers?.authorization?.split(' ')[1];
-  if (!authToken) { res.sendStatus(401); return; }
+  if (!authToken) { res.status(401).json({ err: 'The authorization token is missing.' }); return; }
 
   let tokenData: any;
 
   try {
     tokenData = jwt.verify(authToken, VERIFY_TOKEN_KEY);
   } catch (e) {
-    res.sendStatus(401);
+    res.status(401).json({ err: 'The authorization token is invalid or expired.' });
     return;
   }
 
@@ -98,5 +94,5 @@ export const AcceptSignUp = (req: Request, res: Response): void => {
       const token = jwt.sign({ carne: newUserData[0] }, AUTH_TOKEN_KEY, { expiresIn: '1 day' });
       res.status(201).json({ token });
     })
-    .catch(() => { res.sendStatus(403); });
+    .catch(() => { res.status(403).json({ err: `An user with carne ${tokenData.carne} already existed.` }); });
 };

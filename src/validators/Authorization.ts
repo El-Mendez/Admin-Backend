@@ -7,7 +7,7 @@ export interface LogInSchema {
 }
 export const logIn = [
   carne,
-  body('password').isString().notEmpty().withMessage('password debe ser una cadena de texto no vacía.'),
+  body('password').isString().notEmpty(),
 ];
 
 export interface ChangePasswordSchema {
@@ -15,6 +15,6 @@ export interface ChangePasswordSchema {
     oldPassword: string,
 }
 export const changePassword = [
-  body('newPassword').isString().isLength({ min: 8 }).withMessage('newPassword debe de tener al menos 8 caracteres.'),
-  body('oldPassword').isString().notEmpty().withMessage('oldPassword debe ser un string no vacío.'),
+  body('newPassword').isString().isLength({ min: 8 }),
+  body('oldPassword').isString().notEmpty(),
 ];

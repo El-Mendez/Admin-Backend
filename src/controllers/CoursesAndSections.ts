@@ -36,7 +36,7 @@ export const assignSection = async (
     }
     res.sendStatus(201);
   } catch (e) {
-    res.sendStatus(403);
+    res.status(403).json({ err: 'A section did not exist or the user was already assigned to that section.' });
   }
 };
 

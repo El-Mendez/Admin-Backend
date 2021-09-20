@@ -65,9 +65,9 @@ Permite conocer la información de perfil de cualquier usuario por medio del car
 
 | Ruta       | /free/profile                                                            | Código de error | Significado                                       |
 |------------|--------------------------------------------------------------------------|-----------------|---------------------------------------------------|
-| Método     | Post                                                                     | 400             | No mandó todos los parámetros.                    |
-| Parámetros | `carne`                                                                  | 401             | Token Vencido o no mandó token.                   |
-| Devuelve   | `[carne`, `nombre_completo`,`carrera`, `correo`, `[cursos]`,`[hobbies]]` | 403             | El usuario no está asignado a ningún curso hobbie |
+| Método     | Post                                                                     |  403            | El usuario no está asignado a ningún curso hobbie |
+| Parámetros | `carne`                                                                  |                 |                                                   |
+| Devuelve   | `[carne`, `nombre_completo`,`carrera`, `correo`, `[cursos]`,`[hobbies]]` |                 |                                                   |
 
 # Auth: Necesita estar loggeado.
 Para cualquier de estos request se necesita estar poner un JWT válido en el header `authorization` del request en 

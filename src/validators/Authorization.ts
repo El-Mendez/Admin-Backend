@@ -18,3 +18,7 @@ export const changePassword = [
   body('newPassword').isString().isLength({ min: 8 }),
   body('oldPassword').isString().notEmpty(),
 ];
+
+export interface profileSchema {
+    carne: number,
+}

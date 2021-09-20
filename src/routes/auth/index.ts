@@ -7,6 +7,7 @@ import * as CoursesSchema from '../../validators/CoursesAndSections';
 import * as Hobby from '../../controllers/Hobby';
 import * as HobbySchema from '../../validators/Hobby';
 import * as Suggestions from '../../controllers/Suggestions';
+import * as Profile from '../../controllers/Profile';
 import validate from '../../validators/validate';
 
 export const authRouter = Router();
@@ -28,5 +29,8 @@ authRouter.get('/suggestions/hobbies', Suggestions.byHobbies);
 
 // Para el resto
 authRouter.post('/password', AuthSchema.changePassword, validate, Auth.changePassword);
+
+// Información de perfil
+authRouter.post('/profile', Profile.personalProfile);
 
 export default authRouter;

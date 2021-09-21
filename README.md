@@ -27,6 +27,7 @@ DATABASE_HOST=localhost
 DATABASE_USERNAME=postgres
 DATABASE_PASSWORD=postgres
 DATABASE_NAME=postgres
+ENVIRONMENT=development
 
 # Para enviar correos
 EMAIL=ejemplo@gmail.com

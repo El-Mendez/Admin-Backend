@@ -1,26 +1,13 @@
 import Mailgen from 'mailgen';
-import { createTransport } from 'nodemailer';
 import { URL } from 'url';
-import * as constants from '../constants';
+import * as constants from '../../constants';
 
 const mailGenerator = new Mailgen({
   theme: 'default',
   product: { name: constants.COMPANY, link: constants.COMPANY_LINK, logo: constants.COMPANY_LOGO },
 });
 
-const transporter = createTransport({
-  service: 'gmail',
-  logger: true,
-  auth: {
-    type: 'oauth2',
-    user: constants.EMAIL_ADDRESS,
-    clientId: constants.EMAIL_CLIENT_ID,
-    clientSecret: constants.EMAIL_CLIENT_SECRET,
-    refreshToken: constants.EMAIL_REFRESH_TOKEN,
-  },
-});
-
-const recoveryPasswordEmail = (receiverName: string, token: string) => {
+export const recoveryPasswordEmail = (receiverName: string, token: string) => {
   const url = new URL(constants.RECEIVER_PASSWORD_LINK);
   url.searchParams.set('token', token);
 
@@ -40,7 +27,7 @@ const recoveryPasswordEmail = (receiverName: string, token: string) => {
   return [mailGenerator.generate(email), mailGenerator.generatePlaintext(email)];
 };
 
-const verifyAccountEmail = (receiverName: string, token: string) => {
+export const verifyAccountEmail = (receiverName: string, token: string) => {
   const url = new URL(constants.CONFIRM_ACCOUNT_LINK);
   url.searchParams.set('token', token);
 
@@ -58,34 +45,4 @@ const verifyAccountEmail = (receiverName: string, token: string) => {
     },
   };
   return [mailGenerator.generate(email), mailGenerator.generatePlaintext(email)];
-};
-
-export const sendRecoveryPasswordEmail = async (
-  receiverName: string,
-  receiverEmail: string,
-  token: string,
-): Promise<void> => {
-  const [html, text] = recoveryPasswordEmail(receiverName, token);
-  await transporter.sendMail({
-    from: constants.COMPANY,
-    to: receiverEmail,
-    subject: 'Cambio de contraseña Meeting',
-    html,
-    text,
-  });
-};
-
-export const sendVerifyAccountEmail = async (
-  receiverName: string,
-  receiverEmail: string,
-  token: string,
-): Promise<void> => {
-  const [html, text] = verifyAccountEmail(receiverName, token);
-  await transporter.sendMail({
-    from: constants.COMPANY,
-    to: receiverEmail,
-    subject: `Saludos desde ${constants.COMPANY}`,
-    html,
-    text,
-  });
 };

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { connection } from '../services/connection';
+import { connection } from '../services/Postgres/connection';
 import toNonEmptyString from '../utils/toNonEmptyString';
 import * as Parser from '../parsers';
 import * as Schema from '../validators/CoursesAndSections';

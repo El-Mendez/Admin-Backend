@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { connection } from '../services/connection';
+import { connection } from '../services/Postgres/connection';
 import * as Schema from '../validators/Authorization';
 
 export const personalProfile = (

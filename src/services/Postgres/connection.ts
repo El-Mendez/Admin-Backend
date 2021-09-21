@@ -1,7 +1,7 @@
 import { Pool } from 'pg';
 import {
   DATABASE_HOST, DATABASE_PASSWORD, DATABASE_USER, DATABASE_NAME,
-} from '../constants';
+} from '../../constants';
 
 export const connection: Pool = new Pool({
   host: DATABASE_HOST,

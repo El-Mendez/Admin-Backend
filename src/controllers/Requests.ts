@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import jwt from 'jsonwebtoken';
 import { AUTH_TOKEN_KEY, RESET_PASSWORD_TOKEN_KEY, VERIFY_TOKEN_KEY } from '../constants';
-import { connection } from '../services/connection';
+import { connection } from '../services/Postgres/connection';
 import verifyTokenHeader from '../utils/verifyTokenHeader';
 import * as Email from '../services/Email';
 import * as Schema from '../validators/Request';

@@ -1,6 +1,5 @@
 import { Request, Response } from 'express';
 import { connection } from '../services/Postgres/connection';
-import * as Schema from '../validators/Authorization';
 
 export const personalProfile = (
   req: Request,
@@ -18,8 +17,11 @@ export const personalProfile = (
     });
 };
 
-export const userProfile = (req: Request<{}, {}, Schema.profileSchema>, res: Response): void => {
-  const userId: number = req.body.carne;
+export const userProfile = (
+  req: Request<{ carne: string }, {}, {}>,
+  res: Response,
+): void => {
+  const userId = parseInt(req.params.carne, 10);
   connection
     .query(`
             select * 

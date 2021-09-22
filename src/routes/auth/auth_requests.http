@@ -35,5 +35,5 @@ Content-Type: application/json
 }
 
 #### INFORMACIÓN DE PERFIL
-POST {{host}}/auth/profile
+GET {{host}}/auth/profile
 Authorization: Bearer {{token}}

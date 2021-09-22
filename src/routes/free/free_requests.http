@@ -22,11 +22,4 @@ GET {{host}}/free/curso/compu
 GET {{host}}/free/carrera/compu
 
 #### USER INFO
-POST {{host}}/free/profile
-Content-Type: application/json
-
-{
-  "carne": "{{carne}}"
-}
-
-> {% client.global.set("carne", response.body.carne) %}
+GET {{host}}/free/profile/0

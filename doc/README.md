@@ -61,12 +61,12 @@ curso o el código del curso. No tiene que estar completo e ignora mayúsculas.
 | Devuelve   | [`cursoId`, `cursoNombre`, `secciones: [seccion, seccionId]`]     |
 
 ### Obtener información del usuario
-Permite conocer la información de perfil de cualquier usuario por medio del carne.
+Permite conocer la información de perfil de cualquier usuario por medio del carné. 
 
-| Ruta       | /free/profile                                                            | Código de error | Significado                                       |
+| Ruta       | /free/profile/:carne                                                     | Código de error | Significado                                       |
 |------------|--------------------------------------------------------------------------|-----------------|---------------------------------------------------|
-| Método     | Post                                                                     |  403            | El usuario no está asignado a ningún curso hobbie |
-| Parámetros | `carne`                                                                  |                 |                                                   |
+| Método     | GET                                                                      |  403            | El usuario no está asignado a ningún curso hobbie |
+| Parámetros | `carne` (en URI)                                                         |                 |                                                   |
 | Devuelve   | `[carne`, `nombre_completo`,`carrera`, `correo`, `[cursos]`,`[hobbies]]` |                 |                                                   |
 
 # Auth: Necesita estar loggeado.
@@ -122,11 +122,11 @@ Para cambiar la contraseña, se necesita tener un token de autorización y tambi
 ### Obtener información del usuario
 Permite conocer la información de perfil del usuario actualmente loggeado.
 
-| Ruta       | /auth/profile                                                          | Código de error | Significado                                       |
-|------------|------------------------------------------------------------------------|-----------------|---------------------------------------------------|
-| Método     | Post                                                                   | 400             | No mandó todos los parámetros.                    |
-| Parámetros |                                                                        | 401             | Token Vencido o no mandó token.                   |
-| Devuelve   | `[carne`, `nombre_completo`,`carrera`, `correo`, `[cursos]`,`[hobbies]]` | 403           | El usuario no está asignado a ningún curso hobbie |
+| Ruta       | /auth/profile                                                            | Código de error | Significado                                       |
+|------------|--------------------------------------------------------------------------|-----------------|---------------------------------------------------|
+| Método     | GET                                                                      | 400             | No mandó todos los parámetros.                    |
+| Parámetros |                                                                          | 401             | Token Vencido o no mandó token.                   |
+| Devuelve   | `[carne`, `nombre_completo`,`carrera`, `correo`, `[cursos]`,`[hobbies]]` | 403             | El usuario no está asignado a ningún curso hobbie |
 
 ## Recomendaciones
 Realmente son exactamente idénticas al auth, pero lo puse separado porque realmente nuestro proyecto está basado en 

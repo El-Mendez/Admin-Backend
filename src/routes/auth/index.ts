@@ -31,6 +31,6 @@ authRouter.get('/suggestions/hobbies', Suggestions.byHobbies);
 authRouter.post('/password', AuthSchema.changePassword, validate, Auth.changePassword);
 
 // Información de perfil
-authRouter.post('/profile', Profile.personalProfile);
+authRouter.get('/profile', Profile.personalProfile);
 
 export default authRouter;

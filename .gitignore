@@ -19,6 +19,10 @@ env
 # para el deployment
 deployment.http
 
+# Reportes de las pruebas con covertura
+.nyc_output
+.nyc_output/
+
 # If you are using Webstorm #
 .idea
 .idea/

@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { connection } from '../services/connection';
+import { connection } from '../services/Postgres/connection';
 import toNonEmptyString from '../utils/toNonEmptyString';
 import * as Schema from '../validators/Hobby';
 
@@ -29,6 +29,6 @@ export const assignHobby = async (
     }
     res.sendStatus(201);
   } catch (e) {
-    res.sendStatus(403);
+    res.status(403).json({ err: 'The hobby did not exist or the user was already assigned to that hobby.' });
   }
 };

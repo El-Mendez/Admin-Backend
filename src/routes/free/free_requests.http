@@ -20,3 +20,6 @@ GET {{host}}/free/curso/compu
 
 #### GET CARRERA BY NOMBRE
 GET {{host}}/free/carrera/compu
+
+#### USER INFO
+GET {{host}}/free/profile/0

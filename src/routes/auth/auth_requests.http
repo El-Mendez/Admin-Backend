@@ -33,3 +33,7 @@ Content-Type: application/json
 {
   "hobbyId": "1"
 }
+
+#### INFORMACIÓN DE PERFIL
+GET {{host}}/auth/profile
+Authorization: Bearer {{token}}

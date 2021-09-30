@@ -1,6 +1,7 @@
 -- Funciones
 
 -- Envía una solicitud de amistad
+
 CREATE OR REPLACE function send_request(integer, integer)
     RETURNS VOID AS
 $BODY$
@@ -38,6 +39,7 @@ SELECT send_request(19943, 19943);
 -- ur → usuario que recibe
 -- ue → usuario que envía
 -- Acepta una solicitud de amistad → en este caso el orden sí importa
+
 CREATE OR REPLACE function accept_request(ur integer, ue integer)
     RETURNS VOID AS
 $BODY$
@@ -95,6 +97,7 @@ $BODY$
 SELECT accept_request(0, 191025);
 
 -- Obtiene los amigos para un usuario específico
+
 CREATE OR REPLACE function get_friends(integer)
     RETURNS TABLE(nombre_completo varchar, credencial int, email varchar) AS
 $BODY$
@@ -143,7 +146,7 @@ BEGIN
     SELECT
         EXISTS(SELECT *
                FROM solicitud_amistad
-               WHERE usuario_envia = $1 and usuario_envia = $2
+               WHERE usuario_envia = $1 and usuario_recibe = $2
                   or usuario_envia = $2 and usuario_recibe = $1)
     INTO exist;
 

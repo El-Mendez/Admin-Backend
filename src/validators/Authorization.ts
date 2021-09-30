@@ -19,6 +19,6 @@ export const changePassword = [
   body('oldPassword').isString().notEmpty(),
 ];
 
-export interface profileSchema {
+export interface friendSchema {
     carne: number,
 }

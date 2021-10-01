@@ -34,7 +34,6 @@ create table amistad
 (
     amigo1_carne integer references usuario (carne) on delete cascade,
     amigo2_carne integer references usuario (carne) on delete cascade,
-    check (amigo1_carne > amigo2_carne),
     primary key (amigo1_carne, amigo2_carne)
 );
 
@@ -70,4 +69,11 @@ create table red_social
     plataforma_id smallint references plataforma_social (id),
     perfil        varchar(20) not null,
     primary key (usuario_carne, plataforma_id)
+);
+
+create table solicitud_amistad
+(
+    usuario_envia integer references usuario (carne) on delete cascade,
+    usuario_recibe integer references usuario (carne),
+    primary key (usuario_envia, usuario_recibe)
 );

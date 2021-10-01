@@ -6,8 +6,8 @@ POST {{host}}/free/login
 Content-Type: application/json
 
 {
-  "carne": "{{carne}}",
-  "password": "{{password}}"
+  "carne": "191025",
+  "password": "123456789"
 }
 
 > {% client.global.set("token", response.body.token) %}

@@ -11,3 +11,4 @@ FROM usuario u
          INNER JOIN has_hobby hh on u.carne = hh.usuario_carne
          INNER JOIN hobby h on h.id = hh.hobby_id
 GROUP BY u.carne, CONCAT(u.nombre, '', u.apellido), c.nombre, u.correo;
+

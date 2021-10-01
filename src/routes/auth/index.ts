@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import * as Auth from '../../controllers/Authorization';
 import * as AuthSchema from '../../validators/Authorization';
+import * as GenSchema from '../../validators/general';
 import * as Testing from '../../controllers/Testing';
 import * as Courses from '../../controllers/CoursesAndSections';
 import * as CoursesSchema from '../../validators/CoursesAndSections';
@@ -8,6 +9,7 @@ import * as Hobby from '../../controllers/Hobby';
 import * as HobbySchema from '../../validators/Hobby';
 import * as Suggestions from '../../controllers/Suggestions';
 import * as Profile from '../../controllers/Profile';
+import * as Friends from '../../controllers/Friends';
 import validate from '../../validators/validate';
 
 export const authRouter = Router();
@@ -32,5 +34,13 @@ authRouter.post('/password', AuthSchema.changePassword, validate, Auth.changePas
 
 // Información de perfil
 authRouter.get('/profile', Profile.personalProfile);
+
+// Rutas que tienen que ver con amigos
+authRouter.post('/friends/sendRequest', GenSchema.carne, validate, Friends.sendRequest);
+authRouter.post('/friends/acceptRequest', GenSchema.carne, validate, Friends.acceptRequest);
+authRouter.post('/friends/cancelRequest', GenSchema.carne, validate, Friends.cancelRequest);
+authRouter.get('/friends/getFriends', Friends.getFriends);
+authRouter.get('/friends/receivedRequests', Friends.receivedRequests);
+authRouter.get('/friends/sentRequests', Friends.sentRequests);
 
 export default authRouter;

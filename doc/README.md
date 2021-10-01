@@ -151,6 +151,63 @@ común.
 | Parámetros |                                          |                 |                                 |
 | Devuelve   | [`carne`, `nombre`, `apellido`, `count`] |                 |                                 |
 
+## Amistades
+Se encargan del manejo de amigos. Son rutas que trabajan con Auth, sin embargo, ya que es un módulo de gran valor para los 
+usuarios, se colocó de manera separada.
+
+### Enviar solicitud de amistad
+El usuario actualmente loggeado envía una solicitud de amistad al usuario seleccionado.
+
+| Ruta       | /auth/friends/sendRequest            | Código de error | Significado                                     |
+|------------|--------------------------------------|-----------------|-------------------------------------------------|
+| Método     | POST                                 | 401             | Token vencido o no mandó token.                 |
+| Parámetros | `carne` (usuario que recibe request) | 403             | Solicitud de amistad ya existente o los carnets |
+| Devuelve   |                                      |                 |                                                 |
+
+### Aceptar solicitud de amistad
+El usuario actualmente loggeado acepta una solicitud de amistad del usuario seleccionado.
+
+| Ruta       | /auth/friends/acceptRequest              | Código de error | Significado                                              |
+|------------|------------------------------------------|-----------------|----------------------------------------------------------|
+| Método     | POST                                     | 401             | Token vencido o no mandó token.                          |
+| Parámetros | `carne` (usuario que envió la solicitud) | 403             | La solicitud de amistad no existe o la amistad ya existe |
+| Devuelve   |                                          |                 |                                                          |
+
+### Cancelar o rechazar solicitud de amistad
+El usuario actualmente loggeado rechaza una solicitud de amistad recibida, o bien, cancela una solicitud de amistad enviada.
+
+| Ruta       | /auth/friends/cancelRequest                      | Código de error | Significado                                                    |
+|------------|--------------------------------------------------|-----------------|----------------------------------------------------------------|
+| Método     | POST                                             | 401             | Token vencido o no mandó token.                                |
+| Parámetros | `carne` (usuario que envió/recibió al solicitud) | 403             | La solicitud de amistad no existe o los carnets son los mismos |
+| Devuelve   |                                                  |                 |                                                                |
+
+### Obtener amigos
+Obtiene los amigos del usuario actualmente loggeado.
+
+| Ruta       | /auth/friends/getFriends      | Código de error | Significado                     |
+|------------|-------------------------------|-----------------|---------------------------------|
+| Método     | GET                           | 401             | Token vencido o no mandó token. |
+| Parámetros |                               |                 |                                 |
+| Devuelve   | [`nombre`, `carne`, `correo`] |                 |                                 |
+
+### Solicitudes de amistad recibidas
+Obtiene las solicitudes de amistad recibidas por el usuario loggeado.
+
+| Ruta       | /auth/friends/receivedRequests                           | Código de error | Significado                     |
+|------------|----------------------------------------------------------|-----------------|---------------------------------|
+| Método     | GET                                                      | 401             | Token vencido o no mandó token. |
+| Parámetros |                                                          |                 |                                 |
+| Devuelve   | [`usuario_envia`] (carne de usuario que envía solicitud) |                 |                                 |
+
+### Solicitudes de amistad enviadas
+Obtiene las solicitudes de amistad enviadas por el usuario loggeado.
+
+| Ruta       | /auth/friends/sentRequests                                | Código de error | Significado                     |
+|------------|-----------------------------------------------------------|-----------------|---------------------------------|
+| Método     | GET                                                       | 401             | Token vencido o no mandó token. |
+| Parámetros |                                                           |                 |                                 |
+| Devuelve   | [`usuario_recibe`] (carne de usuario que envía solicitud) |                 |                                 |
 
 # Request: Especiales por correo
 Aquí van las request que realmente necesitan o generan tokens no regulares.

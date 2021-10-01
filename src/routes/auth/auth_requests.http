@@ -37,3 +37,46 @@ Content-Type: application/json
 #### INFORMACIÓN DE PERFIL
 GET {{host}}/auth/profile
 Authorization: Bearer {{token}}
+
+#### SEND A FRIEND REQUEST
+POST {{host}}/auth/friends/sendRequest
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "carne": "19943"
+}
+
+#### ACCEPT A FRIEND REQUEST
+POST {{host}}/auth/friends/acceptRequest
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+# Usuario que envió la request
+{
+  "carne": "0"
+}
+
+#### CANCEL REQUEST
+POST {{host}}/auth/friends/cancelRequest
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+# Usuario que envió/recibió la request
+{
+  "carne": "0"
+}
+
+
+#### SEND A FRIEND REQUEST
+GET {{host}}/auth/friends/getFriends
+Authorization: Bearer {{token}}
+
+#### OBTAIN THE RECEIVED FRIENDSHIP REQUESTS
+GET {{host}}/auth/friends/receivedRequests
+Authorization: Bearer {{token}}
+
+#### OBTAIN THE SENT FRIENDSHIP REQUESTS
+GET {{host}}/auth/friends/sentRequests
+Authorization: Bearer {{token}}
+

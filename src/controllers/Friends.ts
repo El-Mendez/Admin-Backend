@@ -2,46 +2,51 @@ import { Request, Response } from 'express';
 import { connection } from '../services/Postgres/connection';
 import * as Schema from '../validators/Authorization';
 
-export const sendRequest = async (
+export const sendRequest = (
   req: Request<{}, {}, Schema.friendSchema>,
   res: Response,
-) => {
+): void => {
   const possibleFriend: Number = req.body.carne;
-
-  try {
-    await connection.query('select send_request($1, $2) ', [req.carne, possibleFriend]);
-    res.sendStatus(200);
-  } catch (e) {
-    res.status(403).json({ err: 'The friendship request already exist or the users credentials are the same.' });
-  }
+  connection
+    .query('select send_request($1, $2) ', [req.carne, possibleFriend])
+    .then(() => {
+      res.sendStatus(200);
+    })
+    .catch(() => {
+      res.status(403).json({ err: 'The friendship request already exist or the users credentials are the same.' });
+    });
 };
 
-export const acceptRequest = async (
+export const acceptRequest = (
   req: Request<{}, {}, Schema.friendSchema>,
   res: Response,
-) => {
+) : void => {
   const possibleFriend:Number = req.body.carne;
 
-  try {
-    await connection.query('select accept_request($1, $2) ', [req.carne, possibleFriend]);
-    res.sendStatus(200);
-  } catch (e) {
-    res.status(403).json({ err: 'The friendship request does not exist or the friendship already exist.' });
-  }
+  connection
+    .query('select accept_request($1, $2) ', [req.carne, possibleFriend])
+    .then(() => {
+      res.sendStatus(200);
+    })
+    .catch(() => {
+      res.status(403).json({ err: 'The friendship request does not exist or the friendship already exist.' });
+    });
 };
 
-export const cancelRequest = async (
+export const cancelRequest = (
   req: Request<{}, {}, Schema.friendSchema>,
   res: Response,
-) => {
+) : void => {
   const possibleFriend:Number = req.body.carne;
 
-  try {
-    await connection.query('select cancel_reject_request($1, $2) ', [req.carne, possibleFriend]);
-    res.sendStatus(200);
-  } catch (e) {
-    res.status(403).json({ err: 'The friendship request does not exist or the users credentials are the same' });
-  }
+  connection
+    .query('select cancel_reject_request($1, $2) ', [req.carne, possibleFriend])
+    .then(() => {
+      res.sendStatus(200);
+    })
+    .catch(() => {
+      res.status(403).json({ err: 'The friendship request does not exist or the users credentials are the same' });
+    });
 };
 
 export const getFriends = (

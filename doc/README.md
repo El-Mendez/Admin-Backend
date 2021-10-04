@@ -25,7 +25,7 @@ El token es necesario para poder usar todas las funciones de auth.
 
 |    Ruta    | /free/login          | Código de error | Significado                         |
 |:----------:|----------------------|----------------:|-------------------------------------|
-|   Método   | GET                  | 400             | No se pasaron todos los parámetros. |
+|   Método   | POST                 | 400             | No se pasaron todos los parámetros. |
 | Parámetros | `carne`, `password`  | 403             | Contraseña o usuario incorrecto.    |
 | Devuelve   | `token`              |                 |                                     |
 
@@ -65,9 +65,9 @@ Permite conocer la información de perfil de cualquier usuario por medio del car
 
 | Ruta       | /free/profile/:carne                                                     | Código de error | Significado                                       |
 |------------|--------------------------------------------------------------------------|-----------------|---------------------------------------------------|
-| Método     | GET                                                                      |  403            | El usuario no está asignado a ningún curso hobbie |
-| Parámetros | `carne` (en URI)                                                         |                 |                                                   |
-| Devuelve   | `[carne`, `nombre_completo`,`carrera`, `correo`, `[cursos]`,`[hobbies]]` |                 |                                                   |
+| Método     | GET                                                                      |  400            | No se pasaron parámetros válidos                  |
+| Parámetros | `carne` (en URI)                                                         |  403            | El usuario no está asignado a ningún curso hobbie |
+| Devuelve   | `[carne`, `nombre_completo`,`carrera`, `correo`, `[cursos]`,`[hobbies]]` |  403            | El usuario no existe                              |
 
 # Auth: Necesita estar loggeado.
 Para cualquier de estos request se necesita estar poner un JWT válido en el header `authorization` del request en 
@@ -104,7 +104,7 @@ Si una persona ya está loggeada, se puede asignar a algunos hobbies si conoce e
 ### Ver cursos asignados
 Devuelve todos los cursos asignados por el estudiante.
 
-|    Ruta    | /auth/curso/                                                      | Código de error | Significado                                          |
+|    Ruta    | /auth/seccion/                                                      | Código de error | Significado                                          |
 |:----------:|-------------------------------------------------------------------|----------------:|------------------------------------------------------|
 |   Método   | GET                                                               |             401 | Token vencido o no mandó token.                      |
 | Parámetros |                                                                   |                 |                                                      |
@@ -122,11 +122,11 @@ Para cambiar la contraseña, se necesita tener un token de autorización y tambi
 ### Obtener información del usuario
 Permite conocer la información de perfil del usuario actualmente loggeado.
 
-| Ruta       | /auth/profile                                                            | Código de error | Significado                                       |
-|------------|--------------------------------------------------------------------------|-----------------|---------------------------------------------------|
-| Método     | GET                                                                      | 400             | No mandó todos los parámetros.                    |
-| Parámetros |                                                                          | 401             | Token Vencido o no mandó token.                   |
-| Devuelve   | `[carne`, `nombre_completo`,`carrera`, `correo`, `[cursos]`,`[hobbies]]` | 403             | El usuario no está asignado a ningún curso hobbie |
+| Ruta       | /auth/profile                                                            | Código de error | Significado                                        |
+|------------|--------------------------------------------------------------------------|-----------------|----------------------------------------------------|
+| Método     | GET                                                                      | 403             | El usuario no está asignado a ningún curso o hobby |
+| Parámetros |                                                                          | 401             | Token Vencido o no mandó token.                    |
+| Devuelve   | `[carne`, `nombre_completo`,`carrera`, `correo`, `[cursos]`,`[hobbies]]` |                 |                                                    |
 
 ## Recomendaciones
 Realmente son exactamente idénticas al auth, pero lo puse separado porque realmente nuestro proyecto está basado en 

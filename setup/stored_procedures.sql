@@ -177,3 +177,49 @@ $BODY$
     LANGUAGE 'plpgsql';
 
 SELECT cancel_reject_request(191025, 0);
+
+CREATE OR REPLACE function sections_suggestions(integer)
+    RETURNS TABLE(carne integer, nombre varchar, correo varchar) AS
+$BODY$
+BEGIN
+    RETURN QUERY
+        SELECT u.carne, (CONCAT(u.nombre, ' ', u.apellido))::VARCHAR, u.correo
+        FROM asiste_seccion pool
+                 INNER JOIN asiste_seccion a on pool.seccion_id = a.seccion_id and a.usuario_carne != $1
+                 INNER JOIN usuario u on a.usuario_carne = u.carne
+        WHERE pool.usuario_carne = $1
+          AND u.carne NOT IN(SELECT amigo2_carne FROM amistad WHERE amigo1_carne = $1)
+          AND u.carne NOT IN(SELECT amigo1_carne FROM amistad WHERE amigo2_carne = $1)
+          AND u.carne NOT IN(SELECT usuario_envia FROM solicitud_amistad WHERE usuario_recibe = $1)
+          AND u.carne NOT IN(SELECT usuario_recibe FROM solicitud_amistad WHERE usuario_envia = $1)
+        GROUP BY u.carne
+        ORDER BY COUNT(*) DESC
+        LIMIT 10;
+END
+$BODY$
+    LANGUAGE 'plpgsql';
+
+SELECT * FROM sections_suggestions(191025);
+
+CREATE OR REPLACE function hobbies_suggestions(integer)
+    RETURNS TABLE(carne integer, nombre varchar, correo varchar) AS
+$BODY$
+BEGIN
+    RETURN QUERY
+        SELECT u.carne, (CONCAT(u.nombre, ' ', u.apellido))::VARCHAR, u.correo
+        FROM has_hobby pool
+                 INNER JOIN has_hobby a ON pool.hobby_id = a.hobby_id AND a.usuario_carne != $1
+                 INNER JOIN usuario u ON a.usuario_carne = u.carne
+        WHERE pool.usuario_carne = $1
+          AND u.carne NOT IN(SELECT amigo2_carne FROM amistad WHERE amigo1_carne = $1)
+          AND u.carne NOT IN(SELECT amigo1_carne FROM amistad WHERE amigo2_carne = $1)
+          AND u.carne NOT IN(SELECT usuario_envia FROM solicitud_amistad WHERE usuario_recibe = $1)
+          AND u.carne NOT IN(SELECT usuario_recibe FROM solicitud_amistad WHERE usuario_envia = $1)
+        GROUP BY u.carne
+        ORDER BY COUNT(*) DESC
+        LIMIT 10;
+END
+$BODY$
+    LANGUAGE 'plpgsql';
+
+SELECT * FROM hobbies_suggestions(191025);

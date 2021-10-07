@@ -99,7 +99,7 @@ SELECT accept_request(0, 191025);
 -- Obtiene los amigos para un usuario específico
 
 CREATE OR REPLACE function get_friends(integer)
-    RETURNS TABLE(nombre_completo varchar, credencial int, email varchar) AS
+    RETURNS TABLE(nombre varchar, carne int, correo varchar) AS
 $BODY$
 DECLARE
     friends1 numeric[];
@@ -107,7 +107,7 @@ DECLARE
     friends numeric[];
     fren numeric;
 BEGIN
-    IF NOT EXISTS(SELECT carne FROM usuario WHERE carne = $1)
+    IF NOT EXISTS(SELECT u.carne FROM usuario u WHERE u.carne = $1)
     THEN
         RAISE EXCEPTION
             SQLSTATE '80000'
@@ -124,18 +124,20 @@ BEGIN
 
     FOREACH fren in array friends LOOP
             RETURN QUERY
-                SELECT CONCAT(nombre, ' ', apellido)::VARCHAR, carne, correo
-                FROM usuario
-                WHERE carne = fren;
+                SELECT CONCAT(u.nombre, ' ', apellido)::VARCHAR as nombre_completo, u.carne, u.correo
+                FROM usuario u
+                WHERE u.carne = fren;
         END LOOP;
 
 END
 $BODY$
     LANGUAGE 'plpgsql';
 
-SELECT get_friends(19943);
+
+SELECT * FROM get_friends(19943);
 
 -- Cancela o rechaza una solicitud de amistad
+
 CREATE OR REPLACE function cancel_reject_request(integer, integer)
     RETURNS VOID AS
 $BODY$

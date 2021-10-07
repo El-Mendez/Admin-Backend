@@ -12,3 +12,15 @@ FROM usuario u
          INNER JOIN hobby h on h.id = hh.hobby_id
 GROUP BY u.carne, CONCAT(u.nombre, '', u.apellido), c.nombre, u.correo;
 
+-- Vista para extraer los datos del usuario para mostrar en su perfile
+CREATE OR REPLACE VIEW received_requests AS
+SELECT usuario_envia as carne, CONCAT(u.nombre, ' ', u.apellido) as nombre, u.correo
+FROM solicitud_amistad
+         INNER JOIN usuario u on u.carne = solicitud_amistad.usuario_envia;
+
+-- Requests hechas
+CREATE OR REPLACE VIEW sent_requests AS
+SELECT usuario_recibe AS carne, CONCAT(u.nombre, ' ', u.apellido) AS nombre, u.correo
+FROM solicitud_amistad
+         INNER JOIN usuario u on u.carne = solicitud_amistad.usuario_envia;
+

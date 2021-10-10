@@ -19,3 +19,12 @@ export const sendVerifyAccountEmail = async (
   const service = await Email;
   return service.sendVerifyAccountEmail(receiverName, receiverEmail, token);
 };
+
+export const sendReportEmail = async (
+  reporter: number,
+  reported: number,
+  message: string,
+): Promise<void> => {
+  const service = await Email;
+  return service.sendReportUserEmail(reporter, reported, message);
+};

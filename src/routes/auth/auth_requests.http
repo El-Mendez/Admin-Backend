@@ -80,3 +80,12 @@ Authorization: Bearer {{token}}
 GET {{host}}/auth/friends/sentRequests
 Authorization: Bearer {{token}}
 
+#### PARA REPORTAR UN USUARIO
+POST {{host}}/auth/report
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "reported": "0",
+  "reason": "ser mala onda D:"
+}

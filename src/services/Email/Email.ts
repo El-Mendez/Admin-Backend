@@ -1,6 +1,6 @@
 import { createTransport } from 'nodemailer';
 import * as constants from '../../constants';
-import { recoveryPasswordEmail, verifyAccountEmail } from './templates';
+import { recoveryPasswordEmail, reportEmail, verifyAccountEmail } from './templates';
 
 const transporter = createTransport({
   service: 'gmail',
@@ -39,6 +39,21 @@ export const sendVerifyAccountEmail = async (
     from: constants.COMPANY,
     to: receiverEmail,
     subject: `Saludos desde ${constants.COMPANY}`,
+    html,
+    text,
+  });
+};
+
+export const sendReportUserEmail = async (
+  reporter: number,
+  reported: number,
+  message: string,
+): Promise<void> => {
+  const [html, text] = reportEmail(reporter, reported, message);
+  await transporter.sendMail({
+    from: constants.COMPANY,
+    to: constants.EMAIL_ADDRESS,
+    subject: `${reported} ha sido reportado`,
     html,
     text,
   });

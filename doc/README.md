@@ -67,7 +67,7 @@ Permite conocer la información de perfil de cualquier usuario por medio del car
 |------------|--------------------------------------------------------------------------|-----------------|---------------------------------------------------|
 | Método     | GET                                                                      |  400            | No se pasaron parámetros válidos                  |
 | Parámetros | `carne` (en URI)                                                         |  403            | El usuario no está asignado a ningún curso hobbie |
-| Devuelve   | `[carne`, `nombre_completo`,`carrera`, `correo`, `[cursos]`,`[hobbies]]` |  403            | El usuario no existe                              |
+| Devuelve   | `[carne`, `nombre_completo`,`carrera`, `correo`, `[cursos]`,`[hobbies]]` |                 |                                                   |
 
 # Auth: Necesita estar loggeado.
 Para cualquier de estos request se necesita estar poner un JWT válido en el header `authorization` del request en 

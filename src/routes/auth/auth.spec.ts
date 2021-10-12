@@ -104,7 +104,7 @@ describe('Auth routes', () => {
       const response = await request(server)
         .post('/auth/password')
         .set('Authorization', `Bearer ${authToken}`)
-        .send({ oldPassword: 'fake password', newPassword: 'elefante azul' })
+        .send({ oldPassword: 'fake password', newPassword: 'elefante azul' });
 
       response.should.have.status(403);
     });
@@ -126,6 +126,34 @@ describe('Auth routes', () => {
         .set('Authorization', `Bearer ${authToken}`);
 
       response.should.have.status(200);
+    });
+  });
+
+  describe('POST /report', async () => {
+    it('should validate parameters', async () => {
+      const response = await request(server)
+        .post('/auth/report')
+        .set('Authorization', `Bearer ${authToken}`);
+
+      response.should.have.status(400);
+    });
+
+    it('should check if the reported exist', async () => {
+      const response = await request(server)
+        .post('/auth/report')
+        .set('Authorization', `Bearer ${authToken}`)
+        .send({ reported: 99, reason: 'Ser mala onda D:' });
+
+      response.should.have.status(403);
+    });
+
+    it('should return no errors if parameters are right', async () => {
+      const response = await request(server)
+        .post('/auth/report')
+        .set('Authorization', `Bearer ${authToken}`)
+        .send({ reported: 0, reason: 'Ser mala onda D:' });
+
+      response.should.have.status(201);
     });
   });
 

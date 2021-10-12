@@ -74,6 +74,6 @@ create table red_social
 create table solicitud_amistad
 (
     usuario_envia integer references usuario (carne) on delete cascade,
-    usuario_recibe integer references usuario (carne),
+    usuario_recibe integer references usuario (carne) on delete cascade,
     primary key (usuario_envia, usuario_recibe)
 );

@@ -67,7 +67,7 @@ Permite conocer la información de perfil de cualquier usuario por medio del car
 |------------|--------------------------------------------------------------------------|-----------------|---------------------------------------------------|
 | Método     | GET                                                                      |  400            | No se pasaron parámetros válidos                  |
 | Parámetros | `carne` (en URI)                                                         |  403            | El usuario no está asignado a ningún curso hobbie |
-| Devuelve   | `[carne`, `nombre_completo`,`carrera`, `correo`, `[cursos]`,`[hobbies]]` |  403            | El usuario no existe                              |
+| Devuelve   | `[carne`, `nombre_completo`,`carrera`, `correo`, `[cursos]`,`[hobbies]]` |                 |                                                   |
 
 # Auth: Necesita estar loggeado.
 Para cualquier de estos request se necesita estar poner un JWT válido en el header `authorization` del request en 
@@ -127,6 +127,15 @@ Permite conocer la información de perfil del usuario actualmente loggeado.
 | Método     | GET                                                                      | 403             | El usuario no está asignado a ningún curso o hobby |
 | Parámetros |                                                                          | 401             | Token Vencido o no mandó token.                    |
 | Devuelve   | `[carne`, `nombre_completo`,`carrera`, `correo`, `[cursos]`,`[hobbies]]` |                 |                                                    |
+
+### Reportar un usuario
+Permite lanzar una solicitud para reportar un usuario.
+
+| Ruta       | /auth/report         | Código de error | Significado                       |
+|------------|----------------------|-----------------|-----------------------------------|
+| Método     | POST                 | 400             | No se mandó todos los parámetros. |
+| Parámetros | `reported`, `reason` | 401             | Token vencido o no mandó token.   |
+| Devuelve   |                      | 403             | El usuario a reportar no existe.  |
 
 ## Recomendaciones
 Realmente son exactamente idénticas al auth, pero lo puse separado porque realmente nuestro proyecto está basado en 

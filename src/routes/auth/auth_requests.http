@@ -44,7 +44,7 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "carne": "19943"
+  "carne": "0"
 }
 
 #### ACCEPT A FRIEND REQUEST

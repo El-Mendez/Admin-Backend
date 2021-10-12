@@ -68,8 +68,8 @@ export const receivedRequests = (
 ) : void => {
   connection
     .query(`
-            SELECT *
-            FROM solicitud_amistad
+            SELECT carne, nombre, correo
+            FROM received_requests
             WHERE usuario_recibe = $1;`, [req.carne])
     .then((response) => {
       res.json(response.rows);
@@ -82,8 +82,8 @@ export const sentRequests = (
 ) : void => {
   connection
     .query(`
-            SELECT *
-            FROM solicitud_amistad
+            SELECT carne, nombre, correo
+            FROM sent_requests
             WHERE usuario_envia = $1;`, [req.carne])
     .then((response) => {
       res.json(response.rows);

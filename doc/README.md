@@ -198,7 +198,7 @@ Obtiene las solicitudes de amistad recibidas por el usuario loggeado.
 |------------|----------------------------------------------------------|-----------------|---------------------------------|
 | Método     | GET                                                      | 401             | Token vencido o no mandó token. |
 | Parámetros |                                                          |                 |                                 |
-| Devuelve   | [`usuario_envia`] (carne de usuario que envía solicitud) |                 |                                 |
+| Devuelve   | [`carne, nombre, correo`]                                |                 |                                 |
 
 ### Solicitudes de amistad enviadas
 Obtiene las solicitudes de amistad enviadas por el usuario loggeado.
@@ -207,7 +207,7 @@ Obtiene las solicitudes de amistad enviadas por el usuario loggeado.
 |------------|-----------------------------------------------------------|-----------------|---------------------------------|
 | Método     | GET                                                       | 401             | Token vencido o no mandó token. |
 | Parámetros |                                                           |                 |                                 |
-| Devuelve   | [`usuario_recibe`] (carne de usuario que envía solicitud) |                 |                                 |
+| Devuelve   | [`carne, nombre, correo`]                                 |                 |                                 |
 
 # Request: Especiales por correo
 Aquí van las request que realmente necesitan o generan tokens no regulares.

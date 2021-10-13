@@ -25,7 +25,7 @@ El token es necesario para poder usar todas las funciones de auth.
 
 |    Ruta    | /free/login          | Código de error | Significado                         |
 |:----------:|----------------------|----------------:|-------------------------------------|
-|   Método   | GET                  | 400             | No se pasaron todos los parámetros. |
+|   Método   | POST                 | 400             | No se pasaron todos los parámetros. |
 | Parámetros | `carne`, `password`  | 403             | Contraseña o usuario incorrecto.    |
 | Devuelve   | `token`              |                 |                                     |
 
@@ -65,8 +65,8 @@ Permite conocer la información de perfil de cualquier usuario por medio del car
 
 | Ruta       | /free/profile/:carne                                                     | Código de error | Significado                                       |
 |------------|--------------------------------------------------------------------------|-----------------|---------------------------------------------------|
-| Método     | GET                                                                      |  403            | El usuario no está asignado a ningún curso hobbie |
-| Parámetros | `carne` (en URI)                                                         |                 |                                                   |
+| Método     | GET                                                                      |  400            | No se pasaron parámetros válidos                  |
+| Parámetros | `carne` (en URI)                                                         |  403            | El usuario no está asignado a ningún curso hobbie |
 | Devuelve   | `[carne`, `nombre_completo`,`carrera`, `correo`, `[cursos]`,`[hobbies]]` |                 |                                                   |
 
 # Auth: Necesita estar loggeado.
@@ -104,7 +104,7 @@ Si una persona ya está loggeada, se puede asignar a algunos hobbies si conoce e
 ### Ver cursos asignados
 Devuelve todos los cursos asignados por el estudiante.
 
-|    Ruta    | /auth/curso/                                                      | Código de error | Significado                                          |
+|    Ruta    | /auth/seccion/                                                      | Código de error | Significado                                          |
 |:----------:|-------------------------------------------------------------------|----------------:|------------------------------------------------------|
 |   Método   | GET                                                               |             401 | Token vencido o no mandó token.                      |
 | Parámetros |                                                                   |                 |                                                      |
@@ -122,11 +122,20 @@ Para cambiar la contraseña, se necesita tener un token de autorización y tambi
 ### Obtener información del usuario
 Permite conocer la información de perfil del usuario actualmente loggeado.
 
-| Ruta       | /auth/profile                                                            | Código de error | Significado                                       |
-|------------|--------------------------------------------------------------------------|-----------------|---------------------------------------------------|
-| Método     | GET                                                                      | 400             | No mandó todos los parámetros.                    |
-| Parámetros |                                                                          | 401             | Token Vencido o no mandó token.                   |
-| Devuelve   | `[carne`, `nombre_completo`,`carrera`, `correo`, `[cursos]`,`[hobbies]]` | 403             | El usuario no está asignado a ningún curso hobbie |
+| Ruta       | /auth/profile                                                            | Código de error | Significado                                        |
+|------------|--------------------------------------------------------------------------|-----------------|----------------------------------------------------|
+| Método     | GET                                                                      | 403             | El usuario no está asignado a ningún curso o hobby |
+| Parámetros |                                                                          | 401             | Token Vencido o no mandó token.                    |
+| Devuelve   | `[carne`, `nombre_completo`,`carrera`, `correo`, `[cursos]`,`[hobbies]]` |                 |                                                    |
+
+### Reportar un usuario
+Permite lanzar una solicitud para reportar un usuario.
+
+| Ruta       | /auth/report         | Código de error | Significado                       |
+|------------|----------------------|-----------------|-----------------------------------|
+| Método     | POST                 | 400             | No se mandó todos los parámetros. |
+| Parámetros | `reported`, `reason` | 401             | Token vencido o no mandó token.   |
+| Devuelve   |                      | 403             | El usuario a reportar no existe.  |
 
 ## Recomendaciones
 Realmente son exactamente idénticas al auth, pero lo puse separado porque realmente nuestro proyecto está basado en 
@@ -158,11 +167,12 @@ usuarios, se colocó de manera separada.
 ### Enviar solicitud de amistad
 El usuario actualmente loggeado envía una solicitud de amistad al usuario seleccionado.
 
-| Ruta       | /auth/friends/sendRequest            | Código de error | Significado                                     |
-|------------|--------------------------------------|-----------------|-------------------------------------------------|
-| Método     | POST                                 | 401             | Token vencido o no mandó token.                 |
-| Parámetros | `carne` (usuario que recibe request) | 403             | Solicitud de amistad ya existente o los carnets |
-| Devuelve   |                                      |                 |                                                 |
+| Ruta       | /auth/friends/sendRequest | Código de error | Significado                                     |
+|------------|---------------------------|-----------------|-------------------------------------------------|
+| Método     | Post                      | 401             | Token vencido o no mandó token.                 |
+| Parámetros | `carne`                   | 403             | Las credenciales de los usuarios son las mismas |
+| Devuelve   |                           | 405             | La solicitud de amistad ya existe               |
+|            |                           | 407             | La amistad ya existe                            |
 
 ### Aceptar solicitud de amistad
 El usuario actualmente loggeado acepta una solicitud de amistad del usuario seleccionado.
@@ -170,7 +180,7 @@ El usuario actualmente loggeado acepta una solicitud de amistad del usuario sele
 | Ruta       | /auth/friends/acceptRequest              | Código de error | Significado                                              |
 |------------|------------------------------------------|-----------------|----------------------------------------------------------|
 | Método     | POST                                     | 401             | Token vencido o no mandó token.                          |
-| Parámetros | `carne` (usuario que envió la solicitud) | 403             | La solicitud de amistad no existe o la amistad ya existe |
+| Parámetros | `carne` (usuario que envió la solicitud) | 403             | La solicitud de amistad no existe                        |
 | Devuelve   |                                          |                 |                                                          |
 
 ### Cancelar o rechazar solicitud de amistad
@@ -179,8 +189,17 @@ El usuario actualmente loggeado rechaza una solicitud de amistad recibida, o bie
 | Ruta       | /auth/friends/cancelRequest                      | Código de error | Significado                                                    |
 |------------|--------------------------------------------------|-----------------|----------------------------------------------------------------|
 | Método     | POST                                             | 401             | Token vencido o no mandó token.                                |
-| Parámetros | `carne` (usuario que envió/recibió al solicitud) | 403             | La solicitud de amistad no existe o los carnets son los mismos |
+| Parámetros | `carne` (usuario que envió/recibió al solicitud) | 403             | La solicitud de amistad no existe                              |
 | Devuelve   |                                                  |                 |                                                                |
+
+### Eliminar a un amigo
+El usuario actualmente loggeado elimina a otro usuario de sus amigos.
+
+| Ruta       | /auth/friends/deleteFriend                       | Código de error | Significado                                        |
+|------------|--------------------------------------------------|-----------------|--------------------------------------------------- |
+| Método     | POST                                             | 401             | Token vencido o no mandó token.                    |
+| Parámetros | `carne`                                          | 403             | La  amistad no existe                              |
+| Devuelve   |                                                  |                 |                                                    |
 
 ### Obtener amigos
 Obtiene los amigos del usuario actualmente loggeado.
@@ -198,7 +217,7 @@ Obtiene las solicitudes de amistad recibidas por el usuario loggeado.
 |------------|----------------------------------------------------------|-----------------|---------------------------------|
 | Método     | GET                                                      | 401             | Token vencido o no mandó token. |
 | Parámetros |                                                          |                 |                                 |
-| Devuelve   | [`usuario_envia`] (carne de usuario que envía solicitud) |                 |                                 |
+| Devuelve   | [`carne, nombre, correo`]                                |                 |                                 |
 
 ### Solicitudes de amistad enviadas
 Obtiene las solicitudes de amistad enviadas por el usuario loggeado.
@@ -207,7 +226,7 @@ Obtiene las solicitudes de amistad enviadas por el usuario loggeado.
 |------------|-----------------------------------------------------------|-----------------|---------------------------------|
 | Método     | GET                                                       | 401             | Token vencido o no mandó token. |
 | Parámetros |                                                           |                 |                                 |
-| Devuelve   | [`usuario_recibe`] (carne de usuario que envía solicitud) |                 |                                 |
+| Devuelve   | [`carne, nombre, correo`]                                 |                 |                                 |
 
 # Request: Especiales por correo
 Aquí van las request que realmente necesitan o generan tokens no regulares.

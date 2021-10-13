@@ -34,3 +34,12 @@ export const SignUp = [
   body('password').isString().isLength({ min: 8 }),
   body('correo').isEmail().matches(/uvg\.edu\.gt$/).withMessage(`Debe tener un correo terminando en ${EMAIL_RECEIVER_DOMAIN}.`),
 ];
+
+export interface ReportUserSchema {
+  reported: number,
+  reason: string,
+}
+export const ReportUser = [
+  body('reported').isInt({ min: 0, max: 2299999 }).toInt(10),
+  body('reason').isString().isLength({ min: 10 }).escape(),
+];

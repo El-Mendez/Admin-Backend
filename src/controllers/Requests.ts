@@ -96,3 +96,21 @@ export const AcceptSignUp = (req: Request, res: Response): void => {
     })
     .catch(() => { res.status(403).json({ err: `An user with carne ${tokenData.carne} already existed.` }); });
 };
+
+export const ReportUser = (
+  req: Request<{}, {}, Schema.ReportUserSchema>,
+  res: Response,
+): void => {
+  const reporter = req.carne || 0;
+  const { reported, reason } = req.body;
+
+  connection
+    .query('select exists(select 1 from usuario where carne = $1) as exist;', [reported])
+    .then((response) => {
+      // Si no encontró el usuario
+      if (!response.rows[0].exist) { res.status(403).json({ err: 'There is no user with that carne.' }); return; }
+
+      res.sendStatus(201);
+      Email.sendReportEmail(reporter, reported, reason);
+    });
+};

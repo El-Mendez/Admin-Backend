@@ -46,3 +46,25 @@ export const verifyAccountEmail = (receiverName: string, token: string) => {
   };
   return [mailGenerator.generate(email), mailGenerator.generatePlaintext(email)];
 };
+
+export const reportEmail = (reporter: number, reported: number, message: string) => {
+  const email = {
+    body: {
+      greeting: 'Hola',
+      signature: 'Sinceramente',
+      name: 'Admins',
+      intro: `¡El carné ${reported} ha sido reportado!`,
+      table: {
+        data: [
+          { reporter, reported, reason: message },
+        ],
+        // columns: {
+      //     customWidth: { reporter: '20%', reported: '20%' },
+      //     customAlignment: { reporter: 'center', reported: 'center' },
+      //   },
+      },
+    },
+  };
+
+  return [mailGenerator.generate(email), mailGenerator.generatePlaintext(email)];
+};

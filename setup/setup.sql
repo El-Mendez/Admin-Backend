@@ -30,6 +30,10 @@ create table usuario
     correo     varchar(30) not null
 );
 
+INSERT INTO usuario
+VALUES
+    (0,'Prueba', 'Mendez', 0, crypt('elefante azul', gen_salt('bf')), 'cor191025@vg.edu.gt');
+
 create table amistad
 (
     amigo1_carne integer references usuario (carne) on delete cascade,
@@ -74,6 +78,6 @@ create table red_social
 create table solicitud_amistad
 (
     usuario_envia integer references usuario (carne) on delete cascade,
-    usuario_recibe integer references usuario (carne),
+    usuario_recibe integer references usuario (carne) on delete cascade,
     primary key (usuario_envia, usuario_recibe)
 );

@@ -178,4 +178,143 @@ describe('Auth routes', () => {
       });
     });
   });
+
+  describe('Friendship Routes', async () => {
+    describe('POST/ sendRequest', async () => {
+      before(async () => {
+        // Asegurando que no exista una request
+        await request(server)
+          .post('/auth/friends/cancelRequest')
+          .set('Authorization', `Bearer ${authToken}`)
+          .send({ carne: 191025 });
+      });
+      it('should add a new friendship request', async () => {
+        const response = await request(server)
+          .post('/auth/friends/sendRequest')
+          .set('Authorization', `Bearer ${authToken}`)
+          .send({ carne: 191025 });
+
+        response.should.have.status(200);
+      });
+      it('should check if the users credentials are the same', async () => {
+        const response = await request(server)
+          .post('/auth/friends/sendRequest')
+          .set('Authorization', `Bearer ${authToken}`)
+          .send({ carne: 0 });
+
+        response.should.have.status(403);
+      });
+      it('should check if the friendship request already exist', async () => {
+        const response = await request(server)
+          .post('/auth/friends/sendRequest')
+          .set('Authorization', `Bearer ${authToken}`)
+          .send({ carne: 191025 });
+
+        response.should.have.status(405);
+      });
+      it('should check if the friendship already exist', async () => {
+        const response = await request(server)
+          .post('/auth/friends/sendRequest')
+          .set('Authorization', `Bearer ${authToken}`)
+          .send({ carne: 19825 });
+
+        response.should.have.status(407);
+      });
+    });
+    describe('POST/ acceptRequest', async () => {
+      let newToken: string = '';
+      // Log in con el usuario que recibió la request
+      before(async () => {
+        const response = await request(server)
+          .post('/free/login')
+          .send({ carne: 191025, password: '123456789' });
+
+        response.should.have.status(200);
+        response.body.should.have.property('token');
+        newToken = response.body.token;
+      });
+
+      it('should accept an existing friendship request', async () => {
+        const response = await request(server)
+          .post('/auth/friends/acceptRequest')
+          .set('Authorization', `Bearer ${newToken}`)
+          .send({ carne: 0 });
+
+        response.should.have.status(200);
+      });
+      it('should check if the friendship request exist', async () => {
+        const response = await request(server)
+          .post('/auth/friends/acceptRequest')
+          .set('Authorization', `Bearer ${newToken}`)
+          .send({ carne: 19943 });
+
+        response.should.have.status(403);
+      });
+    });
+    describe('POST/ cancelRequest', async () => {
+      before(async () => {
+        // Asegurando que exista la data necesaria para las pruebas del módulo de amistad
+        await request(server)
+          .post('/auth/friends/sendRequest')
+          .set('Authorization', `Bearer ${authToken}`)
+          .send({ carne: 19943 });
+      });
+
+      it('should cancel an existing friendship request', async () => {
+        const response = await request(server)
+          .post('/auth/friends/cancelRequest')
+          .set('Authorization', `Bearer ${authToken}`)
+          .send({ carne: 19943 });
+
+        response.should.have.status(200);
+      });
+
+      it('should check if the request exist', async () => {
+        const response = await request(server)
+          .post('/auth/friends/cancelRequest')
+          .set('Authorization', `Bearer ${authToken}`)
+          .send({ carne: 19943 });
+
+        response.should.have.status(403);
+      });
+    });
+    describe('POST/ deleteFriend', async () => {
+      it('should delete an existing friend', async () => {
+        const response = await request(server)
+          .post('/auth/friends/deleteFriend')
+          .set('Authorization', `Bearer ${authToken}`)
+          .send({ carne: 191025 });
+
+        response.should.have.status(200);
+      });
+
+      it('should check if the friendship exist', async () => {
+        const response = await request(server)
+          .post('/auth/friends/deleteFriend')
+          .set('Authorization', `Bearer ${authToken}`)
+          .send({ carne: 191025 });
+
+        response.should.have.status(403);
+      });
+    });
+
+    describe('GET/ receivedRequests', async () => {
+      it('should return some data', async () => {
+        const response = await request(server)
+          .get('/auth/friends/receivedRequests')
+          .set('Authorization', `Bearer ${authToken}`);
+
+        response.should.have.status(200);
+      });
+    });
+    describe('GET/ sentRequests', async () => {
+      it('should return some data', async () => {
+        const response = await request(server)
+          .get('/auth/friends/sentRequests')
+          .set('Authorization', `Bearer ${authToken}`);
+
+        response.should.have.status(200);
+      });
+    });
+  });
 });

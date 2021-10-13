@@ -167,11 +167,12 @@ usuarios, se colocó de manera separada.
 ### Enviar solicitud de amistad
 El usuario actualmente loggeado envía una solicitud de amistad al usuario seleccionado.
 
-| Ruta       | /auth/friends/sendRequest            | Código de error | Significado                                     |
-|------------|--------------------------------------|-----------------|-------------------------------------------------|
-| Método     | POST                                 | 401             | Token vencido o no mandó token.                 |
-| Parámetros | `carne` (usuario que recibe request) | 403             | Solicitud de amistad ya existente o los carnets |
-| Devuelve   |                                      |                 |                                                 |
+| Ruta       | /auth/friends/sendRequest | Código de error | Significado                                     |
+|------------|---------------------------|-----------------|-------------------------------------------------|
+| Método     | Post                      | 401             | Token vencido o no mandó token.                 |
+| Parámetros | `carne`                   | 403             | Las credenciales de los usuarios son las mismas |
+| Devuelve   |                           | 405             | La solicitud de amistad ya existe               |
+|            |                           | 407             | La amistad ya existe                            |
 
 ### Aceptar solicitud de amistad
 El usuario actualmente loggeado acepta una solicitud de amistad del usuario seleccionado.
@@ -179,7 +180,7 @@ El usuario actualmente loggeado acepta una solicitud de amistad del usuario sele
 | Ruta       | /auth/friends/acceptRequest              | Código de error | Significado                                              |
 |------------|------------------------------------------|-----------------|----------------------------------------------------------|
 | Método     | POST                                     | 401             | Token vencido o no mandó token.                          |
-| Parámetros | `carne` (usuario que envió la solicitud) | 403             | La solicitud de amistad no existe o la amistad ya existe |
+| Parámetros | `carne` (usuario que envió la solicitud) | 403             | La solicitud de amistad no existe                        |
 | Devuelve   |                                          |                 |                                                          |
 
 ### Cancelar o rechazar solicitud de amistad
@@ -188,8 +189,17 @@ El usuario actualmente loggeado rechaza una solicitud de amistad recibida, o bie
 | Ruta       | /auth/friends/cancelRequest                      | Código de error | Significado                                                    |
 |------------|--------------------------------------------------|-----------------|----------------------------------------------------------------|
 | Método     | POST                                             | 401             | Token vencido o no mandó token.                                |
-| Parámetros | `carne` (usuario que envió/recibió al solicitud) | 403             | La solicitud de amistad no existe o los carnets son los mismos |
+| Parámetros | `carne` (usuario que envió/recibió al solicitud) | 403             | La solicitud de amistad no existe                              |
 | Devuelve   |                                                  |                 |                                                                |
+
+### Eliminar a un amigo
+El usuario actualmente loggeado elimina a otro usuario de sus amigos.
+
+| Ruta       | /auth/friends/deleteFriend                       | Código de error | Significado                                        |
+|------------|--------------------------------------------------|-----------------|--------------------------------------------------- |
+| Método     | POST                                             | 401             | Token vencido o no mandó token.                    |
+| Parámetros | `carne`                                          | 403             | La  amistad no existe                              |
+| Devuelve   |                                                  |                 |                                                    |
 
 ### Obtener amigos
 Obtiene los amigos del usuario actualmente loggeado.

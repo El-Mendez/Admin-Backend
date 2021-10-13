@@ -12,8 +12,14 @@ export const sendRequest = (
     .then(() => {
       res.sendStatus(200);
     })
-    .catch(() => {
-      res.status(403).json({ err: 'The friendship request already exist or the users credentials are the same.' });
+    .catch((e) => {
+      if (e.code === '90002') {
+        res.status(403).json({ err: 'The users credentials are the same' });
+      } else if (e.code === '90001') {
+        res.status(405).json({ err: 'The friendship request already exist.' });
+      } else {
+        res.status(407).json({ err: 'The friendship already exist.' });
+      }
     });
 };
 
@@ -29,7 +35,7 @@ export const acceptRequest = (
       res.sendStatus(200);
     })
     .catch(() => {
-      res.status(403).json({ err: 'The friendship request does not exist or the friendship already exist.' });
+      res.status(403).json({ err: 'The friendship request does not exist' });
     });
 };
 
@@ -45,7 +51,23 @@ export const cancelRequest = (
       res.sendStatus(200);
     })
     .catch(() => {
-      res.status(403).json({ err: 'The friendship request does not exist or the users credentials are the same' });
+      res.status(403).json({ err: 'The friendship request does not exist' });
+    });
+};
+
+export const deleteFriend = (
+  req: Request<{}, {}, Schema.friendSchema>,
+  res: Response,
+) : void => {
+  const friend:Number = req.body.carne;
+
+  connection
+    .query('select delete_friend($1, $2) ', [req.carne, friend])
+    .then(() => {
+      res.sendStatus(200);
+    })
+    .catch(() => {
+      res.status(403).json({ err: 'The friendship does not exist' });
     });
 };
 

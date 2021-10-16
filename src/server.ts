@@ -1,5 +1,4 @@
 import express, { Express } from 'express';
-import fileUpload from 'express-fileupload';
 import cors from 'cors';
 import * as Security from './controllers/Security';
 
@@ -11,7 +10,6 @@ import { requestRouter } from './routes/request';
 const server: Express = express();
 server.use(express.json());
 server.use(cors());
-server.use(fileUpload());
 
 // Las rutas principales de la aplicación
 server.use('/free', freeRouter);

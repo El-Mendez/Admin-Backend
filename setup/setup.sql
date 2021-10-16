@@ -30,10 +30,6 @@ create table usuario
     correo     varchar(30) not null
 );
 
-INSERT INTO usuario
-VALUES
-    (0,'Prueba', 'Mendez', 0, crypt('elefante azul', gen_salt('bf')), 'cor191025@vg.edu.gt');
-
 create table amistad
 (
     amigo1_carne integer references usuario (carne) on delete cascade,

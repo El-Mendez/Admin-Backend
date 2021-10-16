@@ -89,3 +89,14 @@ Content-Type: application/json
   "reported": "0",
   "reason": "ser mala onda D:"
 }
+
+#### PARA REPORTAR UN USUARIO
+POST {{host}}/auth/profile/image
+Authorization: Bearer {{token}}
+Content-Type: multipart/form-data; boundary=boundary
+
+--boundary
+Content-Disposition: form-data; name="file"; filename="image.png"
+
+// The 'input.txt' file will be uploaded
+< ../../utils/tom-jerry.png

@@ -1,12 +1,12 @@
-create extension pgcrypto;
+create extension if not exists pgcrypto;
 
-create table curso
+create table if not exists curso
 (
     id     varchar(8) primary key,
     nombre varchar(50) not null
 );
 
-create table seccion
+create table if not exists seccion
 (
     id       serial unique,
     seccion  smallint,
@@ -14,13 +14,13 @@ create table seccion
     primary key (seccion, curso_id)
 );
 
-create table carrera
+create table if not exists carrera
 (
     id     smallserial primary key,
     nombre varchar(75) not null
 );
 
-create table usuario
+create table if not exists usuario
 (
     carne      integer primary key,
     nombre     varchar(50) not null,
@@ -30,40 +30,41 @@ create table usuario
     correo     varchar(30) not null
 );
 
-create table amistad
+create table if not exists amistad
 (
     amigo1_carne integer references usuario (carne) on delete cascade,
     amigo2_carne integer references usuario (carne) on delete cascade,
     primary key (amigo1_carne, amigo2_carne)
 );
 
-create table asiste_seccion
+create table if not exists asiste_seccion
 (
     seccion_id    integer references seccion (id) on delete cascade,
     usuario_carne integer references usuario (carne) on delete cascade,
     primary key (seccion_id, usuario_carne)
 );
 
-create table hobby
+create table if not exists hobby
 (
     id          serial primary key,
     nombre      varchar(50) not null,
     description text        not null
 );
-create table has_hobby
+
+create table if not exists has_hobby
 (
     hobby_id      integer references hobby (id) on delete cascade,
     usuario_carne integer references usuario (carne) on delete cascade,
     primary key (hobby_id, usuario_carne)
 );
 
-create table plataforma_social
+create table if not exists plataforma_social
 (
     id     smallserial primary key,
     nombre varchar(10) not null
 );
 
-create table red_social
+create table if not exists red_social
 (
     usuario_carne integer references usuario (carne) on delete cascade,
     plataforma_id smallint references plataforma_social (id),
@@ -71,7 +72,7 @@ create table red_social
     primary key (usuario_carne, plataforma_id)
 );
 
-create table solicitud_amistad
+create table if not exists solicitud_amistad
 (
     usuario_envia integer references usuario (carne) on delete cascade,
     usuario_recibe integer references usuario (carne) on delete cascade,

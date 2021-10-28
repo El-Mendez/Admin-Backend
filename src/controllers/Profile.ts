@@ -48,7 +48,7 @@ export const profileImage = (
     // TODO revisar si la ruta del servidor es la misma
     const reqPath = path.join(__dirname, '../../../', `ISW_Frontend/public/assets/${req.carne}.png`);
     file.mv(reqPath, (e) => {
-      if (e) { res.status(407).json({ err: 'Error while moving the image.' }); return; }
+      if (e) { res.status(405).json({ err: 'Error while moving the image.' }); return; }
       res.sendStatus(200);
     });
   } catch (err) {

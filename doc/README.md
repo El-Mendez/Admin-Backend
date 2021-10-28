@@ -128,6 +128,17 @@ Permite conocer la información de perfil del usuario actualmente loggeado.
 | Parámetros |                                                                          | 401             | Token Vencido o no mandó token.                    |
 | Devuelve   | `[carne`, `nombre_completo`,`carrera`, `correo`, `[cursos]`,`[hobbies]]` |                 |                                                    |
 
+### Agregar imagen de perfil
+Permite personalizar el perfil del ususario agregando imagen de perfil
+
+| Ruta         | /auth/profile/image | Código de error | Significado                               |
+|--------------|---------------------|-----------------|-------------------------------------------|
+| Método       | POST                | 401             | Token Vencido o no mandó token.           |
+| Parámetros   | `file`              | 403             | No se mandó ningún archivo                |
+| Devuelve     |                     | 405             | No se puedo mover la imagen al directorio |
+| Content-Type | multipart/form-data |                 |                                           |
+
+
 ### Reportar un usuario
 Permite lanzar una solicitud para reportar un usuario.
 

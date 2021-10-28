@@ -160,7 +160,7 @@ común.
 |:----------:|------------------------------------------|----------------:|---------------------------------|
 |   Método   | GET                                      |             401 | Token Vencido o no mandó token. |
 | Parámetros |                                          |                 |                                 |
-| Devuelve   | [`carne`, `nombre`, `apellido`, `count`] |                 |                                 |
+| Devuelve   | [`nombre`, `carne`, `correo`]            |                 |                                 |
 
 
 ### Según hobbies en común
@@ -169,7 +169,15 @@ común.
 |:----------:|------------------------------------------|----------------:|---------------------------------|
 |   Método   | GET                                      |             401 | Token Vencido o no mandó token. |
 | Parámetros |                                          |                 |                                 |
-| Devuelve   | [`carne`, `nombre`, `apellido`, `count`] |                 |                                 |
+| Devuelve   | [`nombre`, `carne`, `correo`]            |                 |                                 |
+
+### Por amigos de "mis" amigos
+
+|    Ruta    | /auth/suggestions/friends                | Código de error | Significado                     |
+|:----------:|------------------------------------------|----------------:|---------------------------------|
+|   Método   | GET                                      |             401 | Token Vencido o no mandó token. |
+| Parámetros |                                          |                 |                                 |
+| Devuelve   | [`nombre`, `carne`, `correo`]            |                 |                                 |
 
 ## Amistades
 Se encargan del manejo de amigos. Son rutas que trabajan con Auth, sin embargo, ya que es un módulo de gran valor para los 

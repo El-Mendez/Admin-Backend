@@ -7,3 +7,8 @@ Accept: application/json
 GET {{host}}/auth/suggestions/hobbies
 Authorization: Bearer {{token}}
 Accept: application/json
+
+### BY FRIENDS OF MY FRIENDS
+GET {{host}}/auth/suggestions/friends
+Authorization: Bearer {{token}}
+Accept: application/json

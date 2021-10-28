@@ -1,6 +1,4 @@
 import { Request, Response } from 'express';
-import { UploadedFile } from 'express-fileupload';
-import path from 'path';
 import { connection } from '../services/Postgres/connection';
 
 export const personalProfile = (

@@ -177,6 +177,16 @@ describe('Auth routes', () => {
         response.should.have.status(200);
       });
     });
+
+    describe('GET /Friends', async () => {
+      it('should return some data', async () => {
+        const response = await request(server)
+          .get('/auth/suggestions/friends')
+          .set('Authorization', `Bearer ${authToken}`);
+
+        response.should.have.status(200);
+      });
+    });
   });
 
   describe('Friendship Routes', async () => {

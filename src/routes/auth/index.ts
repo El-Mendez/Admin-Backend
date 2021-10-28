@@ -36,7 +36,7 @@ authRouter.post('/password', AuthSchema.changePassword, validate, Auth.changePas
 
 // Información de perfil
 authRouter.get('/profile', Profile.personalProfile);
-authRouter.post('/profile/image', Profile.updateImage);
+authRouter.post('/profile/image', Profile.profileImage);
 
 // Report User
 authRouter.post('/report', RequestSchema.ReportUser, validate, Request.ReportUser);

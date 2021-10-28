@@ -24,6 +24,5 @@ freeRouter.get('/curso/:nombre?', Courses.findByName);
 
 // Información de usuario
 freeRouter.get('/profile/:carne', ProfileSchema.getProfileRequest, validate, Profile.userProfile);
-freeRouter.post('/profile/image', Profile.profileImage);
 
 export default freeRouter;

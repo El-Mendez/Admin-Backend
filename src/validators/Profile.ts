@@ -4,5 +4,5 @@ export interface getProfileParamsSchema {
   carne: string
 }
 export const getProfileRequest = [
-  param('carne').isInt({ min: 0 }),
+  param('carne').isInt({ min: -1 }),
 ];

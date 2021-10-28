@@ -5,5 +5,5 @@ export interface AssignHobbySchema {
 }
 export const assignHobby = [
   body('hobbiesId').isArray({ min: 1 }),
-  body('hobbiesId.*').isInt({ min: 0 }).toInt(10),
+  body('hobbiesId.*').isInt({ min: -1 }).toInt(10),
 ];

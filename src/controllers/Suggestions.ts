@@ -20,3 +20,13 @@ export const byHobbies = (
       select * from hobbies_suggestions($1);`, [req.carne])
     .then((response) => { res.json(response.rows); });
 };
+
+export const byFriends = (
+  req: Request,
+  res: Response,
+): void => {
+  connection
+    .query(`
+      select * from friends_base_suggestions($1);`, [req.carne])
+    .then((response) => { res.json(response.rows); });
+};

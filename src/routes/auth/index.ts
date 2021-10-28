@@ -30,13 +30,14 @@ authRouter.post('/hobby', HobbySchema.assignHobby, validate, Hobby.assignHobby);
 // Rutas para las recomendaciones
 authRouter.get('/suggestions/courses', Suggestions.bySections);
 authRouter.get('/suggestions/hobbies', Suggestions.byHobbies);
+authRouter.get('/suggestions/friends', Suggestions.byFriends);
 
 // Para el resto
 authRouter.post('/password', AuthSchema.changePassword, validate, Auth.changePassword);
 
 // Información de perfil
 authRouter.get('/profile', Profile.personalProfile);
-authRouter.post('/profile/image', Profile.updateImage);
+authRouter.post('/profile/image', Profile.profileImage);
 
 // Report User
 authRouter.post('/report', RequestSchema.ReportUser, validate, Request.ReportUser);

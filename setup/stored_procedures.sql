@@ -228,3 +228,70 @@ END
 $BODY$
     LANGUAGE 'plpgsql';
 
+
+-- Recomendación de amigos por mis amigos
+CREATE OR REPLACE function friends_base_suggestions(integer)
+    RETURNS TABLE
+            (
+                nombre varchar,
+                carne  int,
+                correo varchar
+            )
+AS
+$BODY$
+DECLARE
+    friends     integer[];
+    frends      integer[];
+    temp_frends integer[];
+    friend      integer;
+    frend       integer;
+BEGIN
+    -- Primero, busca los amigos de usuario
+    SELECT ARRAY(SELECT CASE
+                            WHEN amigo1_carne = $1 THEN amigo2_carne
+                            WHEN amigo2_carne = $1 THEN amigo1_carne
+                            ELSE
+                                -1
+                            END
+                 FROM amistad)
+    INTO friends;
+
+
+    FOREACH friend in array friends
+        LOOP
+            raise info 'information message %', friend;
+            -- Obtiene los amigos de los amigos del ususario
+            SELECT ARRAY(SELECT DISTINCT CASE
+                                             WHEN amigo1_carne = friend THEN amigo2_carne
+                                             WHEN amigo2_carne = friend THEN amigo1_carne
+                                             ELSE
+                                                 -1
+                                             END
+                         FROM amistad
+                              -- Valido que no retorne a quienes son mis amigos
+                         WHERE (amigo1_carne != ALL (friends || $1) OR (amigo2_carne != ALL (friends || $1))))
+            INTO temp_frends;
+
+            frends := frends || temp_frends;
+
+            SELECT ARRAY(SELECT DISTINCT UNNEST(frends::integer[])) INTO frends;
+
+        END LOOP;
+
+
+    FOREACH frend in array frends
+        LOOP
+            IF frend != -1
+            THEN
+                RETURN QUERY
+                    SELECT CONCAT(u.nombre, ' ', apellido)::VARCHAR as nombre_completo, u.carne, u.correo
+                    FROM usuario u
+                    WHERE u.carne = frend;
+            END IF;
+        END LOOP;
+
+    raise info 'information message %', frends;
+END
+$BODY$
+    LANGUAGE 'plpgsql';
+

@@ -128,6 +128,17 @@ Permite conocer la información de perfil del usuario actualmente loggeado.
 | Parámetros |                                                                          | 401             | Token Vencido o no mandó token.                    |
 | Devuelve   | `[carne`, `nombre_completo`,`carrera`, `correo`, `[cursos]`,`[hobbies]]` |                 |                                                    |
 
+### Agregar imagen de perfil
+Permite personalizar el perfil del ususario agregando imagen de perfil
+
+| Ruta         | /auth/profile/image | Código de error | Significado                               |
+|--------------|---------------------|-----------------|-------------------------------------------|
+| Método       | POST                | 401             | Token Vencido o no mandó token.           |
+| Parámetros   | `file`              | 403             | No se mandó ningún archivo                |
+| Devuelve     |                     | 405             | No se puedo mover la imagen al directorio |
+| Content-Type | multipart/form-data |                 |                                           |
+
+
 ### Reportar un usuario
 Permite lanzar una solicitud para reportar un usuario.
 
@@ -149,7 +160,7 @@ común.
 |:----------:|------------------------------------------|----------------:|---------------------------------|
 |   Método   | GET                                      |             401 | Token Vencido o no mandó token. |
 | Parámetros |                                          |                 |                                 |
-| Devuelve   | [`carne`, `nombre`, `apellido`, `count`] |                 |                                 |
+| Devuelve   | [`nombre`, `carne`, `correo`]            |                 |                                 |
 
 
 ### Según hobbies en común
@@ -158,7 +169,15 @@ común.
 |:----------:|------------------------------------------|----------------:|---------------------------------|
 |   Método   | GET                                      |             401 | Token Vencido o no mandó token. |
 | Parámetros |                                          |                 |                                 |
-| Devuelve   | [`carne`, `nombre`, `apellido`, `count`] |                 |                                 |
+| Devuelve   | [`nombre`, `carne`, `correo`]            |                 |                                 |
+
+### Por amigos de "mis" amigos
+
+|    Ruta    | /auth/suggestions/friends                | Código de error | Significado                     |
+|:----------:|------------------------------------------|----------------:|---------------------------------|
+|   Método   | GET                                      |             401 | Token Vencido o no mandó token. |
+| Parámetros |                                          |                 |                                 |
+| Devuelve   | [`nombre`, `carne`, `correo`]            |                 |                                 |
 
 ## Amistades
 Se encargan del manejo de amigos. Son rutas que trabajan con Auth, sin embargo, ya que es un módulo de gran valor para los 

@@ -28,12 +28,18 @@ jobs:
 
       - name: Creating tables
         run: psql -d postgresql://postgres@localhost/postgres -f ./setup/setup.sql
+        env:
+          PGPASSWORD: postgres
 
       - name: Creating Stored Procedures
         run: psql -d postgresql://postgres@localhost/postgres -f ./setup/stored_procedures.sql
+        env:
+          PGPASSWORD: postgres
 
       - name: Creating Views
         run: psql -d postgresql://postgres@localhost/postgres -f ./setup/views.sql
+        env:
+          PGPASSWORD: postgres
 
       - name: Setup node environment
         uses: actions/setup-node@v2

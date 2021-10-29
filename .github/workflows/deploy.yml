@@ -12,12 +12,14 @@ jobs:
 
     services:
       postgres:
-        image: postgres
+        image: postgres:alpine
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
+        env:
+          POSTGRES_PASSWORD: postgres
         ports:
           # Maps tcp port 5432 on service container to the host
           - 5432:5432
@@ -30,17 +32,23 @@ jobs:
 
       - name: Installing postgres client
         run: |
-          apt-get update
-          apt-get install --yes postgresql-client
+          sudo apt-get update
+          sudo apt-get install --yes postgresql-client
 
       - name: Running setup.sql
-        run: psql -f ./setup/setup.sql
+        run: psql -d postgres -U postgres -f ./setup/setup.sql
+        env:
+          PASSWORD: postgres
 
       - name: Running stored_procedures.sql
         run: psql -f ./setup/stored_procedures.sql
+        env:
+          PASSWORD: postgres
 
       - name: Running views.sql
         run: psql -f ./setup/views.sql
+        env:
+          PASSWORD: postgres
 
       - name: Setting up Node 14
         uses: actions/setup-node@v2

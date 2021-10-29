@@ -37,12 +37,18 @@ jobs:
 
       - name: Running setup.sql
         run: psql -f ./setup/setup.sql
+        env:
+          PASSWORD: postgres
 
       - name: Running stored_procedures.sql
         run: psql -f ./setup/stored_procedures.sql
+        env:
+          PASSWORD: postgres
 
       - name: Running views.sql
         run: psql -f ./setup/views.sql
+        env:
+          PASSWORD: postgres
 
       - name: Setting up Node 14
         uses: actions/setup-node@v2

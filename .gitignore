@@ -44,3 +44,7 @@ deployment.http
 node_modules
 node_modules/
 dist
+
+# El build de los archivos
+uploads
+uploads/

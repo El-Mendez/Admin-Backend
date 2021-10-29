@@ -29,7 +29,11 @@ DATABASE_PASSWORD=postgres
 DATABASE_NAME=postgres
 ENVIRONMENT=development
 
-# Para enviar correos
+# Para los archivos
+UPLOAD_DIRECTORY='./'
+
+# Para los correos 
+# (No es necesario en production o en development environment)
 EMAIL=ejemplo@gmail.com
 EMAIL_CLIENT_ID=token
 EMAIL_CLIENT_SECRET=token

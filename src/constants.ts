@@ -4,7 +4,7 @@ require('dotenv').config();
 
 const { env } = process;
 
-export const DATABASE_HOST: string = env.DATABASE_HOST || 'localhost:3000';
+export const DATABASE_HOST: string = env.DATABASE_HOST || 'localhost';
 export const DATABASE_USER: string = env.DATABASE_USERNAME || 'postgres';
 export const DATABASE_PASSWORD: string = env.DATABASE_PASSWORD || 'postgres';
 export const DATABASE_NAME: string = env.DATABASE_NAME || 'postgres';

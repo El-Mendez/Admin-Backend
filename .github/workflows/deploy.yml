@@ -33,8 +33,8 @@ jobs:
 
       - name: Installing postgres client
         run: |
-          sudo apt-get update
-          sudo apt-get install --yes postgresql-client
+          apt-get update
+          apt-get install --yes postgresql-client
 
       - name: Running setup.sql
         run: psql -d postgres -h postgres -U postgres -f ./setup/setup.sql
@@ -47,7 +47,7 @@ jobs:
           PASSWORD: postgres
 
       - name: Running views.sql
-        run: psql -f ./setup/views.sql
+        run: psql -h postgres -f ./setup/views.sql
         env:
           PASSWORD: postgres
 

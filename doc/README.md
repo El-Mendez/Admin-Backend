@@ -73,6 +73,14 @@ Permite conocer la información de perfil de cualquier usuario por medio del car
 Para cualquier de estos request se necesita estar poner un JWT válido en el header `authorization` del request en 
 formato 'Bearer *token*'.
 
+Además, esta ruta tiene implementado un rate limiter. Se puede un máximo de 100 request cada 10 minutos. Se puede enviar
+información de esto en los siguientes headers del response:
+ - `X-RateLimit-Limit` (request max en el periodo de tiempo)
+ - `X-RateLimit-Remaining`
+ - `X-RateLimit-Reset` (fecha en nums, se tiene que pasar a ISO)
+ - `Retry-After` (en milis)
+Si se exede el límite se devolverá un `429 - Too many requests`
+
 ### Ping
 Únicamente para intenciones de testing. Únicamente devuelve el mensaje pong.
 

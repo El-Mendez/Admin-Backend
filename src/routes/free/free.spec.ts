@@ -1,6 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../../server';
+import { connection } from '../../services/Postgres/connection';
 
 // el estilo de las pruebas
 chai.should();
@@ -13,6 +14,19 @@ describe('Free routes', () => {
       .get('/free/ping');
 
     response.should.have.status(200);
+  });
+
+  before(async () => {
+    await connection.query('insert into carrera(id, nombre) values (0, \'carrera de prueba\');');
+    await connection.query(`
+        insert into usuario values 
+        (0, 'prueba', 'usuario', 0, crypt('test password', gen_salt('bf')), 'meetinguvg@gmail.com');
+    `);
+  });
+
+  after(async () => {
+    await connection.query('delete from usuario where carne = 0;');
+    await connection.query('delete from carrera where id = 0;');
   });
 
   describe('GET /login', async () => {
@@ -34,7 +48,7 @@ describe('Free routes', () => {
     it('should fail if the user enters a not existing account', async () => {
       const response = await request(server)
         .post('/free/login')
-        .send({ carne: 1, password: 'elefante azul' });
+        .send({ carne: -1, password: 'test password' });
 
       response.should.have.status(403);
     });
@@ -42,7 +56,7 @@ describe('Free routes', () => {
     it('should log in the user', async () => {
       const response = await request(server)
         .post('/free/login')
-        .send({ carne: 0, password: 'elefante azul' });
+        .send({ carne: 0, password: 'test password' });
 
       response.should.have.status(200);
     });
@@ -58,7 +72,7 @@ describe('Free routes', () => {
 
     it('should return career objects containing the search term', async () => {
       const response = await request(server)
-        .get('/free/carrera/computaci');
+        .get('/free/carrera/arrera de prueb');
 
       response.body.should.be.an('array').with.length(1);
       response.should.have.status(200);
@@ -107,14 +121,14 @@ describe('Free routes', () => {
       response.should.have.status(200);
     });
 
-    it('should return validate the parameters', async () => {
+    it('should validate the parameters', async () => {
       const response = await request(server)
-        .get('/free/profile/-1');
+        .get('/free/profile/a');
 
       response.should.have.status(400);
     });
 
-    it('should return validate the parameters', async () => {
+    it('should check if the user exists', async () => {
       const response = await request(server)
         .get('/free/profile/1');
 

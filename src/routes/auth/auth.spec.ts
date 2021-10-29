@@ -1,6 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../../server';
+import { connection } from '../../services/Postgres/connection';
 
 // el estilo de las pruebas
 chai.should();
@@ -11,13 +12,34 @@ describe('Auth routes', () => {
   let authToken: string = '';
 
   before(async () => {
+    await connection.query('insert into carrera(id, nombre) values (0, \'carrera de prueba\');');
+    await connection.query('insert into curso(id, nombre) values (0, \'curso de prueba\');');
+    await connection.query('insert into seccion(id, seccion, curso_id) values (0, 0, 0);');
+    await connection.query('insert into hobby(id, nombre, description) values (0, \'test hobby\', \'a test hobby\');');
+    await connection.query(`
+        insert into usuario values 
+        (0, 'prueba', 'usuario', 0, crypt('test password', gen_salt('bf')), 'meetinguvg@gmail.com');
+    `);
+    await connection.query('insert into asiste_seccion(seccion_id, usuario_carne) values (0, 0);');
+    await connection.query('insert into has_hobby(hobby_id, usuario_carne) values (0, 0)');
+
     const response = await request(server)
       .post('/free/login')
-      .send({ carne: 0, password: 'elefante azul' });
+      .send({ carne: 0, password: 'test password' });
 
     response.should.have.status(200);
     response.body.should.have.property('token');
     authToken = response.body.token;
+  });
+
+  after(async () => {
+    await connection.query('delete from has_hobby where usuario_carne = 0');
+    await connection.query('delete from asiste_seccion where usuario_carne = 0');
+    await connection.query('delete from usuario where carne = 0;');
+    await connection.query('delete from hobby where id = 0');
+    await connection.query('delete from seccion where id = 0;');
+    await connection.query('delete from curso where id = \'0\';');
+    await connection.query('delete from carrera where id = 0;');
   });
 
   it('should work with a correct token', async () => {
@@ -56,7 +78,7 @@ describe('Auth routes', () => {
       const response = await request(server)
         .post('/auth/seccion')
         .set('Authorization', `Bearer ${authToken}`)
-        .send({ seccionesId: [0] });
+        .send({ seccionesId: [-1] });
 
       response.should.have.status(403);
     });
@@ -75,7 +97,7 @@ describe('Auth routes', () => {
       const response = await request(server)
         .post('/auth/hobby')
         .set('Authorization', `Bearer ${authToken}`)
-        .send({ hobbiesId: [0] });
+        .send({ hobbiesId: [-1] });
 
       response.should.have.status(403);
     });
@@ -83,6 +105,7 @@ describe('Auth routes', () => {
 
   describe('GET /seccion', async () => {
     it('should return the correct schema', async () => {
+      // TODO validate schema xd
       const response = await request(server)
         .get('/auth/seccion')
         .set('Authorization', `Bearer ${authToken}`);
@@ -104,7 +127,7 @@ describe('Auth routes', () => {
       const response = await request(server)
         .post('/auth/password')
         .set('Authorization', `Bearer ${authToken}`)
-        .send({ oldPassword: 'fake password', newPassword: 'elefante azul' });
+        .send({ oldPassword: 'fake password', newPassword: 'second test password' });
 
       response.should.have.status(403);
     });
@@ -113,9 +136,16 @@ describe('Auth routes', () => {
       const response = await request(server)
         .post('/auth/password')
         .set('Authorization', `Bearer ${authToken}`)
-        .send({ oldPassword: 'elefante azul', newPassword: 'elefante azul' });
+        .send({ oldPassword: 'test password', newPassword: 'second test password' });
 
       response.should.have.status(201);
+
+      const verifyResponse = await request(server)
+        .post('/free/login')
+        .send({ carne: 0, password: 'second test password' });
+
+      verifyResponse.should.have.status(200);
+      verifyResponse.body.should.have.property('token');
     });
   });
 
@@ -142,7 +172,7 @@ describe('Auth routes', () => {
       const response = await request(server)
         .post('/auth/report')
         .set('Authorization', `Bearer ${authToken}`)
-        .send({ reported: 99, reason: 'Ser mala onda D:' });
+        .send({ reported: -1, reason: 'Ser mala onda D:' });
 
       response.should.have.status(403);
     });
@@ -178,34 +208,48 @@ describe('Auth routes', () => {
       });
     });
 
-    describe('GET /Friends', async () => {
-      it('should return some data', async () => {
-        const response = await request(server)
-          .get('/auth/suggestions/friends')
-          .set('Authorization', `Bearer ${authToken}`);
-
-        response.should.have.status(200);
-      });
-    });
+    // describe('GET /Friends', async () => {
+    //   it('should return some data', async () => {
+    //     const response = await request(server)
+    //       .get('/auth/suggestions/friends')
+    //       .set('Authorization', `Bearer ${authToken}`);
+    //
+    //     response.should.have.status(200);
+    //   });
+    // });
   });
 
   describe('Friendship Routes', async () => {
+    let secondToken: string = '';
+
+    before(async () => {
+      await connection.query(`
+        insert into usuario values 
+        (1, 'prueba', 'usuario', 0, crypt('test password', gen_salt('bf')), 'meetinguvg@gmail.com');
+    `);
+      const response = await request(server)
+        .post('/free/login')
+        .send({ carne: 1, password: 'test password' });
+
+      response.should.have.status(200);
+      response.body.should.have.property('token');
+      secondToken = response.body.token;
+    });
+
+    after(async () => {
+      await connection.query('delete from usuario where carne = 1;');
+    });
+
     describe('POST/ sendRequest', async () => {
-      before(async () => {
-        // Asegurando que no exista una request
-        await request(server)
-          .post('/auth/friends/cancelRequest')
-          .set('Authorization', `Bearer ${authToken}`)
-          .send({ carne: 191025 });
-      });
       it('should add a new friendship request', async () => {
         const response = await request(server)
           .post('/auth/friends/sendRequest')
           .set('Authorization', `Bearer ${authToken}`)
-          .send({ carne: 191025 });
+          .send({ carne: 1 });
 
         response.should.have.status(200);
       });
+
       it('should check if the users credentials are the same', async () => {
         const response = await request(server)
           .post('/auth/friends/sendRequest')
@@ -214,67 +258,68 @@ describe('Auth routes', () => {
 
         response.should.have.status(403);
       });
+
       it('should check if the friendship request already exist', async () => {
         const response = await request(server)
           .post('/auth/friends/sendRequest')
           .set('Authorization', `Bearer ${authToken}`)
-          .send({ carne: 191025 });
+          .send({ carne: 1 });
 
         response.should.have.status(405);
       });
+
       it('should check if the friendship already exist', async () => {
+        await connection.query('select accept_request(1, 0)');
+
         const response = await request(server)
           .post('/auth/friends/sendRequest')
           .set('Authorization', `Bearer ${authToken}`)
-          .send({ carne: 19825 });
+          .send({ carne: 1 });
+
+        await connection.query('select delete_friend(1, 0);');
 
         response.should.have.status(407);
       });
     });
+
     describe('POST/ acceptRequest', async () => {
-      let newToken: string = '';
-      // Log in con el usuario que recibió la request
-      before(async () => {
-        const response = await request(server)
-          .post('/free/login')
-          .send({ carne: 191025, password: '123456789' });
-
-        response.should.have.status(200);
-        response.body.should.have.property('token');
-        newToken = response.body.token;
-      });
-
       it('should accept an existing friendship request', async () => {
+        await connection.query('select send_request(0, 1)');
+
         const response = await request(server)
           .post('/auth/friends/acceptRequest')
-          .set('Authorization', `Bearer ${newToken}`)
+          .set('Authorization', `Bearer ${secondToken}`)
           .send({ carne: 0 });
+
+        await connection.query('select delete_friend(1, 0)');
 
         response.should.have.status(200);
       });
+
       it('should check if the friendship request exist', async () => {
         const response = await request(server)
           .post('/auth/friends/acceptRequest')
-          .set('Authorization', `Bearer ${newToken}`)
-          .send({ carne: 19943 });
+          .set('Authorization', `Bearer ${secondToken}`)
+          .send({ carne: 0 });
 
         response.should.have.status(403);
       });
     });
+
     describe('POST/ cancelRequest', async () => {
       before(async () => {
         // Asegurando que exista la data necesaria para las pruebas del módulo de amistad
         await request(server)
           .post('/auth/friends/sendRequest')
           .set('Authorization', `Bearer ${authToken}`)
-          .send({ carne: 19943 });
+          .send({ carne: 1 });
       });
 
       it('should cancel an existing friendship request', async () => {
         const response = await request(server)
           .post('/auth/friends/cancelRequest')
           .set('Authorization', `Bearer ${authToken}`)
-          .send({ carne: 19943 });
+          .send({ carne: 1 });
 
         response.should.have.status(200);
       });
@@ -283,17 +328,21 @@ describe('Auth routes', () => {
         const response = await request(server)
           .post('/auth/friends/cancelRequest')
           .set('Authorization', `Bearer ${authToken}`)
-          .send({ carne: 19943 });
+          .send({ carne: 1 });
 
         response.should.have.status(403);
       });
     });
+
     describe('POST/ deleteFriend', async () => {
       it('should delete an existing friend', async () => {
+        await connection.query('select send_request(0, 1);');
+        await connection.query('select accept_request(1, 0);');
+
         const response = await request(server)
           .post('/auth/friends/deleteFriend')
           .set('Authorization', `Bearer ${authToken}`)
-          .send({ carne: 191025 });
+          .send({ carne: 1 });
 
         response.should.have.status(200);
       });
@@ -302,7 +351,7 @@ describe('Auth routes', () => {
         const response = await request(server)
           .post('/auth/friends/deleteFriend')
           .set('Authorization', `Bearer ${authToken}`)
-          .send({ carne: 191025 });
+          .send({ carne: 1 });
 
         response.should.have.status(403);
       });
@@ -317,6 +366,7 @@ describe('Auth routes', () => {
         response.should.have.status(200);
       });
     });
+
     describe('GET/ sentRequests', async () => {
       it('should return some data', async () => {
         const response = await request(server)

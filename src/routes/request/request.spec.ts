@@ -1,6 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../../server';
+import { connection } from '../../services/Postgres/connection';
 
 // el estilo de las pruebas
 chai.should();
@@ -8,16 +9,17 @@ chai.use(chaiHttp);
 const { request } = chai;
 
 describe('Request routes', () => {
-  let authToken: string = '';
-
   before(async () => {
-    const response = await request(server)
-      .post('/free/login')
-      .send({ carne: 0, password: 'elefante azul' });
+    await connection.query('insert into carrera(id, nombre) values (0, \'carrera de prueba\');');
+    await connection.query(`
+        insert into usuario values 
+        (0, 'prueba', 'usuario', 0, crypt('test password', gen_salt('bf')), 'meetinguvg@gmail.com');
+    `);
+  });
 
-    response.should.have.status(200);
-    response.body.should.have.property('token');
-    authToken = response.body.token;
+  after(async () => {
+    await connection.query('delete from usuario where carne = 0;');
+    await connection.query('delete from carrera where id = 0;');
   });
 
   describe('POST /signup', async () => {
@@ -50,7 +52,7 @@ describe('Request routes', () => {
           carne: 1,
           nombre: 'Pepe',
           apellido: 'Gonzáles',
-          carreraId: 0,
+          carreraId: -1,
           password: 'fake password',
           correo: 'test@uvg.edu.gt',
         });
@@ -62,10 +64,10 @@ describe('Request routes', () => {
       const response = await request(server)
         .post('/request/signup')
         .send({
-          carne: 1,
+          carne: -1,
           nombre: 'Pepe',
           apellido: 'Gonzáles',
-          carreraId: 1,
+          carreraId: 0,
           password: 'fake password',
           correo: 'test@uvg.edu.gt',
         });

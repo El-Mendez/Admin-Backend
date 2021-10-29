@@ -13,8 +13,11 @@ import * as Friends from '../../controllers/Friends';
 import * as Request from '../../controllers/Requests';
 import * as RequestSchema from '../../validators/Request';
 import validate from '../../validators/validate';
+import { rateLimit } from '../../controllers/Security';
 
 export const authRouter = Router();
+
+authRouter.use(rateLimit);
 
 // Middleware para asegurarme que estoy loggeado y conseguir el carnet.
 authRouter.use(Auth.verifyAuth);

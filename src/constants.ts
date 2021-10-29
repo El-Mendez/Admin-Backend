@@ -1,13 +1,18 @@
+import path from 'path';
+
 require('dotenv').config();
 
 const { env } = process;
 
-export const DATABASE_HOST: string = env.DATABASE_HOST || 'localhost:3000';
+export const DATABASE_HOST: string = env.DATABASE_HOST || 'localhost';
 export const DATABASE_USER: string = env.DATABASE_USERNAME || 'postgres';
 export const DATABASE_PASSWORD: string = env.DATABASE_PASSWORD || 'postgres';
 export const DATABASE_NAME: string = env.DATABASE_NAME || 'postgres';
 
-// Para los correos
+// Para los archivos
+export const UPLOAD_DIRECTORY: string = env.UPLOAD_DIRECTORY || path.join(__dirname, '../', '/uploads/');
+
+// Para los correos (No es necesario en production o en development environment)
 export const EMAIL_ADDRESS: string = env.EMAIL || 'MISSING EMAIL';
 export const EMAIL_CLIENT_ID: string = env.EMAIL_CLIENT_ID || 'MISSING CLIENT ID';
 export const EMAIL_CLIENT_SECRET: string = env.EMAIL_CLIENT_SECRET || 'MISSING CLIENT SECRET';

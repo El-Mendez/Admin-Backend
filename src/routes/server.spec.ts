@@ -1,7 +1,7 @@
 import chai from 'chai';
 import chaiHttp from 'chai-http';
 import server from '../server';
-import connection from '../services/Postgres/connection';
+import { connection } from '../services/Postgres/connection';
 
 // el estilo de las pruebas
 chai.should();

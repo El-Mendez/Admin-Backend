@@ -9,6 +9,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    container: node:14-alpine
 
     services:
       postgres:
@@ -36,12 +37,12 @@ jobs:
           sudo apt-get install --yes postgresql-client
 
       - name: Running setup.sql
-        run: psql -d postgres -U postgres -f ./setup/setup.sql
+        run: psql -d postgres -h postgres -U postgres -f ./setup/setup.sql
         env:
           PASSWORD: postgres
 
       - name: Running stored_procedures.sql
-        run: psql -f ./setup/stored_procedures.sql
+        run: psql -h postgres -f ./setup/stored_procedures.sql
         env:
           PASSWORD: postgres
 
@@ -49,12 +50,6 @@ jobs:
         run: psql -f ./setup/views.sql
         env:
           PASSWORD: postgres
-
-      - name: Setting up Node 14
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-          cache: 'npm'
 
       - name: Instaling Libraries
         run: npm install
@@ -64,3 +59,4 @@ jobs:
         env:
           # Con el resto de variables el valor default basta o no son necesarias
           ENVIRONMENT: testing
+          DATABASE_HOST: postgres

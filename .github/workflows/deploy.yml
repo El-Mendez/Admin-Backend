@@ -9,14 +9,21 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    env:
+      # psql
+      PGPASSWORD: postgres
+      PGHOST: postgres@localhost
+      PGDATABASE: postgres
+
+      # para la imagen de docker
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+
 
     services:
       postgres:
         image: postgres:alpine
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-        env:
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: postgres
         ports:
           - 5432:5432
 
@@ -27,22 +34,13 @@ jobs:
           ref: prod
 
       - name: Creating tables
-        run: psql -d postgresql://postgres@localhost/postgres -f setup.sql
-        working-directory: ./setup
-        env:
-          PGPASSWORD: postgres
+        run: psql -f ./setup/setup.sql
 
       - name: Creating Stored Procedures
-        run: psql -d postgresql://postgres@localhost/postgres -f stored_procedures.sql
-        working-directory: ./setup
-        env:
-          PGPASSWORD: postgres
+        run: psql -f ./setup/stored_procedures.sql
 
       - name: Creating Views
-        run: psql -d postgresql://postgres@localhost/postgres -f views.sql
-        working-directory: ./setup
-        env:
-          PGPASSWORD: postgres
+        run: psql -f ./setup/views.sql
 
       - name: Setup node environment
         uses: actions/setup-node@v2

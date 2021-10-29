@@ -12,7 +12,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres
+        image: postgres:alpine
         options: >-
           --health-cmd pg_isready
           --health-interval 10s
@@ -36,7 +36,7 @@ jobs:
           sudo apt-get install --yes postgresql-client
 
       - name: Running setup.sql
-        run: psql -h postgres -d postgres -U postgres -f ./setup/setup.sql
+        run: psql -d postgres -U postgres -f ./setup/setup.sql
         env:
           PASSWORD: postgres
 

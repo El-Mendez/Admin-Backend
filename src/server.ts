@@ -1,6 +1,6 @@
 import express, { Express } from 'express';
-import fileUpload from 'express-fileupload';
 import cors from 'cors';
+import fileUpload from 'express-fileupload';
 import * as Security from './controllers/Security';
 
 import { freeRouter } from './routes/free';

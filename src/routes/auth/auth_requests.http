@@ -90,7 +90,7 @@ Content-Type: application/json
   "reason": "ser mala onda D:"
 }
 
-#### PARA REPORTAR UN USUARIO
+#### PARA AÑADIR IMAGEN DE PERFIL
 POST {{host}}/auth/profile/image
 Authorization: Bearer {{token}}
 Content-Type: multipart/form-data; boundary=boundary

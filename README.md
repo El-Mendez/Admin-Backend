@@ -1,3 +1,5 @@
+[![Meeting Backend CI-CD](https://github.com/El-Mendez/ISW_Backend/actions/workflows/deploy.yml/badge.svg)](https://github.com/El-Mendez/ISW_Backend/actions/workflows/deploy.yml)
+[![Built with Typescript](https://img.shields.io/badge/built%20with%20-Typescript-blue.svg)](https://www.typescriptlang.org/)
 # Backend
 El proyecto utiliza un backend de Node y postgresql. Si quieres leer la **[documentación](doc/README.md)**, puedes verlo 
 **[aquí](doc/README.md)**.

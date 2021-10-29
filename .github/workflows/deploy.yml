@@ -13,15 +13,11 @@ jobs:
     services:
       postgres:
         image: postgres:alpine
-        options: >-
-          --health-cmd pg_isready
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
         env:
           POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
         ports:
-          # Maps tcp port 5432 on service container to the host
           - 5432:5432
 
     steps:
@@ -30,27 +26,22 @@ jobs:
         with:
           ref: prod
 
-      - name: Installing postgres client
-        run: |
-          sudo apt-get update
-          sudo apt-get install --yes postgresql-client
-
-      - name: Running setup.sql
-        run: psql -d postgres -U postgres -f ./setup/setup.sql
+      - name: Creating tables
+        run: psql -d postgresql://postgres@localhost/postgres -f ./setup/setup.sql
         env:
-          PASSWORD: postgres
+          PGPASSWORD: postgres
 
-      - name: Running stored_procedures.sql
-        run: psql -f ./setup/stored_procedures.sql
+      - name: Creating Stored Procedures
+        run: psql -d postgresql://postgres@localhost/postgres -f ./setup/stored_procedures.sql
         env:
-          PASSWORD: postgres
+          PGPASSWORD: postgres
 
-      - name: Running views.sql
-        run: psql -f ./setup/views.sql
+      - name: Creating Views
+        run: psql -d postgresql://postgres@localhost/postgres -f ./setup/views.sql
         env:
-          PASSWORD: postgres
+          PGPASSWORD: postgres
 
-      - name: Setting up Node 14
+      - name: Setup node environment
         uses: actions/setup-node@v2
         with:
           node-version: '14'
@@ -62,5 +53,5 @@ jobs:
       - name: Running tests
         run: npm run test
         env:
-          # Con el resto de variables el valor default basta o no son necesarias
+          # Con el resto de variables de entorno el valor default basta o no son necesarias
           ENVIRONMENT: testing

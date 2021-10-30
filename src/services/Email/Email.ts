@@ -4,7 +4,7 @@ import { recoveryPasswordEmail, reportEmail, verifyAccountEmail } from './templa
 
 const transporter = createTransport({
   service: 'gmail',
-  logger: true,
+  // logger: true,
   auth: {
     type: 'oauth2',
     user: constants.EMAIL_ADDRESS,

@@ -19,5 +19,6 @@ describe('Server', () => {
   it('should have postgres connected', async () => {
     const response = await connection.query('select now();');
     response.rows.should.be.an('array').with.length(1);
+    response.should.be.an('number');
   });
 });

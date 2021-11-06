@@ -31,7 +31,16 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "hobbyId": "1"
+  "hobbiesId": ["3"]
+}
+
+##### ELIMINAR UN HOBBY
+DELETE {{host}}/auth/hobby
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "hobbyId": "3"
 }
 
 #### INFORMACIÓN DE PERFIL

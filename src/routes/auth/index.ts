@@ -25,10 +25,13 @@ authRouter.use(Auth.verifyAuth);
 // Rutas principales
 authRouter.get('/ping', Testing.ping);
 
-// Rutas para asignaciones de cosas
+// Rutas para asignaciones de secciones
 authRouter.post('/seccion', CoursesSchema.assignSection, validate, Courses.assignSection);
 authRouter.get('/seccion', Courses.checkAssigned);
+
+// Rutas para hobbies
 authRouter.post('/hobby', HobbySchema.assignHobby, validate, Hobby.assignHobby);
+authRouter.delete('/hobby', HobbySchema.deleteHobby, validate, Hobby.deleteHobby);
 
 // Rutas para las recomendaciones
 authRouter.get('/suggestions/courses', Suggestions.bySections);

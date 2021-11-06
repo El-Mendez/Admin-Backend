@@ -32,3 +32,18 @@ export const assignHobby = async (
     res.status(403).json({ err: 'The hobby did not exist or the user was already assigned to that hobby.' });
   }
 };
+
+export const deleteHobby = async (
+  req: Request<{}, {}, Schema.DeleteHobbySchema>,
+  res: Response,
+): Promise<void> => {
+  const { hobbyId } = req.body;
+  connection.query('delete from has_hobby where usuario_carne = $1 and hobby_id = $2', [req.carne, hobbyId])
+    .then((response) => {
+      if (response.rowCount > 0) {
+        res.sendStatus(200);
+      } else {
+        res.status(403).json({ err: 'The hobby did not exist or the user was not assigned to it.' });
+      }
+    });
+};

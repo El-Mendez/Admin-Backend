@@ -10,11 +10,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Copying the Source Code
-        uses: actions/checkout@v2
-        with:
-          ref: prod
-
       - name: Deploying to instance
         uses: appleboy/ssh-action@master
         with:

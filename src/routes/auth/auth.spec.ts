@@ -103,6 +103,36 @@ describe('Auth routes', () => {
     });
   });
 
+  describe('DELETE /hobby', async () => {
+    it('should validate parameters', async () => {
+      const response = await request(server)
+        .delete('/auth/hobby')
+        .set('Authorization', `Bearer ${authToken}`);
+
+      response.should.have.status(400);
+    });
+
+    it('should verify the hobby assignation even exists', async () => {
+      const response = await request(server)
+        .delete('/auth/hobby')
+        .set('Authorization', `Bearer ${authToken}`)
+        .send({ hobbyId: -1 });
+
+      response.should.have.status(403);
+    });
+
+    it('should actually delete the hobby', async () => {
+      const response = await request(server)
+        .delete('/auth/hobby')
+        .set('Authorization', `Bearer ${authToken}`)
+        .send({ hobbyId: 0 });
+
+      // Si ya está asignado al hobby esto debería tirar error
+      await connection.query('insert into has_hobby(hobby_id, usuario_carne) values (0, 0)');
+      response.should.have.status(200);
+    });
+  });
+
   describe('GET /seccion', async () => {
     it('should return the correct schema', async () => {
       // TODO validate schema xd

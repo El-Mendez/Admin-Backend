@@ -1,63 +1,15 @@
-name: Meeting Backend CI-CD
+name: Backend Deployment
 
 on:
   push:
     branches:
       - prod
-  workflow_dispatch:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
-    services:
-      postgres:
-        image: postgres:alpine
-        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
-        env:
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: postgres
-        ports:
-          - 5432:5432
-
     steps:
-      - name: Copying the Source Code
-        uses: actions/checkout@v2
-        with:
-          ref: prod
-
-      - name: Creating tables
-        run: psql -d postgresql://postgres@localhost/postgres -f ./setup/setup.sql
-        env:
-          PGPASSWORD: postgres
-
-      - name: Creating Stored Procedures
-        run: psql -d postgresql://postgres@localhost/postgres -f ./setup/stored_procedures.sql
-        env:
-          PGPASSWORD: postgres
-
-      - name: Creating Views
-        run: psql -d postgresql://postgres@localhost/postgres -f ./setup/views.sql
-        env:
-          PGPASSWORD: postgres
-
-      - name: Setup node environment
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-          cache: 'npm'
-
-      - name: Instaling Libraries
-        run: npm install
-
-      - name: Running tests
-        run: npm run test
-        env:
-          ENVIRONMENT: testing
-
-      - name: Trying to build js
-        run: npm run build
-
       - name: Deploying to instance
         uses: appleboy/ssh-action@master
         with:

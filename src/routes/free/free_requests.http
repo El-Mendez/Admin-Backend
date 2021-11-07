@@ -13,7 +13,7 @@ Content-Type: application/json
 > {% client.global.set("token", response.body.token) %}
 
 #### GET HOBBIES BY NAME
-GET {{host}}/free/hobby/leer
+GET {{host}}/free/hobby
 
 #### GET CURSOS BY NAME
 GET {{host}}/free/curso/compu

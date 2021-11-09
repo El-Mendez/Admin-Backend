@@ -28,6 +28,7 @@ authRouter.get('/ping', Testing.ping);
 // Rutas para asignaciones de secciones
 authRouter.post('/seccion', CoursesSchema.assignSection, validate, Courses.assignSection);
 authRouter.get('/seccion', Courses.checkAssigned);
+authRouter.delete('/seccion', CoursesSchema.deleteSection, validate, Courses.deleteSection);
 
 // Rutas para hobbies
 authRouter.post('/hobby', HobbySchema.assignHobby, validate, Hobby.assignHobby);

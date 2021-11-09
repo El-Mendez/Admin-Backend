@@ -144,6 +144,36 @@ describe('Auth routes', () => {
     });
   });
 
+  describe('DELETE /seccion', async () => {
+    it('should validate parameters', async () => {
+      const response = await request(server)
+        .delete('/auth/seccion')
+        .set('Authorization', `Bearer ${authToken}`);
+
+      response.should.have.status(400);
+    });
+
+    it('should verify the section assignation even exists', async () => {
+      const response = await request(server)
+        .delete('/auth/seccion')
+        .set('Authorization', `Bearer ${authToken}`)
+        .send({ seccionId: -1 });
+
+      response.should.have.status(403);
+    });
+
+    it('should actually delete the section asignation', async () => {
+      const response = await request(server)
+        .delete('/auth/seccion')
+        .set('Authorization', `Bearer ${authToken}`)
+        .send({ seccionId: 0 });
+
+      // Si ya está asignado a la sección esto debería tirar error
+      await connection.query('insert into asiste_seccion(seccion_id, usuario_carne) values (0, 0);');
+      response.should.have.status(200);
+    });
+  });
+
   describe('POST /password', async () => {
     it('should validate parameters', async () => {
       const response = await request(server)

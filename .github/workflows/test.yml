@@ -7,8 +7,7 @@ on:
       - synchronize
 
     branches:
-      - prod
-      - dev
+      - main
 
 jobs:
   test:

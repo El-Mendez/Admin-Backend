@@ -7,7 +7,7 @@ export const NotFound = (req: Request, res: Response): void => {
 
 export const rateLimit = limiter({
   windowMs: 5 * 60 * 1000, // tiempo en milis
-  max: 50,
+  max: 100,
   message: 'Too many requests',
   statusCode: 429,
 });

@@ -116,7 +116,7 @@ describe('Auth routes', () => {
       const response = await request(server)
         .delete('/auth/hobby')
         .set('Authorization', `Bearer ${authToken}`)
-        .send({ hobbyId: -1 });
+        .send({ hobbiesId: [-1] });
 
       response.should.have.status(403);
     });
@@ -125,7 +125,7 @@ describe('Auth routes', () => {
       const response = await request(server)
         .delete('/auth/hobby')
         .set('Authorization', `Bearer ${authToken}`)
-        .send({ hobbyId: 0 });
+        .send({ hobbiesId: [0] });
 
       // Si ya está asignado al hobby esto debería tirar error
       await connection.query('insert into has_hobby(hobby_id, usuario_carne) values (0, 0)');

@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { connection } from '../services/Postgres/connection';
 import toNonEmptyString from '../utils/toNonEmptyString';
 import * as Schema from '../validators/Hobby';
+import { validationResult } from 'express-validator';
 
 export const findByName = (req: Request, res: Response) => {
   const nombre = toNonEmptyString(req.params.nombre);
@@ -39,13 +40,13 @@ export const deleteHobby = async (
 ): Promise<void> => {
   const { hobbiesId } = req.body;
 
-  try {
-    // eslint-disable-next-line no-plusplus
-    for (let i = 0; i < hobbiesId.length; i++) {
-      await connection.query('delete from has_hobby where usuario_carne = $1 and hobby_id = $2', [req.carne, hobbiesId[i]])
+  // eslint-disable-next-line no-plusplus
+  for (let i = 0; i < hobbiesId.length; i++) {
+    const result = await connection.query('delete from has_hobby where usuario_carne = $1 and hobby_id = $2', [req.carne, hobbiesId[i]]);
+    if (result.rowCount <= 0) {
+      res.sendStatus(403);
+      return;
     }
-    res.sendStatus(200);
-  } catch (e) {
-    res.status(403).json({ err: 'The hobby did not exist or the user was not assigned to it.' });
   }
+  res.sendStatus(200);
 };

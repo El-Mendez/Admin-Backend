@@ -18,7 +18,7 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "seccionesId": ["4", "5"]
+  "seccionesId": ["3", "5"]
 }
 
 #### SECCIONES ASIGNADAS
@@ -40,7 +40,7 @@ Authorization: Bearer {{token}}
 Content-Type: application/json
 
 {
-  "hobbyId": "3"
+  "hobbiesId": ["3", "5"]
 }
 
 #### INFORMACIÓN DE PERFIL

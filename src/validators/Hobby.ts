@@ -9,8 +9,9 @@ export const assignHobby = [
 ];
 
 export interface DeleteHobbySchema {
-  hobbyId: number
+  hobbiesId: number[]
 }
 export const deleteHobby = [
-  body('hobbyId').isInt({ min: -1 }).toInt(10),
+  body('hobbiesId').isArray({ min: 1 }),
+  body('hobbiesId.*').isInt({ min: -1 }).toInt(10),
 ];

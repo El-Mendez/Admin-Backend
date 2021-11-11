@@ -55,13 +55,13 @@ export const deleteSection = async (
   req: Request<{}, {}, Schema.DeleteSectionSchema>,
   res: Response,
 ) => {
-  const { seccionId } = req.body;
-  connection.query('delete from asiste_seccion where usuario_carne = $1 and seccion_id = $2', [req.carne, seccionId])
-    .then((response) => {
-      if (response.rowCount > 0) {
-        res.sendStatus(200);
-      } else {
-        res.status(403).json({ err: 'The section did not exist or the user was not assigned to it.' });
-      }
-    });
+  const { seccionesId } = req.body;
+  for (let i = 0; i < seccionesId.length; i++) {
+    const result = await connection.query('delete from asiste_seccion where usuario_carne = $1 and seccion_id = $2', [req.carne, seccionesId[i]])
+    if (result.rowCount <= 0) {
+      res.status(403).json({ err: 'The section did not exist or the user was not assigned to it.' });
+      return;
+    }
+  }
+  res.sendStatus(200);
 };

@@ -9,8 +9,9 @@ export const assignSection = [
 ];
 
 export interface DeleteSectionSchema {
-  seccionId: number
+  seccionesId: number[]
 }
 export const deleteSection = [
-  body('seccionId').isInt({ min: -1 }).toInt(10),
+  body('seccionesId').isArray({ min: 1 }),
+  body('seccionesId.*').isInt({ min: -1 }).toInt(10),
 ];

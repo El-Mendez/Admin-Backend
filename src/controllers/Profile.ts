@@ -51,3 +51,24 @@ export const profileImage = (
     .then(() => { res.sendStatus(201); })
     .catch(() => { res.status(405).json({ err: 'Could not upload file' }); });
 };
+
+export const searchByName = (
+  req: Request<{ name: string }, {}, {}>,
+  res: Response,
+): void => {
+  const userName = req.params.name;
+
+  connection
+    .query(`
+      select 
+        carne, 
+        concat(u.nombre, ' ', u.apellido) as nombre,
+        correo,
+        c.nombre as carrera,
+        carrera_id as carreraId
+      from usuario u
+      inner join carrera c on u.carrera_id = c.id
+      where concat(u.nombre, ' ', u.apellido) ilike $1;
+    `, [`%${userName}%`])
+    .then((response) => { res.json(response.rows); });
+};

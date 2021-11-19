@@ -95,5 +95,29 @@ export const searchByHobbies = (
       having count(*) = $1
     `, [hobbiesId.length, ...hobbiesId])
     .then((response) => { res.json(response.rows); })
-    .catch((err) => { res.sendStatus(500); console.log(err); });
+    .catch(() => { res.sendStatus(500); });
+};
+
+export const searchBySections = (
+  req: Request<{}, {}, Schema.SearchBySectionsSchema>,
+  res: Response,
+): void => {
+  const { seccionesId } = req.body;
+
+  connection
+    .query(`
+      select u.carne,
+        concat(u.nombre, ' ', u.apellido) as nombre,
+        u.correo,
+        c.nombre                          as carrera,
+        u.carrera_id                      as carreraId
+      from usuario u
+        inner join carrera c on u.carrera_id = c.id
+        inner join asiste_seccion a on u.carne = a.usuario_carne
+      where a.seccion_id in ( ${seccionesId.map((_, index) => `$${index + 2}`).join()} )
+      group by u.carne, u.nombre, u.apellido, u.correo, c.nombre, u.carrera_id
+      having count(*) = $1;
+    `, [seccionesId.length, ...seccionesId])
+    .then((response) => { res.json(response.rows); })
+    .catch(() => { res.sendStatus(500); });
 };

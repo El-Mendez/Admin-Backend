@@ -25,3 +25,11 @@ export const searchByHobbies = [
   body('hobbiesId').isArray({ min: 1 }),
   body('hobbiesId.*').isInt({ min: -1 }).toInt(10),
 ];
+
+export interface SearchBySectionsSchema {
+  seccionesId: number[]
+}
+export const searchBySections = [
+  body('seccionesId').isArray({ min: 1 }),
+  body('seccionesId.*').isInt({ min: -1 }).toInt(10),
+];

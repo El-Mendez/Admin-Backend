@@ -160,4 +160,32 @@ describe('Free routes', () => {
       response.body.should.be.an('array').with.length(1);
     });
   });
+
+  describe('POST /profile/hobbies', () => {
+    it('should validate parameters', async () => {
+      const response = await request(server)
+        .post('/free/profile/hobbies')
+        .send({ hobbiesId: ['a'] });
+
+      response.should.have.status(400);
+    });
+
+    it('should return empty if hobby selection did not exist', async () => {
+      const response = await request(server)
+        .post('/free/profile/hobbies')
+        .send({ hobbiesId: [-1] });
+
+      response.should.have.status(200);
+      response.should.be.an('array').with.length(0);
+    });
+
+    it('should return the user with the hobbies selection', async () => {
+      const response = await request(server)
+        .post('/free/profile/hobbies')
+        .send({ hobbiesId: [0] });
+
+      response.should.have.status(200);
+      response.should.be.an('array').with.length(1);
+    });
+  });
 });

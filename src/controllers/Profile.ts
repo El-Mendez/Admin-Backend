@@ -3,6 +3,7 @@ import { UploadedFile } from 'express-fileupload';
 import path from 'path';
 import { UPLOAD_DIRECTORY } from '../constants';
 import { connection } from '../services/Postgres/connection';
+import * as Schema from '../validators/Profile';
 
 export const personalProfile = (
   req: Request,
@@ -71,4 +72,28 @@ export const searchByName = (
       where concat(u.nombre, ' ', u.apellido) ilike $1;
     `, [`%${userName}%`])
     .then((response) => { res.json(response.rows); });
+};
+
+export const searchByHobbies = (
+  req: Request<{}, {}, Schema.SearchByHobbiesSchema>,
+  res: Response,
+): void => {
+  const { hobbiesId } = req.body;
+
+  connection
+    .query(`
+      select u.carne,
+        concat(u.nombre, ' ', u.apellido) as nombre,
+        u.correo,
+        c.nombre                          as carrera,
+        u.carrera_id                      as carreraId
+      from usuario u
+        inner join carrera c on u.carrera_id = c.id
+        inner join has_hobby hh on u.carne = hh.usuario_carne
+      where hh.hobby_id in ( ${hobbiesId.map((_, index) => `$${index + 2}`).join()} )
+      group by u.carne, u.nombre, u.apellido, u.correo, c.nombre, u.carrera_id
+      having count(*) = $1
+    `, [hobbiesId.length, ...hobbiesId])
+    .then((response) => { res.json(response.rows); })
+    .catch((err) => { res.sendStatus(500); console.log(err); });
 };

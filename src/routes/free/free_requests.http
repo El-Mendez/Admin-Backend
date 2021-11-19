@@ -26,3 +26,11 @@ GET {{host}}/free/profile/0
 
 ### SEARCH USER BY NAME
 GET {{host}}/free/profile/name/pablo
+
+### SEARCH USER BY HOBBIES
+POST {{host}}/free/profile/hobbies
+Content-Type: application/json
+
+{
+  "hobbiesId": [3, 4, 5]
+}

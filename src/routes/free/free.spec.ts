@@ -139,14 +139,14 @@ describe('Free routes', () => {
   describe('GET /profile/name/:name', () => {
     it('should validate the name is valid', async () => {
       const response = await request(server)
-        .get('free/profile/name/a   ');
+        .get('/free/profile/name/a   ');
 
       response.should.have.status(400);
     });
 
     it('should return empty if the name did not exist', async () => {
       const response = await request(server)
-        .get('free/profile/name/este usuario no existe');
+        .get('/free/profile/name/esteUsuarioNoExiste');
 
       response.should.have.status(200);
       response.body.should.be.an('array').with.length(0);
@@ -154,7 +154,7 @@ describe('Free routes', () => {
 
     it('should search a name using the name and lastname', async () => {
       const response = await request(server)
-        .get('free/profile/name/prueba usuario');
+        .get('/free/profile/name/prueba usuario');
 
       response.should.have.status(200);
       response.body.should.be.an('array').with.length(1);

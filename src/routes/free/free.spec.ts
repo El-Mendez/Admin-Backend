@@ -18,14 +18,24 @@ describe('Free routes', () => {
 
   before(async () => {
     await connection.query('insert into carrera(id, nombre) values (0, \'carrera de prueba\');');
+    await connection.query('insert into curso(id, nombre) values (0, \'curso de prueba\');');
+    await connection.query('insert into seccion(id, seccion, curso_id) values (0, 0, 0);');
+    await connection.query('insert into hobby(id, nombre, description) values (0, \'test hobby\', \'a test hobby\');');
     await connection.query(`
         insert into usuario values 
         (0, 'prueba', 'usuario', 0, crypt('test password', gen_salt('bf')), 'meetinguvg@gmail.com');
     `);
+    await connection.query('insert into asiste_seccion(seccion_id, usuario_carne) values (0, 0);');
+    await connection.query('insert into has_hobby(hobby_id, usuario_carne) values (0, 0)');
   });
 
   after(async () => {
+    await connection.query('delete from has_hobby where usuario_carne = 0');
+    await connection.query('delete from asiste_seccion where usuario_carne = 0');
     await connection.query('delete from usuario where carne = 0;');
+    await connection.query('delete from hobby where id = 0');
+    await connection.query('delete from seccion where id = 0;');
+    await connection.query('delete from curso where id = \'0\';');
     await connection.query('delete from carrera where id = 0;');
   });
 
@@ -133,6 +143,87 @@ describe('Free routes', () => {
         .get('/free/profile/1');
 
       response.should.have.status(403);
+    });
+  });
+
+  describe('GET /profile/name/:name', () => {
+    it('should validate the name is valid', async () => {
+      const response = await request(server)
+        .get('/free/profile/name/a   ');
+
+      response.should.have.status(400);
+    });
+
+    it('should return empty if the name did not exist', async () => {
+      const response = await request(server)
+        .get('/free/profile/name/esteUsuarioNoExiste');
+
+      response.should.have.status(200);
+      response.body.should.be.an('array').with.length(0);
+    });
+
+    it('should search a name using the name and lastname', async () => {
+      const response = await request(server)
+        .get('/free/profile/name/prueba usuario');
+
+      response.should.have.status(200);
+      response.body.should.be.an('array').with.length(1);
+    });
+  });
+
+  describe('POST /profile/hobbies', () => {
+    it('should validate parameters', async () => {
+      const response = await request(server)
+        .post('/free/profile/hobbies')
+        .send({ hobbiesId: ['a'] });
+
+      response.should.have.status(400);
+    });
+
+    it('should return empty if hobby selection did not exist', async () => {
+      const response = await request(server)
+        .post('/free/profile/hobbies')
+        .send({ hobbiesId: [-1] });
+
+      response.should.have.status(200);
+      response.body.should.be.an('array').with.length(0);
+    });
+
+    it('should return the user with the hobbies selection', async () => {
+      const response = await request(server)
+        .post('/free/profile/hobbies')
+        .send({ hobbiesId: [0] });
+
+      response.should.have.status(200);
+      response.body.should.be.an('array').with.length(1);
+    });
+  });
+
+  describe('POST /profile/secciones', () => {
+    it('should validate parameters', async () => {
+      const response = await request(server)
+        .post('/free/profile/secciones')
+        .send({ seccionesId: ['a'] });
+
+      response.should.have.status(400);
+    });
+
+    it('should return empty if sección selection did not exist', async () => {
+      const response = await request(server)
+        .post('/free/profile/secciones')
+        .send({ seccionesId: [-1] });
+
+      response.should.have.status(200);
+      response.body.should.be.an('array').with.length(0);
+    });
+
+    it('should return the user with the secciones selection', async () => {
+      const response = await request(server)
+        .post('/free/profile/secciones')
+        .send({ seccionesId: [0] });
+
+      response.should.have.status(200);
+      response.body.should.be.an('array').with.length(1);
     });
   });
 });

@@ -43,6 +43,10 @@ Content-Type: application/json
   "hobbiesId": ["3", "5"]
 }
 
+### SUGGESTIONS
+GET {{host}}/auth/suggestions/hobbies
+Authorization: Bearer {{token}}
+
 #### INFORMACIÓN DE PERFIL
 GET {{host}}/auth/profile
 Authorization: Bearer {{token}}
@@ -65,6 +69,7 @@ Content-Type: application/json
 {
   "carne": "0"
 }
+
 
 #### CANCEL REQUEST
 POST {{host}}/auth/friends/cancelRequest

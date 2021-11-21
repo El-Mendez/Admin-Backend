@@ -46,7 +46,7 @@ export const profileImage = (
   if (!req.files?.file) { res.status(403).json({ err: 'No file uploaded' }); return; }
 
   const file = req.files.file as UploadedFile;
-  const reqPath = path.join(`${UPLOAD_DIRECTORY}/${req.carne}.png`);
+  const reqPath = path.join(UPLOAD_DIRECTORY, `${req.carne}.png`);
 
   file.mv(reqPath)
     .then(() => { res.sendStatus(201); })

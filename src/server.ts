@@ -12,7 +12,7 @@ import { ENVIRONMENT } from './constants';
 const server: Express = express();
 server.use(express.json());
 server.use(cors());
-server.use(fileUpload());
+server.use(fileUpload({ debug: true }));
 
 if (ENVIRONMENT === 'production') {
   server.set('trust proxy', 1);

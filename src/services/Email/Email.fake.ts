@@ -1,6 +1,6 @@
 // import { recoveryPasswordEmail, verifyAccountEmail } from './templates';
 
-import { reportEmail } from './templates';
+import { helpEmail, reportEmail } from './templates';
 
 export const sendRecoveryPasswordEmail = async (
   receiverName: string,
@@ -27,5 +27,15 @@ export const sendReportUserEmail = async (
 ): Promise<void> => {
   // const [html, text] = reportEmail(reporter, reported, message);
   // require('fs').writeFileSync('preview.html', html, 'utf-8');
+  // console.log(text);
+};
+
+export const sendHelpEmail = async (
+  carne: number,
+  userName: string,
+  message: string,
+  userEmail: string,
+): Promise<void> => {
+  // const [html, text] = helpEmail(userName, carne, message, userEmail);
   // console.log(text);
 };

@@ -49,6 +49,9 @@ authRouter.post('/profile/image', Profile.profileImage);
 // Report User
 authRouter.post('/report', RequestSchema.ReportUser, validate, Request.ReportUser);
 
+// Help Email
+authRouter.post('/help', RequestSchema.HelpMail, validate, Request.HelpMail);
+
 // Rutas que tienen que ver con amigos
 authRouter.post('/friends/sendRequest', GenSchema.carne, validate, Friends.sendRequest);
 authRouter.post('/friends/acceptRequest', GenSchema.carne, validate, Friends.acceptRequest);

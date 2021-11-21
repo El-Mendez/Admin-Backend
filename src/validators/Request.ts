@@ -43,3 +43,10 @@ export const ReportUser = [
   body('reported').isInt({ min: -1, max: 2299999 }).toInt(10),
   body('reason').isString().isLength({ min: 10 }).escape(),
 ];
+
+export interface HelpMailSchema {
+  message: string,
+}
+export const HelpMail = [
+  body('message').isString().isLength({ min: 10 }).escape(),
+];

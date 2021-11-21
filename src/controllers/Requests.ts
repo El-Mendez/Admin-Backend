@@ -114,3 +114,19 @@ export const ReportUser = (
       Email.sendReportEmail(reporter, reported, reason);
     });
 };
+
+export const HelpMail = (
+  req: Request<{}, {}, Schema.HelpMailSchema>,
+  res: Response,
+): void => {
+  const carne = parseInt(String(req.carne), 10);
+  const { message } = req.body;
+  connection
+    .query('select nombre, apellido, correo from usuario where carne = $1', [carne])
+    .then((response) => {
+      const { nombre, apellido, correo } = response.rows[0];
+      Email.sendHelpEmail(carne, `${nombre} ${apellido}`, message, correo);
+      res.sendStatus(201);
+    })
+    .catch(() => { res.sendStatus(500); });
+};

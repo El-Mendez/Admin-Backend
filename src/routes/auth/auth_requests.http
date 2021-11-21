@@ -104,6 +104,15 @@ Content-Type: application/json
   "reason": "ser mala onda D:"
 }
 
+### PARA ENVIAR CORREOS DE AYUDA
+POST {{host}}/auth/help
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "message": "Testinggggg"
+}
+
 #### PARA AÑADIR IMAGEN DE PERFIL
 POST {{host}}/auth/profile/image
 Authorization: Bearer {{token}}

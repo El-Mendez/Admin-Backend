@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import fileUpload from 'express-fileupload';
 import * as Auth from '../../controllers/Authorization';
 import * as AuthSchema from '../../validators/Authorization';
 import * as GenSchema from '../../validators/general';
@@ -15,6 +16,7 @@ import * as RequestSchema from '../../validators/Request';
 import validate from '../../validators/validate';
 import { rateLimit } from '../../controllers/Security';
 
+const fileMiddleWare = fileUpload({ debug: true })
 export const authRouter = Router();
 
 authRouter.use(rateLimit);
@@ -44,7 +46,7 @@ authRouter.post('/password', AuthSchema.changePassword, validate, Auth.changePas
 
 // Información de perfil
 authRouter.get('/profile', Profile.personalProfile);
-authRouter.post('/profile/image', Profile.profileImage);
+authRouter.post('/profile/image', fileMiddleWare, Profile.profileImage);
 
 // Report User
 authRouter.post('/report', RequestSchema.ReportUser, validate, Request.ReportUser);

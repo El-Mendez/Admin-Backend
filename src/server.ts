@@ -1,6 +1,5 @@
 import express, { Express } from 'express';
 import cors from 'cors';
-import fileUpload from 'express-fileupload';
 import * as Security from './controllers/Security';
 
 import { freeRouter } from './routes/free';
@@ -12,7 +11,6 @@ import { ENVIRONMENT } from './constants';
 const server: Express = express();
 server.use(express.json());
 server.use(cors());
-server.use(fileUpload({ debug: true }));
 
 if (ENVIRONMENT === 'production') {
   server.set('trust proxy', 1);

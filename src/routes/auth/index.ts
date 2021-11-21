@@ -15,8 +15,9 @@ import * as Request from '../../controllers/Requests';
 import * as RequestSchema from '../../validators/Request';
 import validate from '../../validators/validate';
 import { rateLimit } from '../../controllers/Security';
+import { ENVIRONMENT } from '../../constants';
 
-const fileMiddleWare = fileUpload({ debug: true })
+const fileMiddleWare = fileUpload({ debug: ENVIRONMENT !== 'production' });
 export const authRouter = Router();
 
 authRouter.use(rateLimit);

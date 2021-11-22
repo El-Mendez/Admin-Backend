@@ -17,14 +17,16 @@ GROUP BY u.carne, CONCAT(u.nombre, '', u.apellido), c.nombre, u.correo;
 
 -- Vista para mostrar las solicitudes de amistad recibidas
 CREATE OR REPLACE VIEW received_requests AS
-SELECT usuario_recibe, usuario_envia as carne, CONCAT(u.nombre, ' ', u.apellido) as nombre, u.correo
+SELECT usuario_recibe, usuario_envia as carne, CONCAT(u.nombre, ' ', u.apellido) as nombre, u.correo, c.nombre as carrera
 FROM solicitud_amistad
-         INNER JOIN usuario u on u.carne = solicitud_amistad.usuario_envia;
+         INNER JOIN usuario u on u.carne = solicitud_amistad.usuario_envia
+         INNER JOIN carrera c on c.id = u.carrera_id;
 
 
 -- Vista para mostrar las solicitudes de amistad enviadas
 CREATE OR REPLACE VIEW sent_requests AS
-SELECT  usuario_envia, usuario_recibe AS carne, CONCAT(u.nombre, ' ', u.apellido) AS nombre, u.correo
+SELECT  usuario_envia, usuario_recibe AS carne, CONCAT(u.nombre, ' ', u.apellido) AS nombre, u.correo, c.nombre as carrera
 FROM solicitud_amistad
-         INNER JOIN usuario u on u.carne = solicitud_amistad.usuario_recibe;
+         INNER JOIN usuario u on u.carne = solicitud_amistad.usuario_recibe
+         INNER JOIN carrera c on c.id = u.carrera_id;
 

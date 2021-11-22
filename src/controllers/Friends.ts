@@ -90,7 +90,7 @@ export const receivedRequests = (
 ) : void => {
   connection
     .query(`
-            SELECT carne, nombre, correo
+            SELECT *
             FROM received_requests
             WHERE usuario_recibe = $1;`, [req.carne])
     .then((response) => {
@@ -104,7 +104,7 @@ export const sentRequests = (
 ) : void => {
   connection
     .query(`
-            SELECT carne, nombre, correo
+            SELECT *
             FROM sent_requests
             WHERE usuario_envia = $1;`, [req.carne])
     .then((response) => {

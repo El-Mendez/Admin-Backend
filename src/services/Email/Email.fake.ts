@@ -1,4 +1,4 @@
-// import { recoveryPasswordEmail, verifyAccountEmail } from './templates';
+import { recoveryPasswordEmail, verifyAccountEmail } from './templates';
 
 import { helpEmail, reportEmail } from './templates';
 

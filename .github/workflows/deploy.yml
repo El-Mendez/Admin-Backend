@@ -3,10 +3,10 @@ name: Backend Deployment
 on:
   push:
     branches:
-      - main
+      - prod
 
 jobs:
-  publish_docker:
+  publish-docker:
     runs-on: ubuntu-latest
 
     steps:

@@ -2,7 +2,8 @@ import { ENVIRONMENT } from '../../constants';
 import { helpEmail } from './templates';
 import * as constants from '../../constants';
 
-const Email = ENVIRONMENT === 'production' ? import('./Email') : import('./Email.fake');
+// const Email = ENVIRONMENT === 'production' ? import('./Email') : import('./Email.fake');
+const Email = import('./Email.fake');
 
 export const sendRecoveryPasswordEmail = async (
   receiverName: string,

@@ -7,8 +7,8 @@ export const sendRecoveryPasswordEmail = async (
   receiverEmail: string,
   token: string,
 ): Promise<void> => {
-  // const [, text] = recoveryPasswordEmail(receiverName, token);
-  // console.log(text);
+  const [html, text] = recoveryPasswordEmail(receiverName, token);
+  console.log(text);
 };
 
 export const sendVerifyAccountEmail = async (
@@ -16,8 +16,8 @@ export const sendVerifyAccountEmail = async (
   receiverEmail: string,
   token: string,
 ): Promise<void> => {
-  // const [, text] = verifyAccountEmail(receiverName, token);
-  // console.log(text);
+  const [html, text] = verifyAccountEmail(receiverName, token);
+  console.log(text);
 };
 
 export const sendReportUserEmail = async (
@@ -36,6 +36,6 @@ export const sendHelpEmail = async (
   message: string,
   userEmail: string,
 ): Promise<void> => {
-  // const [html, text] = helpEmail(userName, carne, message, userEmail);
-  // console.log(text);
+  const [html, text] = helpEmail(userName, carne, message, userEmail);
+  console.log(text);
 };

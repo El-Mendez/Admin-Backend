@@ -95,6 +95,7 @@ npm run start
 - *id*
 - nombre
 
+
 ### Red Social
 - plataforma_id: FK a plataforma social
 - usuario_carne: FK al usuario que pertenece
